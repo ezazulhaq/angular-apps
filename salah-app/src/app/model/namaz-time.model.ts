@@ -1,4 +1,4 @@
-interface NamazTimes {
+export interface NamazTimes {
     fajr: Date;
     sunrise: Date;
     dhuhr: Date;
