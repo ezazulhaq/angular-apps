@@ -1,19 +1,20 @@
-import { Component, computed, input, Input } from '@angular/core';
+import { Component, computed, input, Input, output } from '@angular/core';
 import { PrayerService } from '../service/prayer.service';
+import { CommonModule, DatePipe } from '@angular/common';
+import type { NamazTimes } from '../model/namaz-time.model';
 
 @Component({
   selector: 'app-salah-times',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, DatePipe],
   templateUrl: './salah-times.component.html',
   styleUrl: './salah-times.component.css'
 })
 export class SalahTimesComponent {
-  latitude = input<number>();
-  longitude = input<number>();
+  latitude = input.required<number>();
+  longitude = input.required<number>();
+
+  getTimes = computed(() => this.prayerService.getPrayerTimes(this.latitude(), this.longitude()) ?? undefined);
 
   constructor(private prayerService: PrayerService) { }
-
-  prayerTimes = computed(() -> prayerService.getPrayerTimes(this.latitude(), this.longitude()), { default: null });
-
 }
