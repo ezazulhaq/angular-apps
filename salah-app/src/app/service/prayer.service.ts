@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Coordinates, PrayerTimes, CalculationMethod } from 'adhan';
+import { NamazTimes } from '../model/namaz-time.model';
 
 @Injectable({
   providedIn: 'root'
