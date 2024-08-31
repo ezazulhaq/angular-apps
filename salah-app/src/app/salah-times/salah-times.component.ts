@@ -1,7 +1,6 @@
-import { Component, computed, input, Input, output } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { PrayerService } from '../service/prayer.service';
 import { CommonModule, DatePipe } from '@angular/common';
-import type { NamazTimes } from '../model/namaz-time.model';
 
 @Component({
   selector: 'app-salah-times',
