@@ -1,8 +1,17 @@
-<h1>Salah Times App</h1>
-<p>{{error}}</p>
-@if (selectedLat && selectedLng) {
-<app-salah-times
-  [latitude]="selectedLat"
-  [longitude]="selectedLng">
-</app-salah-times>
-}
+<div class="container max-w-full p-10">
+  <div class="flex flex-col justify-center items-center space-y-10">
+    <div class="text-4xl">Salah App</div>
+
+    @if (error) {
+    <p>{{error}}</p>
+    }
+
+    @if (selectedLat && selectedLng) {
+    <app-salah-times
+      [latitude]="selectedLat"
+      [longitude]="selectedLng"
+      class="bg-gray-400 min-w-full text-center">
+    </app-salah-times>
+    }
+  </div>
+</div>
