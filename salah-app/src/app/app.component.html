@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col items-center justify-start md:justify-center h-screen p-2 bg-blue-300">
+  class="flex flex-col items-center justify-start md:justify-center h-screen bg-blue-300">
   <div class="flex flex-col justify-center items-center space-y-10">
 
     @if (error) {
@@ -10,7 +10,7 @@
     <app-salah-times
       [latitude]="selectedLat"
       [longitude]="selectedLng"
-      class="bg-blue-400 max-w-xl text-center rounded-tl-2xl rounded-tr-2xl md:rounded-2xl shadow-lg">
+      class="bg-blue-400 max-w-xl min-h-screen text-center rounded-none md:rounded-lg shadow-lg">
     </app-salah-times>
     }
   </div>
