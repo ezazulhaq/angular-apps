@@ -13,7 +13,14 @@ export class SalahTimesComponent {
   latitude = input.required<number>();
   longitude = input.required<number>();
 
-  getTimes = computed(() => this.prayerService.getPrayerTimes(this.latitude(), this.longitude()) ?? undefined);
+  getTimes = computed(() => {
+    const times = this.prayerService.getPrayerTimes(this.latitude(), this.longitude());
+    if (!times) return null;
+
+    return Object.entries(times)
+      .map(([key, value]) => ({ key, value: new Date(value) }))
+      .sort((a, b) => a.value.getTime() - b.value.getTime());
+  });
 
   constructor(private prayerService: PrayerService) { }
 }
