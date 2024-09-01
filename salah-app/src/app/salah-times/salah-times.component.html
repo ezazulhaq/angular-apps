@@ -1,10 +1,10 @@
 @if (getTimes()) {
 <div class="text-2xl font-semibold my-8">Prayer Times</div>
 <div class="flex flex-col justify-center items-center space-y-5 pb-10">
-    <div>{{ address() }}</div>
+    <div class="px-5 font-light">{{ address() }}</div>
     @for (prayer of getTimes(); track prayer.value) {
     <div class="flex flex-row space-x-4 justify-between items-center">
-        <span>{{ prayer.key | uppercase }}</span>
+        <span>{{ prayer.key | titlecase }}</span>
         <span>:</span>
         <span>{{ prayer.value | date:'shortTime' }}</span>
     </div>
