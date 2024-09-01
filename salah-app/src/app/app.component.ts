@@ -24,6 +24,8 @@ export class AppComponent {
         (position) => {
           this.selectedLat = position.coords.latitude;
           this.selectedLng = position.coords.longitude;
+
+          console.log({ 'latitude': this.selectedLat, 'longitude': this.selectedLng })
         },
         (error) => {
           switch (error.code) {
