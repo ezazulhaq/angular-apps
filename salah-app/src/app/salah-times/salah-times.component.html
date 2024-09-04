@@ -2,19 +2,21 @@
 <div class="text-2xl font-semibold my-8">Prayer Times</div>
 <div class="flex flex-col justify-center items-center space-y-5 pb-10">
     <div class="flex flex-row px-12 space-x-4 justify-center items-center">
-        <svg xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 384 512" class="h-10 w-10">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="h-10 w-10">
             <path fill="gray"
                 d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
         </svg>
         <div class="font-light">{{ address() }}</div>
     </div>
-    @for (prayer of getTimes(); track prayer.value) {
-    <div class="flex flex-row space-x-4 justify-between items-center">
-        <span>{{ prayer.key | titlecase }}</span>
-        <span>:</span>
-        <span>{{ prayer.value | date:'shortTime' }}</span>
+<!-- Suggested code may be subject to a license. Learn more: ~LicenseLog:4234954046. -->
+    <div class="flex flex-col space-y-6 w-full md:w-1/2 px-10">
+        @for (prayer of getTimes(); track prayer.value) {
+        <div
+            class="group flex flex-row space-x-4 justify-between items-center outline outline-gray-400 outline-2 rounded-md px-6 py-2 hover:outline-gray-200 hover:outline-3 hover:-translate-y-0.5 transition-all duration-300">
+            <span class="group-hover:text-gray-200">{{ prayer.key | titlecase }}</span>
+            <span class="group-hover:text-gray-200">{{ prayer.value | date:'shortTime' }}</span>
+        </div>
+        }
     </div>
-    }
 </div>
 }
