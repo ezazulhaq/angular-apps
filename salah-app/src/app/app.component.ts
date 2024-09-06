@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SalahTimesComponent } from './salah-times/salah-times.component';
+import { MenuComponent } from './mobile/menu/menu.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SalahTimesComponent],
+  imports: [RouterOutlet, SalahTimesComponent, MenuComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
