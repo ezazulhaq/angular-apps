@@ -12,10 +12,10 @@ export class PrayerService {
 
   constructor(private http: HttpClient) { }
 
-  public getPrayerTimes(latitude: number, longitude: number): NamazTimes {
+  public getPrayerTimes(latitude: number, longitude: number, date: Date): NamazTimes {
     const coordinates = new Coordinates(latitude, longitude);
     const params = CalculationMethod.MuslimWorldLeague();
-    const date = new Date();
+
     const prayerTimes = new PrayerTimes(coordinates, date, params);
 
     return {

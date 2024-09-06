@@ -19,7 +19,7 @@ export class SalahTimesComponent implements OnInit {
   selectedDate = signal<Date>(new Date());
 
   getTimes = computed(() => {
-    const times = this.prayerService.getPrayerTimes(this.latitude(), this.longitude());
+    const times = this.prayerService.getPrayerTimes(this.latitude(), this.longitude(), this.selectedDate());
     if (!times) return null;
 
     return Object.entries(times)
@@ -42,5 +42,14 @@ export class SalahTimesComponent implements OnInit {
         this.address.set(error.error.message);
       }
     });
+  }
+
+  changeSelectedDate(value: string)  {
+    const newDate = new Date(this.selectedDate());
+    if (value === "next")
+      newDate.setDate(newDate.getDate() + 1);
+    else
+      newDate.setDate(newDate.getDate() - 1);
+    this.selectedDate.set(newDate);
   }
 }
