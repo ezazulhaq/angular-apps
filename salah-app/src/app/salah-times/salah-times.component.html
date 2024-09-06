@@ -1,6 +1,6 @@
 @if (getTimes()) {
 <div class="text-2xl font-semibold my-8">Prayer Timings</div>
-<div class="flex flex-col justify-center items-center space-y-5 pb-10">
+<div class="flex flex-col justify-center items-center space-y-6 pb-40">
     <div class="flex flex-row px-12 space-x-4 justify-center items-center">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="h-10 w-10">
             <path fill="gray"
@@ -18,10 +18,22 @@
 
     </div>
 
-    <div class="flex flex-col space-y-6 w-full md:w-1/2 px-10">
+    <div class="flex flex-row justify-center items-center space-x-4 p-2 text-center">
+        <div class="text-3xl font-semibold text-gray-400 hover:text-gray-200 cursor-pointer hover:scale-110 hover:-translate-x-0.5 active:-translate-x-1 transition-all duration-300">
+            {{"<"}}
+        </div>
+        <div>
+            {{selectedDate() | date:'fullDate'}}
+        </div>
+        <div class="text-3xl font-semibold text-gray-400 hover:text-gray-200 cursor-pointer hover:scale-110 hover:translate-x-0.5 active:translate-x-1 transition-all duration-300">
+            {{">"}}
+        </div>
+    </div>
+
+    <div class="flex flex-col space-y-8 w-full md:w-1/2 px-10">
         @for (prayer of getTimes(); track prayer.value) {
         <div
-            class="group flex flex-row space-x-4 justify-between items-center outline outline-gray-400 outline-2 rounded-md px-6 py-2 hover:outline-gray-200 hover:outline-3 hover:-translate-y-0.5 active:translate-y-0.5 transition-all duration-300">
+            class="group flex flex-row space-x-4 justify-between items-center outline outline-gray-400 outline-2 rounded-md px-6 py-3 hover:outline-gray-200 hover:outline-3 hover:-translate-y-0.5 active:translate-y-0.5 transition-all duration-300">
             <span class="group-hover:text-gray-200">{{ prayer.key | titlecase }}</span>
             <span class="group-hover:text-gray-200">{{ prayer.value | date:'shortTime' }}</span>
         </div>

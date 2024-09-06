@@ -16,6 +16,8 @@ export class SalahTimesComponent implements OnInit {
 
   address = signal<string>("");
 
+  selectedDate = signal<Date>(new Date());
+
   getTimes = computed(() => {
     const times = this.prayerService.getPrayerTimes(this.latitude(), this.longitude());
     if (!times) return null;
