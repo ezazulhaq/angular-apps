@@ -33,9 +33,15 @@
     <div class="flex flex-col space-y-8 w-full md:w-1/2 px-10">
         @for (prayer of getTimes(); track prayer.value) {
         <div
-            class="group flex flex-row space-x-4 justify-between items-center outline outline-gray-400 outline-2 rounded-md px-6 py-3 hover:outline-gray-200 hover:outline-3 hover:-translate-y-0.5 active:translate-y-0.5 transition-all duration-300">
+            class="relative group"
+            [ngClass]="{'prayer-next': isClosestToCurrentTime(prayer), 'prayer-all': !isClosestToCurrentTime(prayer)}">
             <span class="group-hover:text-gray-200">{{ prayer.key | titlecase }}</span>
             <span class="group-hover:text-gray-200">{{ prayer.value | date:'shortTime' }}</span>
+            
+            @if(isClosestToCurrentTime(prayer)){
+            <div class="absolute -top-2 -right-2 rounded-full bg-slate-200 size-4"></div>
+            <div class="absolute -top-2 -right-2 rounded-full bg-slate-200 size-4 animate-ping"></div>
+            }
         </div>
         }
     </div>

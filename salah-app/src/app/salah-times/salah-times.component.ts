@@ -44,12 +44,36 @@ export class SalahTimesComponent implements OnInit {
     });
   }
 
-  changeSelectedDate(value: string)  {
+  changeSelectedDate(value: string) {
     const newDate = new Date(this.selectedDate());
     if (value === "next")
       newDate.setDate(newDate.getDate() + 1);
     else
       newDate.setDate(newDate.getDate() - 1);
     this.selectedDate.set(newDate);
+  }
+
+  isClosestToCurrentTime(prayer: { key: string; value: Date; }): boolean {
+    const now = new Date();
+    const prayerTime = new Date(prayer.value);
+    // 1. Consider only future prayer times
+    if (prayerTime < now) {
+      return false;
+    }
+
+    const times = this.getTimes(); // Use getTimes() here
+    if (!times) return false; // Handle null case
+
+    // 2. Calculate time differences
+    const timeDiffs = times.map(p => {
+      const pTime = new Date(p.value);
+      return { prayer: p, diff: pTime > now ? pTime.getTime() - now.getTime() : Infinity };
+    });
+
+    // 3. Find the closest
+    const closest = timeDiffs.reduce((prev, curr) => (prev.diff < curr.diff) ? prev : curr);
+
+    // 4. Return true if the input prayer is the closest
+    return closest.prayer === prayer;
   }
 }

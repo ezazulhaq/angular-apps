@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.prayer-all {
+    @apply flex flex-row space-x-4 justify-between items-center outline outline-gray-400 outline-1 rounded-md px-6 py-3 hover:outline-gray-200 hover:outline-2 hover:-translate-y-0.5 active:translate-y-0.5 transition-all duration-300;
+}
+
+.prayer-next {
+    @apply flex flex-row space-x-4 justify-between items-center outline outline-gray-200 outline-2 rounded-md px-6 py-3;
+}
