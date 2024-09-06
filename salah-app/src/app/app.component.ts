@@ -6,7 +6,10 @@ import { MenuComponent } from './mobile/menu/menu.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SalahTimesComponent, MenuComponent],
+  imports: [
+    RouterOutlet,
+    SalahTimesComponent,
+    MenuComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
