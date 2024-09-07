@@ -4,11 +4,11 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { OpenStreetMapErrorResponse, OpenStreetMapResponse } from '../model/open-stream-map.model';
 
 @Component({
-  selector: 'app-salah-times',
+  selector: 'app-prayer-times',
   standalone: true,
   imports: [CommonModule, DatePipe],
-  templateUrl: './salah-times.component.html',
-  styleUrl: './salah-times.component.css'
+  templateUrl: './prayer-times.component.html',
+  styleUrl: './prayer-times.component.css'
 })
 export class SalahTimesComponent implements OnInit {
   latitude = input.required<number>();
