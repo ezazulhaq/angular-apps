@@ -19,25 +19,24 @@
     </div>
 
     <div class="flex flex-row justify-center items-center space-x-4 p-2 text-center">
-        <button type="button" (click)="changeSelectedDate('previous')" class="text-3xl text-center px-2 font-semibold text-gray-400 hover:text-gray-200 cursor-pointer hover:scale-110 hover:-translate-x-0.5 active:-translate-x-1 transition-all duration-300">
+        <button type="button" (click)="changeSelectedDate('previous')" class="prayer-previous-day">
             &lt;
         </button>
         <div class="text-gray-300">
             {{selectedDate() | date:'fullDate'}}
         </div>
-        <button type="button" (click)="changeSelectedDate('next')" class="text-3xl px-2 font-semibold text-gray-400 hover:text-gray-200 cursor-pointer hover:scale-110 hover:translate-x-0.5 active:translate-x-1 transition-all duration-300">
+        <button type="button" (click)="changeSelectedDate('next')" class="prayer-next-day">
             &gt;
         </button>
     </div>
 
     <div class="flex flex-col space-y-8 w-full md:w-1/2 px-10">
         @for (prayer of getTimes(); track prayer.value) {
-        <div
-            class="relative group"
+        <div class="relative group"
             [ngClass]="{'prayer-next': isClosestToCurrentTime(prayer), 'prayer-all': !isClosestToCurrentTime(prayer)}">
             <span class="group-hover:text-gray-200">{{ prayer.key | titlecase }}</span>
             <span class="group-hover:text-gray-200">{{ prayer.value | date:'shortTime' }}</span>
-            
+
             @if(isClosestToCurrentTime(prayer)){
             <div class="absolute -top-2 -right-2 rounded-full bg-slate-200 size-4"></div>
             <div class="absolute -top-2 -right-2 rounded-full bg-slate-200 size-4 animate-ping"></div>
