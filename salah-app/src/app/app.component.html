@@ -5,11 +5,9 @@
     <p>{{error}}</p>
     }
 
-    @if (selectedLat && selectedLng) {
-    <app-prayer-times [latitude]="selectedLat" [longitude]="selectedLng" class="prayer-bg" />
-    }
+    <router-outlet></router-outlet>
   </div>
 
   <!-- Menu added for mobile -->
-  <app-menu-mobile></app-menu-mobile>
+  <app-menu-mobile [latitude]="selectedLat" [longitude]="selectedLng"></app-menu-mobile>
 </div>
