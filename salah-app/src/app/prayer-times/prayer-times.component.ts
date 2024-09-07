@@ -8,7 +8,10 @@ import { OpenStreetMapErrorResponse, OpenStreetMapResponse } from '../model/open
   standalone: true,
   imports: [CommonModule, DatePipe],
   templateUrl: './prayer-times.component.html',
-  styleUrl: './prayer-times.component.css'
+  styleUrl: './prayer-times.component.css',
+  host: {
+    class: "prayer-bg"
+  }
 })
 export class PrayerTimesComponent implements OnInit {
   latitude = input.required<number>();
