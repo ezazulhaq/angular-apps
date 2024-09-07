@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SalahTimesComponent } from './prayer-times/prayer-times.component';
+import { PrayerTimesComponent } from './prayer-times/prayer-times.component';
 import { MenuComponent } from './mobile/menu/menu.component';
 
 @Component({
@@ -8,7 +8,7 @@ import { MenuComponent } from './mobile/menu/menu.component';
   standalone: true,
   imports: [
     RouterOutlet,
-    SalahTimesComponent,
+    PrayerTimesComponent,
     MenuComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

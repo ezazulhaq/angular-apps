@@ -10,7 +10,7 @@ import { OpenStreetMapErrorResponse, OpenStreetMapResponse } from '../model/open
   templateUrl: './prayer-times.component.html',
   styleUrl: './prayer-times.component.css'
 })
-export class SalahTimesComponent implements OnInit {
+export class PrayerTimesComponent implements OnInit {
   latitude = input.required<number>();
   longitude = input.required<number>();
 
