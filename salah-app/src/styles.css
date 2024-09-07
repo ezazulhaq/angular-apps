@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .prayer-bg {
-  @apply bg-slate-800 max-w-xl min-h-screen text-center text-gray-300 rounded-none md:rounded-lg shadow-lg;
+  @apply bg-slate-800 w-full md:max-w-xl min-h-screen text-center text-gray-300 rounded-none md:rounded-lg shadow-lg;
 }
