@@ -71,7 +71,7 @@ export class PrayerTimesComponent implements OnInit {
     });
 
     // 3. Find the closest
-    const closest = timeDiffs.reduce((prev, curr) => (prev.diff < curr.diff) ? prev : curr);
+    const closest = timeDiffs.reduce((prev, curr) => (prev.diff < curr.diff) ? prev : curr, timeDiffs[0]);
 
     // 4. Return true if the input prayer is the closest
     return closest.prayer === prayer;
