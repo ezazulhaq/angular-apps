@@ -21,7 +21,7 @@ export class MenuComponent {
       {
         queryParams: {
           latitude: this.latitude(),
-          longitude: this.latitude()
+          longitude: this.longitude()
         }
       })
   }
