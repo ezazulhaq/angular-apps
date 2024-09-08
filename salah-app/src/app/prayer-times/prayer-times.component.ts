@@ -4,9 +4,8 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { OpenStreetMapResponse } from '../model/open-stream-map.model';
 import { NamazTimes } from '../model/namaz-time.model';
 import { map } from 'rxjs/internal/operators/map';
-import { Observable } from 'rxjs/internal/Observable';
-import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { shareReplay } from 'rxjs/internal/operators/shareReplay';
+import { PrayerTimeInfo } from './prayer-times.model';
 
 @Component({
   selector: 'app-prayer-times',
@@ -75,8 +74,3 @@ export class PrayerTimesComponent implements OnInit {
   }
 }
 
-interface PrayerTimeInfo {
-  key: string;
-  value: Date;
-  isClosest: boolean;
-}
