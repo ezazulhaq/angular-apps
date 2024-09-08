@@ -1,7 +1,12 @@
-import { Component, computed, input, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { PrayerService } from '../service/prayer.service';
 import { CommonModule, DatePipe } from '@angular/common';
-import { OpenStreetMapErrorResponse, OpenStreetMapResponse } from '../model/open-stream-map.model';
+import { OpenStreetMapResponse } from '../model/open-stream-map.model';
+import { NamazTimes } from '../model/namaz-time.model';
+import { map } from 'rxjs/internal/operators/map';
+import { Observable } from 'rxjs/internal/Observable';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { shareReplay } from 'rxjs/internal/operators/shareReplay';
 
 @Component({
   selector: 'app-prayer-times',
@@ -14,35 +19,49 @@ import { OpenStreetMapErrorResponse, OpenStreetMapResponse } from '../model/open
   }
 })
 export class PrayerTimesComponent implements OnInit {
-  latitude = input.required<number>();
-  longitude = input.required<number>();
-
   address = signal<string>("");
 
   selectedDate = signal<Date>(new Date());
 
   getTimes = computed(() => {
-    const times = this.prayerService.getPrayerTimes(this.latitude(), this.longitude(), this.selectedDate());
-    if (!times) return null;
+    return this.prayerService.getPrayerTimes(this.selectedDate()).pipe(
+      map((namazTimes: NamazTimes | null) => {
+        if (!namazTimes) return [];
 
-    return Object.entries(times)
-      .map(([key, value]) => ({ key, value: new Date(value) }))
-      .sort((a, b) => a.value.getTime() - b.value.getTime());
+        const now = new Date();
+        const sortedTimes: PrayerTimeInfo[] = Object.entries(namazTimes)
+          .map(([key, value]) => ({ key, value: new Date(value), isClosest: false }))
+          .sort((a, b) => a.value.getTime() - b.value.getTime());
+
+        // Find the closest future prayer time
+        const closestFuturePrayer = sortedTimes.find(prayer => prayer.value > now) || sortedTimes[0];
+        if (closestFuturePrayer) {
+          closestFuturePrayer.isClosest = true;
+        }
+
+        return sortedTimes;
+      }),
+      shareReplay(1) // Cache the result
+    );
   });
 
   constructor(private prayerService: PrayerService) { }
 
   ngOnInit(): void {
-    this.fetchAddress(this.latitude(), this.longitude());
+    this.fetchAddress();
   }
 
-  fetchAddress(lat: number, lng: number) {
-    this.prayerService.getAddress(lat, lng).subscribe({
-      next: (response: OpenStreetMapResponse) => {
-        this.address.set(response.display_name);
+  fetchAddress() {
+    this.prayerService.getAddress().subscribe({
+      next: (response: OpenStreetMapResponse | null) => {
+        response
+          ? this.address.set(response.display_name)
+          : this.address.set('Address not available');
+
       },
-      error: (error: OpenStreetMapErrorResponse) => {
-        this.address.set(error.error.message);
+      error: (error: any) => {
+        console.error('Error fetching address:', error);
+        this.address.set('Error fetching address');
       }
     });
   }
@@ -55,28 +74,10 @@ export class PrayerTimesComponent implements OnInit {
       newDate.setDate(newDate.getDate() - 1);
     this.selectedDate.set(newDate);
   }
+}
 
-  isClosestToCurrentTime(prayer: { key: string; value: Date; }): boolean {
-    const now = new Date();
-    const prayerTime = new Date(prayer.value);
-    // 1. Consider only future prayer times
-    if (prayerTime < now) {
-      return false;
-    }
-
-    const times = this.getTimes(); // Use getTimes() here
-    if (!times) return false; // Handle null case
-
-    // 2. Calculate time differences
-    const timeDiffs = times.map(p => {
-      const pTime = new Date(p.value);
-      return { prayer: p, diff: pTime > now ? pTime.getTime() - now.getTime() : Infinity };
-    });
-
-    // 3. Find the closest
-    const closest = timeDiffs.reduce((prev, curr) => (prev.diff < curr.diff) ? prev : curr, timeDiffs[0]);
-
-    // 4. Return true if the input prayer is the closest
-    return closest.prayer === prayer;
-  }
+interface PrayerTimeInfo {
+  key: string;
+  value: Date;
+  isClosest: boolean;
 }
