@@ -9,7 +9,7 @@ import { map, catchError, tap, switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class PrayerService {
+export class SalahAppService {
   private locationSubject = new BehaviorSubject<{ latitude: number, longitude: number } | null>(null);
   private errorSubject = new BehaviorSubject<string | null>(null);
 

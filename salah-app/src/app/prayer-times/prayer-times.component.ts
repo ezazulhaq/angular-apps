@@ -1,5 +1,5 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
-import { PrayerService } from '../service/prayer.service';
+import { SalahAppService } from '../service/salah-app.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { OpenStreetMapResponse } from '../model/open-stream-map.model';
 import { NamazTimes } from '../model/namaz-time.model';
@@ -45,7 +45,7 @@ export class PrayerTimesComponent implements OnInit {
     );
   });
 
-  constructor(private prayerService: PrayerService) { }
+  constructor(private prayerService: SalahAppService) { }
 
   ngOnInit(): void {
     this.fetchAddress();
