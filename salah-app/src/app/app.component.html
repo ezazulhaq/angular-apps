@@ -1,11 +1,7 @@
 <div class="flex flex-col items-center justify-start md:justify-center h-100 bg-slate-700">
 
-  @if (error) {
-  <p>{{error}}</p>
-  }
-
   <router-outlet></router-outlet>
 
   <!-- Menu added for mobile -->
-  <app-menu-mobile [latitude]="selectedLat" [longitude]="selectedLng"></app-menu-mobile>
+  <app-menu-mobile></app-menu-mobile>
 </div>

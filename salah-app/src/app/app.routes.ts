@@ -5,11 +5,7 @@ export const routes: Routes = [
     {
         path: 'prayer',
         title: 'Prayer Times',
-        component: PrayerTimesComponent,
-        resolve: {
-            latitude: (route: ActivatedRouteSnapshot) => route.queryParams['latitude'],
-            longitude: (route: ActivatedRouteSnapshot) => route.queryParams['longitude']
-        }
+        component: PrayerTimesComponent
     },
     {
         path: '',
