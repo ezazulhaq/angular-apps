@@ -56,8 +56,7 @@ export class PrayerTimesComponent implements OnInit {
       next: (response: OpenStreetMapResponse | null) => {
         response
           ? this.address.set(response.display_name)
-          : this.address.set('Address not available');
-
+          : this.address.set("");
       },
       error: (error: any) => {
         console.error('Error fetching address:', error);
