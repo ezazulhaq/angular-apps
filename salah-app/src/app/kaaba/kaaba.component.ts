@@ -114,17 +114,25 @@ export class KaabaComponent implements OnInit, OnDestroy {
 
   updateCompassSvg(degrees: number) {
     const compassSize = 200;
-    const arrowSize = 80;
+    const arrowSize = 120;
 
     const svgString = `
       <svg xmlns="http://www.w3.org/2000/svg" width="${compassSize}" height="${compassSize}" viewBox="0 0 ${compassSize} ${compassSize}">
-        <circle cx="${compassSize / 2}" cy="${compassSize / 2}" r="${compassSize / 2 - 5}" fill="none" stroke="black" stroke-width="2" />
-        <text x="${compassSize / 2}" y="20" text-anchor="middle">N</text>
-        <text x="${compassSize / 2}" y="${compassSize - 5}" text-anchor="middle">S</text>
-        <text x="${compassSize - 10}" y="${compassSize / 2}" text-anchor="middle" dominant-baseline="middle">E</text>
-        <text x="10" y="${compassSize / 2}" text-anchor="middle" dominant-baseline="middle">W</text>
-        <polygon points="${compassSize / 2},${(compassSize - arrowSize) / 2} ${compassSize / 2 - 10},${(compassSize + arrowSize) / 2} ${compassSize / 2 + 10},${(compassSize + arrowSize) / 2}"
-                 fill="red" transform="rotate(${degrees}, ${compassSize / 2}, ${compassSize / 2})" />
+        <circle cx="${compassSize / 2}" cy="${compassSize / 2}" r="${compassSize / 2 - 5}" fill="none" stroke="white" stroke-width="2" />
+        <text x="${compassSize / 2}" y="26" text-anchor="middle" class="text-xl text-gray-200 font-semibold" fill="currentColor">
+          N
+        </text>
+        <text x="${compassSize / 2}" y="${compassSize - 14}" text-anchor="middle" class="text-xl text-gray-200 font-semibold" fill="currentColor">
+          S
+        </text>
+        <text x="${compassSize - 16}" y="${compassSize / 2}" text-anchor="middle" dominant-baseline="middle" class="text-xl text-gray-200 font-semibold" fill="currentColor">
+          E
+        </text>
+        <text x="20" y="${compassSize / 2}" text-anchor="middle" dominant-baseline="middle" class="text-xl text-gray-200 font-semibold" fill="currentColor">
+          W
+        </text>
+        <polygon points="${compassSize / 2},${(compassSize - arrowSize) / 2} ${compassSize / 2 - 8},${(compassSize + arrowSize) / 2} ${compassSize / 2 + 8},${(compassSize + arrowSize) / 2}"
+              class="text-red-600" fill="currentColor" transform="rotate(${degrees}, ${compassSize / 2}, ${compassSize / 2})" />
       </svg>
     `;
 
