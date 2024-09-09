@@ -30,19 +30,42 @@ export class KaabaComponent implements OnInit, OnDestroy {
   private compassSubscription: Subscription | null = null;
 
   compassSvg: SafeHtml = '';
+  private isIOS: boolean;
 
   constructor(private kaabaService: SalahAppService, private sanitizer: DomSanitizer) {
     this.heading$ = new BehaviorSubject<number>(0);
     this.kaabaDirection$ = this.kaabaService.getKaabaDirection();
+    this.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   }
 
   ngOnInit() {
-    this.setupDeviceOrientation();
+    this.requestOrientationPermission();
   }
 
   ngOnDestroy() {
     if (this.compassSubscription) {
       this.compassSubscription.unsubscribe();
+    }
+  }
+
+  requestOrientationPermission() {
+    if (this.isIOS) {
+      if (typeof (window as any).DeviceOrientationEvent !== 'undefined' &&
+        typeof (window as any).DeviceOrientationEvent.requestPermission === 'function') {
+        (window as any).DeviceOrientationEvent.requestPermission()
+          .then((permissionState: string) => {
+            if (permissionState === 'granted') {
+              this.setupDeviceOrientation();
+            } else {
+              console.error('Permission to access device orientation was denied');
+            }
+          })
+          .catch(console.error);
+      } else {
+        console.error('DeviceOrientationEvent.requestPermission is not available');
+      }
+    } else {
+      this.setupDeviceOrientation();
     }
   }
 
