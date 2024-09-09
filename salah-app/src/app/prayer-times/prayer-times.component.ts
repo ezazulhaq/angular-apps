@@ -38,9 +38,7 @@ export class PrayerTimesComponent implements OnInit {
           if (closestFuturePrayer) {
             closestFuturePrayer.isClosest = true;
           }
-
-          console.log(sortedTimes);
-
+          
           return sortedTimes;
         }),
         shareReplay(1) // Cache the result
