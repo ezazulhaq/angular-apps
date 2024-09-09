@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Coordinates, PrayerTimes, CalculationMethod } from 'adhan';
+import { Coordinates, PrayerTimes, CalculationMethod, Qibla } from 'adhan';
 import { NamazTimes } from '../model/namaz-time.model';
 import { HttpClient } from '@angular/common/http';
 import { OpenStreetMapResponse } from '../model/open-stream-map.model';
@@ -87,4 +87,20 @@ export class SalahAppService {
       })
     );
   }
+
+  // Calculate Kaaba direction
+  getKaabaDirection(): Observable<number | null> {
+    return this.location$.pipe(
+      map(location => {
+        if (!location) return null;
+        // Create coordinates object
+        const coordinates = new Coordinates(location.latitude, location.longitude);
+        // Calculate Qibla direction
+        const qibla = Qibla(coordinates);
+        // Return the Qibla direction in degrees
+        return qibla ?? 0;
+      })
+    );
+  }
+
 }

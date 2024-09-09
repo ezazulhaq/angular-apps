@@ -1,0 +1,40 @@
+.compass-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.compass {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    position: relative;
+}
+
+.arrow {
+    width: 4px;
+    height: 100px;
+    background-color: red;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform-origin: bottom center;
+}
+
+.kaaba-direction {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid green;
+    position: absolute;
+    left: calc(50% - 10px);
+    top: 0;
+    transform-origin: bottom center;
+}
+
+.compass-info {
+    margin-top: 20px;
+    text-align: center;
+}
