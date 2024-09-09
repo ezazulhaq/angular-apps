@@ -3,12 +3,19 @@
 </div>
 
 <div class="compass-container">
-    <div class="compass" #compassElement>
+    <!-- <div class="compass" #compassElement>
         <div class="arrow"></div>
         <div class="kaaba-direction" [style.transform]="'rotate(' + (kaabaDirection$ | async) + 'deg)'"></div>
     </div>
     <div class="compass-info">
         <p>Heading: {{ heading$ | async }}°</p>
         <p>Kaaba Direction: {{ kaabaDirection$ | async}}°</p>
-    </div>
+    </div> -->
+</div>
+
+<div class="flex flex-col items-center">
+    <div [innerHTML]="compassSvg"></div>
+    <p>Qibla direction: {{ kaabaDirection$ | async}}°</p>
+    <!-- <p>Approximate direction: {{ approximateDirection }}</p>
+    <button (click)="useCurrentLocation()">Use Current Location</button> -->
 </div>
