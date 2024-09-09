@@ -23,25 +23,28 @@ export class PrayerTimesComponent implements OnInit {
   selectedDate = signal<Date>(new Date());
 
   getTimes = computed(() => {
-    return this.prayerService.getPrayerTimes(this.selectedDate()).pipe(
-      map((namazTimes: NamazTimes | null) => {
-        if (!namazTimes) return [];
+    return this.prayerService.getPrayerTimes(this.selectedDate())
+      .pipe(
+        map((namazTimes: NamazTimes | null) => {
+          if (!namazTimes) return [];
 
-        const now = new Date();
-        const sortedTimes: PrayerTimeInfo[] = Object.entries(namazTimes)
-          .map(([key, value]) => ({ key, value: new Date(value), isClosest: false }))
-          .sort((a, b) => a.value.getTime() - b.value.getTime());
+          const now = new Date();
+          const sortedTimes: PrayerTimeInfo[] = Object.entries(namazTimes)
+            .map(([key, value]) => ({ key, value: new Date(value), isClosest: false }))
+            .sort((a, b) => a.value.getTime() - b.value.getTime());
 
-        // Find the closest future prayer time
-        const closestFuturePrayer = sortedTimes.find(prayer => prayer.value > now) || sortedTimes[0];
-        if (closestFuturePrayer) {
-          closestFuturePrayer.isClosest = true;
-        }
+          // Find the closest future prayer time
+          const closestFuturePrayer = sortedTimes.find(prayer => prayer.value > now && prayer.value.getDate() === now.getDate());
+          if (closestFuturePrayer) {
+            closestFuturePrayer.isClosest = true;
+          }
 
-        return sortedTimes;
-      }),
-      shareReplay(1) // Cache the result
-    );
+          console.log(sortedTimes);
+
+          return sortedTimes;
+        }),
+        shareReplay(1) // Cache the result
+      );
   });
 
   constructor(private prayerService: SalahAppService) { }
