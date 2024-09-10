@@ -1,7 +1,8 @@
-import { TitleCasePipe } from '@angular/common';
+import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { SalahAppService } from '../service/salah-app.service';
-import { Observable, fromEvent, map, throttleTime } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
+import { map } from 'rxjs/internal/operators/map';
 
 // Extended DeviceOrientationEvent interface to include webkitCompassHeading
 interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
@@ -24,13 +25,10 @@ export class KaabaComponent implements OnInit, OnDestroy {
 
   heading = signal<number>(0);
   kaabaDirection$: Observable<number | null>;
+  private compassSubscription: Subscription | null = null;
   compassDeg = signal<number>(0);
 
   private isIOS: boolean;
-
-  kaabaSubscription: any;
-  orientationSubscription: any;
-  private orientationListener: ((event: ExtendedDeviceOrientationEvent) => void) | null = null;
 
   constructor(private kaabaService: SalahAppService) {
     this.kaabaDirection$ = this.kaabaService.getKaabaDirection();
@@ -41,9 +39,10 @@ export class KaabaComponent implements OnInit, OnDestroy {
     this.requestOrientationPermission();
   }
 
-  ngOnDestroy(): void {
-    this.orientationSubscription?.unsubscribe();
-    this.kaabaSubscription?.unsubscribe();
+  ngOnDestroy() {
+    if (this.compassSubscription) {
+      this.compassSubscription.unsubscribe();
+    }
   }
 
   requestOrientationPermission() {
@@ -69,7 +68,7 @@ export class KaabaComponent implements OnInit, OnDestroy {
 
   setupDeviceOrientation() {
     if ('DeviceOrientationEvent' in window) {
-      this.orientationListener = (event: ExtendedDeviceOrientationEvent) => {
+      const handleOrientation = (event: ExtendedDeviceOrientationEvent) => {
         if (event.webkitCompassHeading !== undefined) {
           // For iOS devices
           this.heading.set(event.webkitCompassHeading);
@@ -78,21 +77,21 @@ export class KaabaComponent implements OnInit, OnDestroy {
           this.heading.set(360 - event.alpha);
         }
       };
-  
-      window.addEventListener('deviceorientation', this.orientationListener as EventListener, true);
-  
-      this.kaabaDirection$
+
+      window.addEventListener('deviceorientation', handleOrientation as EventListener, true);
+
+      this.compassSubscription = this.kaabaDirection$
         .pipe(
           map(kaabaDirection => kaabaDirection ? ((kaabaDirection - this.heading() + 360) % 360) : 0)
         )
-        .subscribe({
-          next: relativeDirection => {
-            if (relativeDirection !== null) {
-              this.compassDeg.set(relativeDirection);
-            }
-          },
-          error: error => console.error('Error in compassSubscription:', error)
-        });
+        .subscribe(
+          {
+            next: relativeDirection => {
+              relativeDirection ? this.compassDeg.set(relativeDirection) : 0;
+            },
+            error: error => console.error('Error in compassSubscription:', error)
+          }
+        );
     } else {
       console.error('Device orientation is not supported by this device.');
     }
