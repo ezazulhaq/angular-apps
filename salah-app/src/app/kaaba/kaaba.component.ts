@@ -1,8 +1,7 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { SalahAppService } from '../service/salah-app.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/internal/operators/map';
+import { Observable, map } from 'rxjs';
 
 // Extended DeviceOrientationEvent interface to include webkitCompassHeading
 interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
