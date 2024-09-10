@@ -28,6 +28,7 @@ export class KaabaComponent implements OnInit, OnDestroy {
   heading$: BehaviorSubject<number>;
   kaabaDirection$: Observable<number | null>;
   private compassSubscription: Subscription | null = null;
+  compassDeg = signal<number>(0);
 
   compassSvg: SafeHtml = '';
   private isIOS: boolean;
@@ -94,6 +95,7 @@ export class KaabaComponent implements OnInit, OnDestroy {
         )
         .subscribe(relativeDirection => {
           if (relativeDirection !== null) {
+            this.compassDeg.set(relativeDirection);
             this.updateCompassSvg(relativeDirection);
             const compassElement = document.querySelector('.compass') as HTMLElement;
             if (compassElement) {
