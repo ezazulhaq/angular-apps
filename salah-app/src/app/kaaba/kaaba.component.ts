@@ -30,6 +30,7 @@ export class KaabaComponent implements OnInit, OnDestroy {
 
   kaabaSubscription: any;
   orientationSubscription: any;
+  private orientationListener: ((event: ExtendedDeviceOrientationEvent) => void) | null = null;
 
   constructor(private kaabaService: SalahAppService) {
     this.kaabaDirection$ = this.kaabaService.getKaabaDirection();
@@ -68,29 +69,30 @@ export class KaabaComponent implements OnInit, OnDestroy {
 
   setupDeviceOrientation() {
     if ('DeviceOrientationEvent' in window) {
-      const orientationEvent$ = fromEvent<ExtendedDeviceOrientationEvent>(window, 'deviceorientation', { passive: true });
-
-      this.orientationSubscription = orientationEvent$.pipe(
-        throttleTime(100),
-        map(event => {
-          if (event.webkitCompassHeading !== undefined) {
-            return event.webkitCompassHeading;
-          } else if (event.alpha !== null) {
-            return 360 - event.alpha;
-          }
-          return null;
-        })
-      ).subscribe({
-        next: heading => this.heading.set(heading ?? 0),
-        error: error => console.error('Error in orientation subscription:', error)
-      });
-
-      this.kaabaSubscription = this.kaabaDirection$.pipe(
-        map(kaabaDirection => kaabaDirection ? ((kaabaDirection - this.heading() + 360) % 360) : 0)
-      ).subscribe({
-        next: relativeDirection => this.compassDeg.set(relativeDirection),
-        error: error => console.error('Error in kaaba direction subscription:', error)
-      });
+      this.orientationListener = (event: ExtendedDeviceOrientationEvent) => {
+        if (event.webkitCompassHeading !== undefined) {
+          // For iOS devices
+          this.heading.set(event.webkitCompassHeading);
+        } else if (event.alpha !== null) {
+          // For Android devices
+          this.heading.set(360 - event.alpha);
+        }
+      };
+  
+      window.addEventListener('deviceorientation', this.orientationListener as EventListener, true);
+  
+      this.kaabaDirection$
+        .pipe(
+          map(kaabaDirection => kaabaDirection ? ((kaabaDirection - this.heading() + 360) % 360) : 0)
+        )
+        .subscribe({
+          next: relativeDirection => {
+            if (relativeDirection !== null) {
+              this.compassDeg.set(relativeDirection);
+            }
+          },
+          error: error => console.error('Error in compassSubscription:', error)
+        });
     } else {
       console.error('Device orientation is not supported by this device.');
     }
