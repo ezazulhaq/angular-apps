@@ -3,7 +3,7 @@
 </div>
 
 <div class="flex items-center justify-center py-20">
-    <div class="relative w-64 h-64 bg-slate-700 border-2 border-gray-700 rounded-full flex items-center justify-center">
+    <div class="relative size-64 md:size-72 bg-slate-700 border-2 border-gray-700 rounded-full flex items-center justify-center">
         <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-8">
             <svg class="size-10 text-gray-400" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -32,9 +32,9 @@
             W
         </div>
         <!-- Center -->
-        <div class="absolute size-72 z-10 flex items-center justify-center"
+        <div class="absolute z-10 flex items-center justify-center"
             [style.transform]="'rotate(' + compassDeg() + 'deg)'">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+            <svg class="size-72 sm:size-80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
                 <polygon points="100,40 94,160 106,160" class="text-red-600" fill="currentColor" />
             </svg>
         </div>
