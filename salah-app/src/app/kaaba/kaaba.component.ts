@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { SalahAppService } from '../service/salah-app.service';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 // Extended DeviceOrientationEvent interface to include webkitCompassHeading
 interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
@@ -13,7 +14,8 @@ interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
   selector: 'app-kaaba',
   standalone: true,
   imports: [
-    TitleCasePipe
+    TitleCasePipe,
+    AsyncPipe
   ],
   templateUrl: './kaaba.component.html',
   styleUrl: './kaaba.component.css',
@@ -23,14 +25,16 @@ interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
 })
 export class KaabaComponent implements OnInit, OnDestroy {
 
-  heading = signal<number>(0);
+  heading$: BehaviorSubject<number>;
   kaabaDirection$: Observable<number | null>;
   private compassSubscription: Subscription | null = null;
   compassDeg = signal<number>(0);
 
+  compassSvg: SafeHtml = '';
   private isIOS: boolean;
 
-  constructor(private kaabaService: SalahAppService) {
+  constructor(private kaabaService: SalahAppService, private sanitizer: DomSanitizer) {
+    this.heading$ = new BehaviorSubject<number>(0);
     this.kaabaDirection$ = this.kaabaService.getKaabaDirection();
     this.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   }
@@ -71,27 +75,33 @@ export class KaabaComponent implements OnInit, OnDestroy {
       const handleOrientation = (event: ExtendedDeviceOrientationEvent) => {
         if (event.webkitCompassHeading !== undefined) {
           // For iOS devices
-          this.heading.set(event.webkitCompassHeading);
+          this.heading$.next(event.webkitCompassHeading);
         } else if (event.alpha !== null) {
           // For Android devices
-          this.heading.set(360 - event.alpha);
+          this.heading$.next(360 - event.alpha);
         }
       };
 
       window.addEventListener('deviceorientation', handleOrientation as EventListener, true);
 
-      this.compassSubscription = this.kaabaDirection$
+      this.compassSubscription = combineLatest([this.heading$, this.kaabaDirection$])
         .pipe(
-          map(kaabaDirection => kaabaDirection ? ((kaabaDirection - this.heading() + 360) % 360) : 0)
+          map(([heading, kaabaDirection]) => {
+            if (kaabaDirection !== null) {
+              return (kaabaDirection - heading + 360) % 360;
+            }
+            return 0;
+          })
         )
-        .subscribe(
-          {
-            next: relativeDirection => {
-              relativeDirection ? this.compassDeg.set(relativeDirection) : 0;
-            },
-            error: error => console.error('Error in compassSubscription:', error)
+        .subscribe(relativeDirection => {
+          if (relativeDirection !== null) {
+            this.compassDeg.set(relativeDirection);
+            const compassElement = document.querySelector('.compass') as HTMLElement;
+            if (compassElement) {
+              compassElement.style.transform = `rotate(${relativeDirection}deg)`;
+            }
           }
-        );
+        });
     } else {
       console.error('Device orientation is not supported by this device.');
     }
