@@ -1,8 +1,8 @@
 <div class="text-2xl font-semibold my-8">Prayer Timings</div>
 <div class="flex flex-col justify-center items-center space-y-6 pb-40">
     <div class="flex flex-row px-12 space-x-4 justify-center items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="h-10 w-10">
-            <path fill="gray"
+        <svg class="size-10 text-slate-600 dark:text-gray-200" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+            <path
                 d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
         </svg>
         @defer(when address()){
@@ -21,7 +21,7 @@
         <button type="button" (click)="changeSelectedDate('previous')" class="prayer-previous-day">
             &lt;
         </button>
-        <div class="text-gray-300">
+        <div class="text-slate-800 dark:text-gray-300">
             {{selectedDate() | date:'fullDate'}}
         </div>
         <button type="button" (click)="changeSelectedDate('next')" class="prayer-next-day">
@@ -33,12 +33,13 @@
     <div class="flex flex-col space-y-8 w-full md:w-1/2 px-10">
         @for (prayer of getTimes() | async; track prayer.value) {
         <div class="relative group" [ngClass]="prayer.isClosest ? 'prayer-next' : 'prayer-all'">
-            <span class="group-hover:text-gray-200">{{ prayer.key | titlecase }}</span>
-            <span class="group-hover:text-gray-200">{{ prayer.value | date:'shortTime' }}</span>
+            <span class="group-hover:text-slate-700 dark:group-hover:text-gray-200">{{ prayer.key | titlecase }}</span>
+            <span class="group-hover:text-slate-700 dark:group-hover:text-gray-200">{{ prayer.value | date:'shortTime'
+                }}</span>
 
             @if(prayer.isClosest){
-            <div class="absolute -top-2 -right-2 rounded-full bg-slate-200 size-4"></div>
-            <div class="absolute -top-2 -right-2 rounded-full bg-slate-200 size-4 animate-ping"></div>
+            <div class="absolute -top-2 -right-2 rounded-full bg-slate-800 dark:bg-gray-200 size-4"></div>
+            <div class="absolute -top-2 -right-2 rounded-full bg-slate-800 dark:bg-gray-200 size-4 animate-ping"></div>
             }
         </div>
         }
