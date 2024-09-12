@@ -1,6 +1,7 @@
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { PrayerTimesComponent } from './prayer-times/prayer-times.component';
 import { KaabaComponent } from './kaaba/kaaba.component';
+import { QuranComponent } from './quran/quran.component';
 
 export const routes: Routes = [
     {
@@ -12,6 +13,11 @@ export const routes: Routes = [
         path: 'kaaba',
         title: 'Kaaba',
         component: KaabaComponent
+    },
+    {
+        path: 'quran',
+        title: 'Quran Reader',
+        component: QuranComponent
     },
     {
         path: '',
