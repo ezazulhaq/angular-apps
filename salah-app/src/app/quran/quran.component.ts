@@ -1,7 +1,8 @@
 import { TitleCasePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
 
 @Component({
   selector: 'app-quran',
@@ -20,9 +21,23 @@ export class QuranComponent {
 
   pdfSrc = "doc/quran_13_line_color_coded.pdf";
 
+  page: number = 1;
+  totalPages: number = 0;
+
+  nextPage() {
+    this.page++;
+  }
+
+  prevPage() {
+    this.page--;
+  }
 
   onError(event: any) {
     console.error('Error loading PDF', event);
+  }
+
+  afterLoadComplete(pdfData: any) {
+    this.totalPages = pdfData.numPages;
   }
 
 }
