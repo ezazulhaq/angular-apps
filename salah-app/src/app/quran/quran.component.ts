@@ -1,8 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { PDFDocumentProxy } from 'pdfjs-dist/types/src/display/api';
 
 @Component({
   selector: 'app-quran',
