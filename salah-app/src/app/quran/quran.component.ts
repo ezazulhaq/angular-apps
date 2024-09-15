@@ -1,4 +1,4 @@
-import { TitleCasePipe } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
@@ -6,6 +6,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
   selector: 'app-quran',
   standalone: true,
   imports: [
+    CommonModule,
     PdfViewerModule,
     TitleCasePipe
   ],
@@ -21,16 +22,16 @@ export class QuranComponent {
 
   page = signal<number>(1);
   totalPages = signal<number>(0);
-  isLoaded: boolean = false;
+  isLoaded = signal<boolean>(false);
 
   nextPage() {
     if (this.page() >= this.totalPages()) return;
-    this.page.update(value => value++);
+    this.page.update(value => value + 1);
   }
 
   prevPage() {
     if (this.page() <= 1) return;
-    this.page.update(value => value--);
+    this.page.update(value => value - 1);
   }
 
   onError(event: any) {
@@ -38,8 +39,8 @@ export class QuranComponent {
   }
 
   afterLoadComplete(pdfData: any) {
-    this.totalPages = pdfData.numPages;
-    this.isLoaded = true;
+    this.totalPages.set(pdfData.numPages);
+    this.isLoaded.set(true);
   }
 
 }
