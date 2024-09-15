@@ -23,12 +23,15 @@ export class QuranComponent {
 
   page: number = 1;
   totalPages: number = 0;
+  isLoaded: boolean = false;
 
   nextPage() {
+    if (this.page >= this.totalPages) return;
     this.page++;
   }
 
   prevPage() {
+    if (this.page <= 1) return;
     this.page--;
   }
 
@@ -38,6 +41,7 @@ export class QuranComponent {
 
   afterLoadComplete(pdfData: any) {
     this.totalPages = pdfData.numPages;
+    this.isLoaded = true;
   }
 
 }
