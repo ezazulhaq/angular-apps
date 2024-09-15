@@ -21,18 +21,18 @@ export class QuranComponent {
 
   pdfSrc = "doc/quran_13_line_color_coded.pdf";
 
-  page: number = 1;
-  totalPages: number = 0;
+  page = signal<number>(1);
+  totalPages = signal<number>(0);
   isLoaded: boolean = false;
 
   nextPage() {
-    if (this.page >= this.totalPages) return;
-    this.page++;
+    if (this.page() >= this.totalPages()) return;
+    this.page.update(value => value++);
   }
 
   prevPage() {
-    if (this.page <= 1) return;
-    this.page--;
+    if (this.page() <= 1) return;
+    this.page.update(value => value--);
   }
 
   onError(event: any) {

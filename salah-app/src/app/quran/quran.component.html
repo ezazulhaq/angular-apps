@@ -17,12 +17,12 @@
             </button>
         </div>
         <div class="font-semibold text-md px-4">
-            {{page}} / {{totalPages}}
+            {{page()}} / {{totalPages()}}
         </div>
     </div>
     <pdf-viewer [src]="pdfSrc" [original-size]="true" [render-text]="true" [rotation]="0" [show-all]="true"
         [fit-to-page]="true" [zoom]="1" [zoom-scale]="'page-width'" [stick-to-page]="true"
-        [external-link-target]="'blank'" [autoresize]="true" [show-borders]="false" class="pdf-viewer" [page]="page"
+        [external-link-target]="'blank'" [autoresize]="true" [show-borders]="false" class="pdf-viewer" [page]="page()"
         (after-load-complete)="afterLoadComplete($event)" class="pdf-viewer" (error)="onError($event)">
     </pdf-viewer>
 
