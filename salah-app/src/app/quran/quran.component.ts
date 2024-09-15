@@ -1,5 +1,5 @@
-import { CommonModule, TitleCasePipe } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { CommonModule, isPlatformBrowser, TitleCasePipe } from '@angular/common';
+import { Component, Inject, PLATFORM_ID, signal } from '@angular/core';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @Component({
@@ -24,14 +24,34 @@ export class QuranComponent {
   totalPages = signal<number>(0);
   isLoaded = signal<boolean>(false);
 
+  savedPageNumber: number | undefined;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+
+  ngOnInit() {
+    this.savedPageNumber = this.getPageFromLocalStorage();
+    this.page.set(this.savedPageNumber);
+    console.log(this.page());
+  }
+
   nextPage() {
     if (this.page() >= this.totalPages()) return;
-    this.page.update(value => value + 1);
+
+    const currentPage = this.page();
+    this.page.set(currentPage + 1);
+    this.savePageToLocalStorage(currentPage + 1);
+
+    this.savedPageNumber = this.getPageFromLocalStorage();
   }
 
   prevPage() {
     if (this.page() <= 1) return;
-    this.page.update(value => value - 1);
+
+    const currentPage = this.page();
+    this.page.set(currentPage - 1);
+    this.savePageToLocalStorage(currentPage - 1);
+
+    this.savedPageNumber = this.getPageFromLocalStorage();
   }
 
   onError(event: any) {
@@ -39,8 +59,22 @@ export class QuranComponent {
   }
 
   afterLoadComplete(pdfData: any) {
+    this.page.set(this.getPageFromLocalStorage());
     this.totalPages.set(pdfData.numPages);
     this.isLoaded.set(true);
   }
 
+  savePageToLocalStorage(pageNumber: number) {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('currentPage', pageNumber.toString());
+    }
+  }
+
+  getPageFromLocalStorage(): number {
+    if (isPlatformBrowser(this.platformId)) {
+      const savedPage = localStorage.getItem('currentPage');
+      return savedPage ? +savedPage : 1; // Default to page 1 if no saved page found
+    }
+    return 1;
+  }
 }
