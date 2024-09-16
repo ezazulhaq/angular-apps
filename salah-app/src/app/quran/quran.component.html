@@ -16,9 +16,11 @@
                 </svg>
             </button>
         </div>
+        @if(isLoaded()){
         <div class="font-semibold text-md px-4 text-slate-800">
             {{page()}} / {{totalPages()}}
         </div>
+        }
     </div>
     <pdf-viewer [src]="pdfSrc" [original-size]="true" [render-text]="true" [rotation]="0" [show-all]="true"
         [fit-to-page]="true" [zoom]="1" [zoom-scale]="'page-width'" [stick-to-page]="true"

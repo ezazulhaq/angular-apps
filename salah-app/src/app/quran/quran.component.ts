@@ -18,7 +18,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 })
 export class QuranComponent {
 
-  pdfSrc = "doc/quran_13_line_color_coded.pdf";
+  pdfSrc = "https://salah-app.s3.us-east-1.amazonaws.com/quran_13_liner_color_coded.pdf";
 
   page = signal<number>(1);
   totalPages = signal<number>(0);
@@ -31,7 +31,6 @@ export class QuranComponent {
   ngOnInit() {
     this.savedPageNumber = this.getPageFromLocalStorage();
     this.page.set(this.savedPageNumber);
-    console.log(this.page());
   }
 
   nextPage() {
