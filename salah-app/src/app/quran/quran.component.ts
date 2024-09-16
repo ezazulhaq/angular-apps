@@ -1,6 +1,7 @@
 import { CommonModule, isPlatformBrowser, TitleCasePipe } from '@angular/common';
 import { Component, Inject, PLATFORM_ID, signal } from '@angular/core';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-quran',
@@ -18,7 +19,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 })
 export class QuranComponent {
 
-  pdfSrc = "https://salah-app.s3.us-east-1.amazonaws.com/quran_13_liner_color_coded.pdf";
+  pdfSrc = `https://${environment.s3Bucket}/quran_13_liner_color_coded.pdf`;
 
   page = signal<number>(1);
   totalPages = signal<number>(0);
