@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser, TitleCasePipe } from '@angular/common';
-import { Component, Inject, PLATFORM_ID, signal } from '@angular/core';
+import { Component, effect, Inject, PLATFORM_ID, signal } from '@angular/core';
 import { PDFProgressData, PdfViewerModule } from 'ng2-pdf-viewer';
 import { environment } from '../../environments/environment';
 import { FormsModule } from '@angular/forms';
@@ -28,7 +28,11 @@ export class QuranComponent {
   isLoaded = signal<boolean>(false);
   progressData!: PDFProgressData;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { 
+    effect(() => {
+      this.savePageToLocalStorage(this.page());
+    })
+  }
 
   ngOnInit() {
     this.page.set(this.getPageFromLocalStorage());
