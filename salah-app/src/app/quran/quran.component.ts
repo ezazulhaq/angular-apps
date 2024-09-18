@@ -1,6 +1,6 @@
 import { CommonModule, isPlatformBrowser, TitleCasePipe } from '@angular/common';
 import { Component, Inject, PLATFORM_ID, signal } from '@angular/core';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { PDFProgressData, PdfViewerModule } from 'ng2-pdf-viewer';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -24,6 +24,7 @@ export class QuranComponent {
   page = signal<number>(1);
   totalPages = signal<number>(0);
   isLoaded = signal<boolean>(false);
+  progressData!: PDFProgressData;
 
   savedPageNumber: number | undefined;
 
@@ -64,17 +65,29 @@ export class QuranComponent {
     this.isLoaded.set(true);
   }
 
+  onProgress(progressData: PDFProgressData) {
+    console.log(progressData);
+    this.progressData = progressData;
+
+    this.isLoaded.set(progressData.loaded >= progressData.total);
+  }
+
+  getInt(value: number): number {
+    return Math.round(value);
+  }
+
   savePageToLocalStorage(pageNumber: number) {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('currentPage', pageNumber.toString());
+      localStorage.setItem('quranPage', pageNumber.toString());
     }
   }
 
   getPageFromLocalStorage(): number {
     if (isPlatformBrowser(this.platformId)) {
-      const savedPage = localStorage.getItem('currentPage');
+      const savedPage = localStorage.getItem('quranPage');
       return savedPage ? +savedPage : 1; // Default to page 1 if no saved page found
     }
     return 1;
   }
+
 }
