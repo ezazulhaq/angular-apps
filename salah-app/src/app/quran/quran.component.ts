@@ -2,6 +2,7 @@ import { CommonModule, isPlatformBrowser, TitleCasePipe } from '@angular/common'
 import { Component, Inject, PLATFORM_ID, signal } from '@angular/core';
 import { PDFProgressData, PdfViewerModule } from 'ng2-pdf-viewer';
 import { environment } from '../../environments/environment';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-quran',
@@ -9,7 +10,8 @@ import { environment } from '../../environments/environment';
   imports: [
     CommonModule,
     PdfViewerModule,
-    TitleCasePipe
+    TitleCasePipe,
+    FormsModule,
   ],
   templateUrl: './quran.component.html',
   styleUrl: './quran.component.css',
@@ -26,33 +28,26 @@ export class QuranComponent {
   isLoaded = signal<boolean>(false);
   progressData!: PDFProgressData;
 
-  savedPageNumber: number | undefined;
-
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit() {
-    this.savedPageNumber = this.getPageFromLocalStorage();
-    this.page.set(this.savedPageNumber);
+    this.page.set(this.getPageFromLocalStorage());
   }
 
   nextPage() {
     if (this.page() >= this.totalPages()) return;
 
     const currentPage = this.page();
-    this.page.set(currentPage + 1);
     this.savePageToLocalStorage(currentPage + 1);
-
-    this.savedPageNumber = this.getPageFromLocalStorage();
+    this.page.set(this.getPageFromLocalStorage());
   }
 
   prevPage() {
     if (this.page() <= 1) return;
 
     const currentPage = this.page();
-    this.page.set(currentPage - 1);
     this.savePageToLocalStorage(currentPage - 1);
-
-    this.savedPageNumber = this.getPageFromLocalStorage();
+    this.page.set(this.getPageFromLocalStorage());
   }
 
   onError(event: any) {
@@ -66,9 +61,7 @@ export class QuranComponent {
   }
 
   onProgress(progressData: PDFProgressData) {
-    console.log(progressData);
     this.progressData = progressData;
-
     this.isLoaded.set(progressData.loaded >= progressData.total);
   }
 

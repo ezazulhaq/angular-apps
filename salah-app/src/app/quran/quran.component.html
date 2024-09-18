@@ -18,14 +18,14 @@
         </div>
         @if(isLoaded()){
         <div class="font-semibold text-md px-4 text-slate-800">
-            {{page()}} / {{totalPages()}}
+            <input class="w-10 text-center border-none bg-none outline-none" type="text" placeholder="Page" [(ngModel)]="page" pattern="-?[0-9]*(\.[0-9]+)?">/ {{totalPages()}}
         </div>
         }
     </div>
     <pdf-viewer [src]="pdfSrc" [original-size]="true" [render-text]="true" [rotation]="0" [show-all]="true"
         [fit-to-page]="true" [zoom]="1" [zoom-scale]="'page-width'" [stick-to-page]="true" [original-size]="false"
         [external-link-target]="'blank'" [autoresize]="true" [show-borders]="false" class="pdf-viewer"
-        [(page)]="savedPageNumber" (after-load-complete)="afterLoadComplete($event)" (error)="onError($event)"
+        [(page)]="page" (after-load-complete)="afterLoadComplete($event)" (error)="onError($event)"
         (on-progress)="onProgress($event)">
     </pdf-viewer>
 
