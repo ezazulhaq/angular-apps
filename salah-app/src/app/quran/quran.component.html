@@ -1,5 +1,6 @@
 <div class="relative flex flex-col items-center justify-center max-w-md mx-auto">
-    <div class="absolute top-0 left-0 right-0 flex flex-row justify-center items-center py-2 z-[5]">
+    <div class="absolute top-0 left-0 right-0 flex flex-row justify-center items-center pt-4 z-[5]">
+        @if(isLoaded()){
         <div class="flex flex-row">
             <button type="button" (click)="prevPage()">
                 <svg class="size-8 text-slate-600 hover:text-slate-800 active:text-slate-800 focus:text-slate-800"
@@ -16,17 +17,17 @@
                 </svg>
             </button>
         </div>
-        @if(isLoaded()){
         <div class="font-semibold text-md px-4 text-slate-800">
-            <input class="w-10 text-center border-none bg-none outline-none" type="text" placeholder="Page" [(ngModel)]="page" pattern="-?[0-9]*(\.[0-9]+)?">/ {{totalPages()}}
+            <input
+                class="w-10 text-center border-none bg-gray-100 hover:bg-gray-200 active:bg-gray-200 focus:bg-gray-200 outline-1 outline-slate-300 rounded-md placeholder:text-xs placeholder:font-light"
+                type="text" placeholder="Page" [(ngModel)]="page" pattern="-?[0-9]*(\.[0-9]+)?"> / {{totalPages()}}
         </div>
         }
     </div>
     <pdf-viewer [src]="pdfSrc" [original-size]="true" [render-text]="true" [rotation]="0" [show-all]="true"
         [fit-to-page]="true" [zoom]="1" [zoom-scale]="'page-width'" [stick-to-page]="true" [original-size]="false"
-        [external-link-target]="'blank'" [autoresize]="true" [show-borders]="false" class="pdf-viewer"
-        [(page)]="page" (after-load-complete)="afterLoadComplete($event)" (error)="onError($event)"
-        (on-progress)="onProgress($event)">
+        [external-link-target]="'blank'" [autoresize]="true" [show-borders]="false" class="pdf-viewer" [(page)]="page"
+        (after-load-complete)="afterLoadComplete($event)" (error)="onError($event)" (on-progress)="onProgress($event)">
     </pdf-viewer>
 
     @if (!isLoaded() && progressData) {
