@@ -1,9 +1,6 @@
-import { CommonModule, isPlatformBrowser, TitleCasePipe } from '@angular/common';
-import { Component, effect, Inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
-import { PDFDocumentProxy, PDFProgressData, PdfViewerModule } from 'ng2-pdf-viewer';
-import { environment } from '../../environments/environment';
-import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
 import { PdfViewerComponent } from "../shared/pdf-viewer/pdf-viewer.component";
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-quran',
