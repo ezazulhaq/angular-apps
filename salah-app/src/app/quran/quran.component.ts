@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
     class: 'prayer-bg'
   }
 })
-export class QuranComponent implements OnInit, AfterViewInit {
+export class QuranComponent implements OnInit {
 
   pdfSrc = `https://${environment.s3Bucket}/quran_13_liner_color_coded.pdf`;
 
@@ -37,24 +37,14 @@ export class QuranComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    console.log("This is Page 1 - ", this.page());
     if (isPlatformBrowser(this.platformId)) {
       const savedPage = this.getPageFromLocalStorage();
       if (savedPage) {
         this.page.set(savedPage);
       }
     }
-  }
-
-  ngAfterViewInit() {
-    // Ensure the page is set after the view is initialized
-    setTimeout(() => {
-      if (isPlatformBrowser(this.platformId)) {
-        const savedPage = this.getPageFromLocalStorage();
-        if (savedPage) {
-          this.page.set(savedPage);
-        }
-      }
-    }, 0);
+    console.log("This is Page 2- ", this.page());
   }
 
   nextPage() {
@@ -73,6 +63,7 @@ export class QuranComponent implements OnInit, AfterViewInit {
 
   afterLoadComplete(pdfData: any) {
     this.page.set(this.getPageFromLocalStorage());
+    console.log("After Load Complete - This is Page - ", this.page());
     this.totalPages.set(pdfData.numPages);
     this.isLoaded.set(true);
   }
