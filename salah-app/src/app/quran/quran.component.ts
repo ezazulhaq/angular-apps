@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser, TitleCasePipe } from '@angular/common';
-import { Component, effect, Inject, PLATFORM_ID, signal } from '@angular/core';
+import { AfterViewInit, Component, effect, Inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { PDFProgressData, PdfViewerModule } from 'ng2-pdf-viewer';
 import { environment } from '../../environments/environment';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
     class: 'prayer-bg'
   }
 })
-export class QuranComponent {
+export class QuranComponent implements OnInit, AfterViewInit {
 
   pdfSrc = `https://${environment.s3Bucket}/quran_13_liner_color_coded.pdf`;
 
@@ -28,30 +28,43 @@ export class QuranComponent {
   isLoaded = signal<boolean>(false);
   progressData!: PDFProgressData;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { 
+  private readonly storageKey = 'quranPage';
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     effect(() => {
       this.savePageToLocalStorage(this.page());
     })
   }
 
   ngOnInit() {
-    this.page.set(this.getPageFromLocalStorage());
+    if (isPlatformBrowser(this.platformId)) {
+      const savedPage = this.getPageFromLocalStorage();
+      if (savedPage) {
+        this.page.set(savedPage);
+      }
+    }
+  }
+
+  ngAfterViewInit() {
+    // Ensure the page is set after the view is initialized
+    setTimeout(() => {
+      if (isPlatformBrowser(this.platformId)) {
+        const savedPage = this.getPageFromLocalStorage();
+        if (savedPage) {
+          this.page.set(savedPage);
+        }
+      }
+    }, 0);
   }
 
   nextPage() {
     if (this.page() >= this.totalPages()) return;
-
-    const currentPage = this.page();
-    this.savePageToLocalStorage(currentPage + 1);
-    this.page.set(this.getPageFromLocalStorage());
+    this.page.update(value => value + 1);
   }
 
   prevPage() {
     if (this.page() <= 1) return;
-
-    const currentPage = this.page();
-    this.savePageToLocalStorage(currentPage - 1);
-    this.page.set(this.getPageFromLocalStorage());
+    this.page.update(value => value - 1);
   }
 
   onError(event: any) {
@@ -75,13 +88,13 @@ export class QuranComponent {
 
   savePageToLocalStorage(pageNumber: number) {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('quranPage', pageNumber.toString());
+      localStorage.setItem(this.storageKey, pageNumber.toString());
     }
   }
 
   getPageFromLocalStorage(): number {
     if (isPlatformBrowser(this.platformId)) {
-      const savedPage = localStorage.getItem('quranPage');
+      const savedPage = localStorage.getItem(this.storageKey);
       return savedPage ? +savedPage : 1; // Default to page 1 if no saved page found
     }
     return 1;
