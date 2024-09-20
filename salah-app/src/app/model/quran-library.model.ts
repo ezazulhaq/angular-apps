@@ -1,5 +1,5 @@
 export interface QuranLibrary{
-    name: String;
-    url: String;
-    storageKey: String;
+    name: string;
+    pdfName: string;
+    storageKey?: string;
 }
