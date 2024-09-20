@@ -22,7 +22,7 @@ export class QuranComponent {
 
   quran_library: QuranLibrary[] = [
     {
-      name: "Quran Full - 13 liner color coded",
+      name: "Qur'an Full",
       pdfName: 'quran_13_liner_color_coded.pdf',
       storageKey: 'quranPage'
     },
