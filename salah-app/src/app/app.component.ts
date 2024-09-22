@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, HostListener, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PrayerTimesComponent } from './prayer-times/prayer-times.component';
 import { MenuComponent } from './mobile/menu/menu.component';
@@ -19,6 +19,9 @@ export class AppComponent implements OnInit {
 
   isThemeDark = signal<boolean>(false);
 
+  isMenuVisible = signal<boolean>(true);
+  private lastScrollPosition = signal<number>(0);
+
   constructor(
     protected themeSelector: ThemeSelectorService,
     private autoUpdateService: AutoUpdateService
@@ -38,5 +41,20 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.isThemeDark.set(this.themeSelector.currentTheme() === 'dark');
     this.autoUpdateService.checkForUpdate();
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScrollMenu() {
+    const currentScrollPosition = window.scrollY;
+
+    if (currentScrollPosition < this.lastScrollPosition()) {
+      // Scrolling up
+      this.isMenuVisible.set(true);
+    } else {
+      // Scrolling down
+      this.isMenuVisible.set(false);
+    }
+
+    this.lastScrollPosition.set(currentScrollPosition);
   }
 }
