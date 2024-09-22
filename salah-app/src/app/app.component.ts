@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
 
   isMenuVisible = signal<boolean>(true);
   private lastScrollPosition = signal<number>(0);
+  private scrollThreshold = 5; // Adjust this value as needed
 
   constructor(
     protected themeSelector: ThemeSelectorService,
@@ -44,17 +45,26 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('window:scroll', [])
-  onWindowScrollMenu(): void {
-    const currentScrollPosition = window.scrollY;
+  onWindowScrollMenu() {
+    const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 
-    if (currentScrollPosition <= this.lastScrollPosition()) {
-      // Scrolling up
+    // Check if we're at the top of the page
+    if (currentScrollPosition === 0) {
       this.isMenuVisible.set(true);
-    } else {
-      // Scrolling down
-      this.isMenuVisible.set(false);
+      this.lastScrollPosition.set(currentScrollPosition);
+      return;
     }
 
-    this.lastScrollPosition.set(currentScrollPosition);
+    // Only trigger hide/show if we've scrolled more than the threshold
+    if (Math.abs(currentScrollPosition - this.lastScrollPosition()) > this.scrollThreshold) {
+      if (currentScrollPosition < this.lastScrollPosition()) {
+        // Scrolling up
+        this.isMenuVisible.set(true);
+      } else {
+        // Scrolling down
+        this.isMenuVisible.set(false);
+      }
+      this.lastScrollPosition.set(currentScrollPosition);
+    }
   }
 }
