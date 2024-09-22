@@ -20,7 +20,7 @@ interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
   templateUrl: './kaaba.component.html',
   styleUrl: './kaaba.component.css',
   host: {
-    class: 'prayer-bg'
+    class: 'app-bg'
   }
 })
 export class KaabaComponent implements OnInit, OnDestroy {

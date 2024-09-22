@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './library.component.html',
   styleUrl: './library.component.css',
   host: {
-    class: 'prayer-bg'
+    class: 'app-bg'
   }
 })
 export class LibraryComponent {

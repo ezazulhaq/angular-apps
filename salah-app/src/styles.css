@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.prayer-bg {
+.app-bg {
   @apply bg-white dark:bg-slate-800 w-full md:max-w-xl min-h-screen text-center text-slate-900 dark:text-gray-300 rounded-none md:rounded-lg shadow-lg;
 }

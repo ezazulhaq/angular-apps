@@ -14,7 +14,7 @@ import { PrayerTimeInfo } from './prayer-times.model';
   templateUrl: './prayer-times.component.html',
   styleUrl: './prayer-times.component.css',
   host: {
-    class: "prayer-bg"
+    class: "app-bg"
   }
 })
 export class PrayerTimesComponent implements OnInit {
@@ -38,7 +38,7 @@ export class PrayerTimesComponent implements OnInit {
           if (closestFuturePrayer) {
             closestFuturePrayer.isClosest = true;
           }
-          
+
           return sortedTimes;
         }),
         shareReplay(1) // Cache the result

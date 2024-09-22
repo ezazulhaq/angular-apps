@@ -15,7 +15,7 @@ import { TitleCasePipe } from '@angular/common';
   templateUrl: './quran.component.html',
   styleUrl: './quran.component.css',
   host: {
-    class: 'prayer-bg'
+    class: 'app-bg'
   }
 })
 export class QuranComponent {
