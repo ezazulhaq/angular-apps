@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
   onWindowScrollMenu(): void {
     const currentScrollPosition = window.scrollY;
 
-    if (currentScrollPosition < this.lastScrollPosition()) {
+    if (currentScrollPosition <= this.lastScrollPosition()) {
       // Scrolling up
       this.isMenuVisible.set(true);
     } else {
