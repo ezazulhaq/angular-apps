@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { OpenStreetMapResponse } from '../model/open-stream-map.model';
 import { Observable, BehaviorSubject, of, from } from 'rxjs';
 import { map, catchError, tap, switchMap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +79,7 @@ export class SalahAppService {
     return this.location$.pipe(
       switchMap(location => {
         if (!location) return of(null);
-        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${location.latitude}&lon=${location.longitude}`;
+        const url = `${environment.api.map}?format=json&lat=${location.latitude}&lon=${location.longitude}`;
         return this.http.get<OpenStreetMapResponse>(url);
       }),
       catchError(error => {
