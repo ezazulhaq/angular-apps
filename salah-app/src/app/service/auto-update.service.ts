@@ -10,7 +10,7 @@ export class AutoUpdateService {
   private readonly UPDATE_COOLDOWN = signal<number>(60 * 60 * 1000); // 1 hour
 
   constructor(private swUpdate: SwUpdate) {
-    this.scheduleUpdate();
+    //this.scheduleUpdate();
   }
 
   checkForUpdate(): void {
