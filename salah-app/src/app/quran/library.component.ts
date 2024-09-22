@@ -1,26 +1,26 @@
 import { Component } from '@angular/core';
-import { QuranLibrary } from '../model/quran-library.model';
+import { IslamicLibrary } from '../model/islamic-library.model';
 import { RouterLink } from '@angular/router';
 import { PdfViewerComponent } from '../shared/pdf-viewer/pdf-viewer.component';
 import { TitleCasePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-quran',
+  selector: 'app-library',
   standalone: true,
   imports: [
     TitleCasePipe,
     RouterLink,
     PdfViewerComponent
   ],
-  templateUrl: './quran.component.html',
-  styleUrl: './quran.component.css',
+  templateUrl: './library.component.html',
+  styleUrl: './library.component.css',
   host: {
     class: 'app-bg'
   }
 })
-export class QuranComponent {
+export class LibraryComponent {
 
-  quran_library: QuranLibrary[] = [
+  islamic_library: IslamicLibrary[] = [
     {
       name: "Qur'an Full",
       pdfName: 'quran_13_liner_color_coded.pdf',

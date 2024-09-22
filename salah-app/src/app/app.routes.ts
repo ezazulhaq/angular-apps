@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { PrayerTimesComponent } from './prayer-times/prayer-times.component';
 import { KaabaComponent } from './kaaba/kaaba.component';
-import { QuranComponent } from './quran/quran.component';
-import { LibraryComponent } from './quran/library/library.component';
+import { LibraryComponent } from './quran/library.component';
+import { ReaderComponent } from './quran/reader/reader.component';
 
 export const routes: Routes = [
     {
@@ -16,14 +16,14 @@ export const routes: Routes = [
         component: KaabaComponent
     },
     {
-        path: 'quran',
-        title: 'Quran Reader',
-        component: QuranComponent
+        path: 'library',
+        title: 'Islamic Library',
+        component: LibraryComponent
     },
     {
-        path: 'library',
-        title: 'Quran Library',
-        component: LibraryComponent
+        path: 'reader',
+        title: 'Library Reader',
+        component: ReaderComponent
     },
     {
         path: '',

@@ -7,16 +7,16 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-reader',
   standalone: true,
   imports: [PdfViewerComponent],
-  templateUrl: './library.component.html',
-  styleUrl: './library.component.css',
+  templateUrl: './reader.component.html',
+  styleUrl: './reader.component.css',
   host: {
     class: 'app-bg'
   }
 })
-export class LibraryComponent {
+export class ReaderComponent {
 
   pdfSrc!: string;
-  storageKey = 'quranPage';
+  storageKey!: string;
 
   constructor(private route: ActivatedRoute) { }
 
