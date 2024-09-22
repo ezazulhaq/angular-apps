@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PrayerTimesComponent } from './prayer-times/prayer-times.component';
 import { MenuComponent } from './mobile/menu/menu.component';
