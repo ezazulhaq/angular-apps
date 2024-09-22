@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { PrayerTimesComponent } from './prayer-times/prayer-times.component';
 import { MenuComponent } from './mobile/menu/menu.component';
 import { ThemeSelectorService } from './service/theme.service';
+import { AutoUpdateService } from './service/auto-update.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,10 @@ export class AppComponent implements OnInit {
 
   isThemeDark = signal<boolean>(false);
 
-  constructor(protected themeSelector: ThemeSelectorService) {
+  constructor(
+    protected themeSelector: ThemeSelectorService,
+    private autoUpdateService: AutoUpdateService
+  ) {
     this.themeSelector.setSystemTheme();
   }
 
@@ -33,5 +37,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.isThemeDark.set(this.themeSelector.currentTheme() === 'dark');
+    this.autoUpdateService.checkForUpdate();
   }
 }
