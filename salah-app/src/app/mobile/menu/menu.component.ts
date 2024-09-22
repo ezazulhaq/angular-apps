@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-menu-mobile',
@@ -10,12 +10,6 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class MenuComponent {
 
-  constructor(private router: Router) { }
-
-  onClickPrayer() {
-    this.router.navigate(
-      ["prayer"],
-    )
-  }
+  constructor() { }
 
 }
