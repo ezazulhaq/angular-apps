@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('window:scroll', [])
-  onWindowScrollMenu() {
+  onWindowScrollMenu(): void {
     const currentScrollPosition = window.scrollY;
 
     if (currentScrollPosition < this.lastScrollPosition()) {
