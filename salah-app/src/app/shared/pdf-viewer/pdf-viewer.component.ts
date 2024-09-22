@@ -1,7 +1,7 @@
+/* @vite-ignore */
 import { CommonModule, TitleCasePipe, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID, effect, input, signal } from '@angular/core';
 import { PDFProgressData, PDFDocumentProxy, PdfViewerModule } from 'ng2-pdf-viewer';
-import { environment } from '../../../environments/environment';
 import { FormsModule } from '@angular/forms';
 
 @Component({
