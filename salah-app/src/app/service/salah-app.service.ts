@@ -3,8 +3,8 @@ import { Coordinates, PrayerTimes, CalculationMethod, Qibla } from 'adhan';
 import { NamazTimes } from '../model/namaz-time.model';
 import { HttpClient } from '@angular/common/http';
 import { OpenStreetMapResponse } from '../model/open-stream-map.model';
-import { Observable, BehaviorSubject, of, from } from 'rxjs';
-import { map, catchError, tap, switchMap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 @Injectable({
