@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { PrayerTimesComponent } from './prayer-times/prayer-times.component';
 import { KaabaComponent } from './kaaba/kaaba.component';
-import { LibraryComponent } from './quran/library.component';
-import { ReaderComponent } from './quran/reader/reader.component';
+import { LibraryComponent } from './library/library.component';
+import { ReaderComponent } from './library/reader/reader.component';
 
 export const routes: Routes = [
     {
