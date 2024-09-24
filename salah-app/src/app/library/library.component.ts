@@ -209,4 +209,12 @@ export class LibraryComponent {
     }
   ];
 
+  getCategories() {
+    return [...new Set(this.islamic_library.map(item => item.category))];
+  }
+
+  getCategoryItems(category: string) {
+    return this.islamic_library.filter(item => item.category === category);
+  }
+
 }
