@@ -6,11 +6,12 @@ import { NamazTimes } from '../model/namaz-time.model';
 import { map } from 'rxjs/internal/operators/map';
 import { shareReplay } from 'rxjs/internal/operators/shareReplay';
 import { PrayerTimeInfo } from './prayer-times.model';
+import { CalendarComponent } from "../shared/calendar/calendar.component";
 
 @Component({
   selector: 'app-prayer-times',
   standalone: true,
-  imports: [CommonModule, DatePipe],
+  imports: [CommonModule, DatePipe, CalendarComponent],
   templateUrl: './prayer-times.component.html',
   styleUrl: './prayer-times.component.css',
   host: {
@@ -20,6 +21,7 @@ import { PrayerTimeInfo } from './prayer-times.model';
 export class PrayerTimesComponent implements OnInit {
   address = signal<string>("");
 
+  isCalendarVisible = signal<boolean>(false);
   selectedDate = signal<Date>(new Date());
 
   haveLocationAccess = signal<boolean>(true);
@@ -80,6 +82,11 @@ export class PrayerTimesComponent implements OnInit {
       newDate.setDate(newDate.getDate() + 1);
     else
       newDate.setDate(newDate.getDate() - 1);
+    this.selectedDate.set(newDate);
+  }
+
+  onDateSelected(newDate: Date) {
+    this.isCalendarVisible.set(false);
     this.selectedDate.set(newDate);
   }
 }
