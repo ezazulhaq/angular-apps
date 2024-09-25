@@ -22,6 +22,8 @@ export class PrayerTimesComponent implements OnInit {
 
   selectedDate = signal<Date>(new Date());
 
+  haveLocationAccess = signal<boolean>(true);
+
   getTimes = computed(() => {
     return this.prayerService.getPrayerTimes(this.selectedDate())
       .pipe(
@@ -48,6 +50,13 @@ export class PrayerTimesComponent implements OnInit {
   constructor(private prayerService: SalahAppService) { }
 
   ngOnInit(): void {
+    // check if location access allowed
+    navigator.geolocation.getCurrentPosition(() => {
+      this.haveLocationAccess.set(true);
+    }, () => {
+      this.haveLocationAccess.set(false);
+    });
+
     this.fetchAddress();
   }
 
