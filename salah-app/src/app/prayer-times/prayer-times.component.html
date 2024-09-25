@@ -1,7 +1,8 @@
 <div class="text-2xl font-semibold my-8">Prayer Timings</div>
 <div class="flex flex-col justify-center items-center space-y-6 pb-40">
     <div class="flex flex-row px-12 space-x-4 justify-center items-center">
-        <svg class="size-10 text-slate-600 dark:text-gray-200" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+        <svg class="size-10 text-slate-600 dark:text-gray-200" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 384 512">
             <path
                 d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
         </svg>
@@ -22,8 +23,10 @@
             &lt;
         </button>
         <div class="relative text-slate-800 dark:text-gray-300">
-            <span class="cursor-pointer" (click)="isCalendarVisible.set(!isCalendarVisible())">{{selectedDate() | date:'fullDate'}}</span>
-            <app-calendar *ngIf="isCalendarVisible()" (dateSelected)="onDateSelected($event)" class="absolute top-8 -right-2 z-10"></app-calendar>
+            <span class="cursor-pointer" (click)="isCalendarVisible.set(!isCalendarVisible())">{{selectedDate() |
+                date:'fullDate'}}</span>
+            <app-calendar *ngIf="isCalendarVisible()" class="absolute top-8 -right-4 z-10"
+                (dateSelected)="onDateSelected($event)"></app-calendar>
         </div>
         <button type="button" (click)="changeSelectedDate('next')" class="prayer-next-day">
             &gt;
@@ -61,8 +64,8 @@
     </div>
     }
     @if(!haveLocationAccess()) {
-        <div class="pt-20">
-            <span>Please allow location access</span>
-        </div>
+    <div class="pt-20">
+        <span>Please allow location access</span>
+    </div>
     }
 </div>
