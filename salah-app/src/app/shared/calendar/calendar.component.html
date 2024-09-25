@@ -1,0 +1,30 @@
+<div class="w-64 bg-gray-100 dark:bg-slate-800 shadow-lg rounded-lg overflow-hidden">
+    <div class="flex justify-between items-center bg-slate-200 dark:bg-gray-600 px-4 py-2">
+      <button (click)="prevMonth()" class="text-slate-600 dark:text-gray-200 hover:text-slate-800">
+        &lt;
+      </button>
+      <span class="font-bold text-lg">{{ currentMonth }} {{ currentYear }}</span>
+      <button (click)="nextMonth()" class="text-slate-600 dark:text-gray-200 hover:text-slate-800">
+        &gt;
+      </button>
+    </div>
+    <div class="grid grid-cols-7 gap-1 p-2">
+      <div *ngFor="let day of daysOfWeek" class="text-center text-sm font-medium text-slate-700 dark:text-gray-200">
+        {{ day }}
+      </div>
+      <ng-container *ngFor="let day of days; let i = index">
+        <div
+          *ngIf="day !== 0"
+          (click)="selectDate(day)"
+          class="text-center p-1 hover:text-slate-800 hover:bg-blue-100 cursor-pointer rounded"
+          [ngClass]="{
+            'bg-blue-500 text-gray-100': isSelectedDate(day),
+            'text-gray-400': !isCurrentMonth(i)
+          }"
+        >
+          {{ day }}
+        </div>
+        <div *ngIf="day === 0" class="p-1"></div>
+      </ng-container>
+    </div>
+  </div>
