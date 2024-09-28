@@ -26,9 +26,6 @@ export class AppComponent implements OnInit {
     private autoUpdateService: AutoUpdateService
   ) {
     this.themeSelector.setSystemTheme();
-    effect(() => {
-      console.log('Menu Visible - ', this.isMenuVisible());
-    });
   }
 
   switchTheme(): void {
