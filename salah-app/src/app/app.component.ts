@@ -1,7 +1,7 @@
-import { Component, HostListener, OnInit, signal } from '@angular/core';
+import { Component, effect, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PrayerTimesComponent } from './prayer-times/prayer-times.component';
-import { MenuComponent } from './mobile/menu/menu.component';
+import { MenuComponent } from './menu/menu.component';
 import { ThemeSelectorService } from './service/theme.service';
 import { AutoUpdateService } from './service/auto-update.service';
 
@@ -19,15 +19,16 @@ export class AppComponent implements OnInit {
 
   isThemeDark = signal<boolean>(false);
 
-  isMenuVisible = signal<boolean>(true);
-  private lastScrollPosition = signal<number>(0);
-  private scrollThreshold = 5; // Adjust this value as needed
+  isMenuVisible = signal<boolean>(false);
 
   constructor(
     protected themeSelector: ThemeSelectorService,
     private autoUpdateService: AutoUpdateService
   ) {
     this.themeSelector.setSystemTheme();
+    effect(() => {
+      console.log('Menu Visible - ', this.isMenuVisible());
+    });
   }
 
   switchTheme(): void {
@@ -44,27 +45,8 @@ export class AppComponent implements OnInit {
     this.autoUpdateService.checkForUpdate();
   }
 
-  @HostListener('window:scroll', [])
-  onWindowScrollMenu() {
-    const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-
-    // Check if we're at the top of the page
-    if (currentScrollPosition === 0) {
-      this.isMenuVisible.set(true);
-      this.lastScrollPosition.set(currentScrollPosition);
-      return;
-    }
-
-    // Only trigger hide/show if we've scrolled more than the threshold
-    if (Math.abs(currentScrollPosition - this.lastScrollPosition()) > this.scrollThreshold) {
-      if (currentScrollPosition < this.lastScrollPosition()) {
-        // Scrolling up
-        this.isMenuVisible.set(true);
-      } else {
-        // Scrolling down
-        this.isMenuVisible.set(false);
-      }
-      this.lastScrollPosition.set(currentScrollPosition);
-    }
+  togleMenu() {
+    this.isMenuVisible.update(value => !value);
   }
+
 }
