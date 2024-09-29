@@ -209,6 +209,21 @@ export class LibraryComponent {
     }
   ];
 
+  ngOnInit() {
+    this.addPageToLibraryItems();
+  }
+
+  addPageToLibraryItems() {
+    this.islamic_library = this.islamic_library
+      .map(
+        item => {
+          const storedPage = localStorage.getItem(item.storageKey!);
+          const page = storedPage ? +storedPage : 1;
+          return { ...item, page };
+        }
+      );
+  }
+
   getCategories() {
     return [...new Set(this.islamic_library.map(item => item.category))];
   }

@@ -5,8 +5,9 @@
         <summary class="text-xl text-start font-semibold cursor-pointer">{{ category }}</summary>
         <div class="ml-4 mt-2 border-t">
             @for (library of getCategoryItems(category); track $index) {
-            <div class="text-md text-start py-2 font-normal hover:cursor-pointer hover:font-semibold" [routerLink]="['../reader']"
-                [queryParams]="{ pdfName: library.pdfName, storageKey: library.storageKey }">
+            <div class="text-md text-start py-2 font-normal hover:cursor-pointer hover:font-semibold"
+                [routerLink]="['../reader']"
+                [queryParams]="{ pdfName: library.pdfName, storageKey: library.storageKey, page: library.page }">
                 <span>{{ library.name | titlecase }}</span>
             </div>
             }

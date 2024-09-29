@@ -20,8 +20,10 @@ export class PdfViewerComponent implements OnInit {
 
   pdfSrc = input.required<string>();
   storageKey = input.required<string>();
+  storePage = input.required<number>();
 
   page = signal<number>(1);
+  pagesRendered = signal<number>(0);
   totalPages = signal<number>(0);
   isLoaded = signal<boolean>(false);
   progressData!: PDFProgressData;
@@ -35,12 +37,7 @@ export class PdfViewerComponent implements OnInit {
 
   ngOnInit() {
     console.log("This is Page 1 - ", this.page());
-    if (isPlatformBrowser(this.platformId)) {
-      const savedPage = this.getPageFromLocalStorage();
-      if (savedPage) {
-        this.page.set(savedPage);
-      }
-    }
+    this.page.set(this.storePage());
     console.log("This is Page 2 - ", this.page());
   }
 
@@ -66,6 +63,13 @@ export class PdfViewerComponent implements OnInit {
     this.isLoaded.set(true);
   }
 
+  pageRendered = (e: CustomEvent) => {
+    this.pagesRendered.update(value => value + 1);
+    if (this.pagesRendered() === this.totalPages()) {
+      this.isLoaded.set(true);
+    }
+  };
+
   onProgress(progressData: PDFProgressData) {
     this.progressData = progressData;
     this.isLoaded.set(progressData.loaded >= progressData.total);
@@ -82,11 +86,8 @@ export class PdfViewerComponent implements OnInit {
   }
 
   getPageFromLocalStorage(): number {
-    if (isPlatformBrowser(this.platformId)) {
-      console.log("Get Page From Local Storage - This is Page - ", this.page());
-      const savedPage = localStorage.getItem(this.storageKey());
-      return savedPage ? +savedPage : 1; // Default to page 1 if no saved page found
-    }
-    return 1;
+    console.log("Get Page From Local Storage - This is Page - ", this.page());
+    const savedPage = localStorage.getItem(this.storageKey());
+    return savedPage ? +savedPage : 1; // Default to page 1 if no saved page found
   }
 }
