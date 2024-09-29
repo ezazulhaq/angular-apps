@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
     this.autoUpdateService.checkForUpdate();
   }
 
-  togleMenu() {
+  toggleMenu() {
     this.isMenuVisible.update(value => !value);
   }
 
