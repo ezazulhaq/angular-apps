@@ -6,6 +6,10 @@
   @apply bg-white dark:bg-slate-800 w-full md:max-w-xl min-h-screen text-center text-slate-900 dark:text-gray-300 rounded-none md:rounded-lg shadow-lg;
 }
 
-.app-icon {
-  @apply hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2;
+.app-hamburger {
+  @apply hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2;
+}
+
+.app-theme {
+  @apply text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2;
 }
