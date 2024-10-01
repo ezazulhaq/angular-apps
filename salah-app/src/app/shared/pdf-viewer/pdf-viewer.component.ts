@@ -3,6 +3,7 @@ import { CommonModule, TitleCasePipe, isPlatformBrowser } from '@angular/common'
 import { Component, Inject, OnInit, PLATFORM_ID, effect, input, signal } from '@angular/core';
 import { PDFProgressData, PDFDocumentProxy, PdfViewerModule } from 'ng2-pdf-viewer';
 import { FormsModule } from '@angular/forms';
+import { IslamicLibrary } from '../../model/islamic-library.model';
 
 @Component({
   selector: 'app-pdf-viewer',
@@ -20,7 +21,6 @@ export class PdfViewerComponent implements OnInit {
 
   pdfSrc = input.required<string>();
   storageKey = input.required<string>();
-  storePage = input.required<number>();
 
   page = signal<number>(1);
   pagesRendered = signal<number>(0);
@@ -35,17 +35,29 @@ export class PdfViewerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.page.set(this.storePage());
+    if (isPlatformBrowser(this.platformId)) {
+      const islamicLibrary = this.getIslamicLibraryFromLocalStorage()?.find(item => item.storageKey === this.storageKey()) ?? null;
+      if (islamicLibrary) {
+        this.page.set(islamicLibrary.page ?? 1);
+      }
+    }
+  }
+
+  getIslamicLibraryFromLocalStorage(): IslamicLibrary[] | null {
+    const libraryJson = localStorage.getItem('islamic_library');
+    return libraryJson ? JSON.parse(libraryJson) : null;
   }
 
   nextPage() {
     if (this.page() >= this.totalPages()) return;
     this.page.update(value => value + 1);
+    this.updateIslamicLibrary();
   }
 
   prevPage() {
     if (this.page() <= 1) return;
     this.page.update(value => value - 1);
+    this.updateIslamicLibrary();
   }
 
   onError(event: any) {
@@ -78,11 +90,30 @@ export class PdfViewerComponent implements OnInit {
   savePageToLocalStorage(pageNumber: number) {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.storageKey(), pageNumber.toString());
+      this.updateIslamicLibrary();
     }
   }
 
   getPageFromLocalStorage(): number {
     const savedPage = localStorage.getItem(this.storageKey());
     return savedPage ? +savedPage : 1; // Default to page 1 if no saved page found
+  }
+
+  updateIslamicLibrary() {
+    if (isPlatformBrowser(this.platformId)) {
+      const islamicLibrary = this.getIslamicLibraryFromLocalStorage();
+      if (islamicLibrary) {
+        const updatedLibrary = islamicLibrary
+          .map(
+            item => {
+              if (item.storageKey === this.storageKey()) {
+                return { ...item, page: this.page(), totalPage: this.totalPages() };
+              }
+              return item;
+            }
+          );
+        localStorage.setItem('islamic_library', JSON.stringify(updatedLibrary));
+      }
+    }
   }
 }

@@ -4,4 +4,5 @@ export interface IslamicLibrary {
     category: string;
     storageKey?: string;
     page?: number;
+    totalPage?: number;
 }
