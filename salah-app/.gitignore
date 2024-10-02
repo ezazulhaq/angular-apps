@@ -44,3 +44,6 @@ Thumbs.db
 # Firebase setup
 .firebaserc
 firebase.json
+
+# Environment Store
+.env

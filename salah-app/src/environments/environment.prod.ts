@@ -1,7 +1,10 @@
+const s3Bucket = import.meta.env.NG_APP_S3_BUCKET
+const openStreetUrl = import.meta.env.NG_APP_OPEN_STREET_URL;
+
 export const environment = {
     production: true,
-    s3Bucket: 'salah-app.s3.us-east-1.amazonaws.com',
+    s3Bucket: `${s3Bucket}`,
     api: {
-        map: "https://nominatim.openstreetmap.org/reverse"
+        map: `${openStreetUrl}`
     }
 };
