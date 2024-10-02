@@ -28,9 +28,9 @@ export class PdfViewerComponent implements OnInit {
   isLoaded = signal<boolean>(false);
   progressData!: PDFProgressData;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: Object) {
     effect(() => {
-      this.savePageToLocalStorage(this.page());
+      this.updateIslamicLibrary();
     })
   }
 
@@ -51,13 +51,11 @@ export class PdfViewerComponent implements OnInit {
   nextPage() {
     if (this.page() >= this.totalPages()) return;
     this.page.update(value => value + 1);
-    this.updateIslamicLibrary();
   }
 
   prevPage() {
     if (this.page() <= 1) return;
     this.page.update(value => value - 1);
-    this.updateIslamicLibrary();
   }
 
   onError(event: any) {
@@ -65,7 +63,7 @@ export class PdfViewerComponent implements OnInit {
   }
 
   afterLoadComplete(pdfData: PDFDocumentProxy) {
-    const savedPage = this.getPageFromLocalStorage();
+    const savedPage = this.getIslamicLibraryFromLocalStorage()?.find(item => item.storageKey === this.storageKey())?.page ?? 1;
     this.page.set(savedPage > pdfData.numPages ? pdfData.numPages : savedPage); // Ensure valid page number
     this.totalPages.set(pdfData.numPages);
     this.isLoaded.set(true);
@@ -85,18 +83,6 @@ export class PdfViewerComponent implements OnInit {
 
   getInt(value: number): number {
     return Math.round(value);
-  }
-
-  savePageToLocalStorage(pageNumber: number) {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem(this.storageKey(), pageNumber.toString());
-      this.updateIslamicLibrary();
-    }
-  }
-
-  getPageFromLocalStorage(): number {
-    const savedPage = localStorage.getItem(this.storageKey());
-    return savedPage ? +savedPage : 1; // Default to page 1 if no saved page found
   }
 
   updateIslamicLibrary() {
