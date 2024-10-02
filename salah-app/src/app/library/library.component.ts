@@ -211,6 +211,16 @@ export class LibraryComponent {
 
   ngOnInit() {
     this.addPageToLibraryItems();
+    const islamic_library = localStorage.getItem('islamic_library');
+    if (!islamic_library) {
+      this.islamic_library = this.islamic_library
+      .map(
+        item => {
+          return { ...item, page: 1, totalPage: 0 };
+        }
+      );
+      localStorage.setItem('islamic_library', JSON.stringify(this.islamic_library));
+    }
   }
 
   addPageToLibraryItems() {

@@ -17,7 +17,6 @@ export class ReaderComponent {
 
   pdfSrc!: string;
   storageKey!: string;
-  storePage!: number;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -25,7 +24,6 @@ export class ReaderComponent {
     this.route.queryParams.subscribe(params => {
       this.pdfSrc = `https://${environment.s3Bucket}/${params['pdfName']}`;
       this.storageKey = params['storageKey'];
-      this.storePage = +params['page'];
     });
   }
 }
