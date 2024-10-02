@@ -1,5 +1,5 @@
 import { CommonModule, TitleCasePipe, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID, effect, input, signal } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID, computed, effect, input, signal } from '@angular/core';
 import { PDFProgressData, PDFDocumentProxy, PdfViewerModule } from 'ng2-pdf-viewer';
 import { FormsModule } from '@angular/forms';
 import { IslamicLibrary } from '../../model/islamic-library.model';
@@ -80,11 +80,7 @@ export class PdfViewerComponent implements OnInit {
     this.isLoaded.set(progressData.loaded >= progressData.total);
   }
 
-  getInt(value: number): number {
-    return Math.round(value);
-  }
-
-  updateIslamicLibrary() {
+  updateIslamicLibrary = computed(() => {
     if (isPlatformBrowser(this.platformId)) {
       const islamicLibrary = this.getIslamicLibraryFromLocalStorage();
       if (islamicLibrary) {
@@ -100,5 +96,5 @@ export class PdfViewerComponent implements OnInit {
         localStorage.setItem('islamic_library', JSON.stringify(updatedLibrary));
       }
     }
-  }
+  });
 }
