@@ -22,8 +22,7 @@
 
   <div class="absolute top-5 right-5 z-10">
     <!-- Dark/Light Mode Button -->
-    <button (click)="switchTheme()"
-      class="app-theme">
+    <button (click)="switchTheme()" class="app-theme">
       @if (!isThemeDark()) {
       <!-- Dark SVG Icon -->
       <svg class="size-5 md:size-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -47,4 +46,6 @@
   @if (isMenuVisible()) {
   <app-menu (menuClose)="isMenuVisible.set($event)"></app-menu>
   }
+
+  <app-chatbot class="fixed bottom-5 right-5 z-50"></app-chatbot>
 </div>

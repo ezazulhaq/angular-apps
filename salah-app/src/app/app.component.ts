@@ -4,6 +4,7 @@ import { PrayerTimesComponent } from './prayer-times/prayer-times.component';
 import { MenuComponent } from './menu/menu.component';
 import { ThemeSelectorService } from './service/theme.service';
 import { AutoUpdateService } from './service/auto-update.service';
+import { ChatbotComponent } from "./chatbot/chatbot.component";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,9 @@ import { AutoUpdateService } from './service/auto-update.service';
   imports: [
     RouterOutlet,
     PrayerTimesComponent,
-    MenuComponent],
+    MenuComponent,
+    ChatbotComponent
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
