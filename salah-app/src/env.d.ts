@@ -4,6 +4,8 @@ declare interface Env {
   // Replace the following with your own environment variables.
   readonly NG_APP_S3_BUCKET: string;
   readonly NG_APP_OPEN_STREET_URL: string;
+  readonly NG_APP_GROQ_API_KEY: string;
+  readonly NG_APP_GROQ_API_MODEL: string;
   [key: string]: any;
 }
 
