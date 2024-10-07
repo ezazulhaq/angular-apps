@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, ElementRef, ViewChild, signal } from '@angular/core';
 import { ChatbotService } from '../service/chatbot.service';
 import { FormsModule } from '@angular/forms';
 import { ChatCompletionMessageParam } from 'groq-sdk/resources/chat/completions.mjs';
@@ -12,13 +12,15 @@ import { ChatCompletionMessageParam } from 'groq-sdk/resources/chat/completions.
 })
 export class ChatbotComponent {
 
+  @ViewChild('chatContainer') private chatContainer!: ElementRef;
+
   isChatbotVisible = signal<boolean>(false);
   isChatbotDialogeVisible = signal<boolean>(true);
 
   messages: ChatCompletionMessageParam[] = [];
   userMessage = '';
 
-  constructor(private chatbotService: ChatbotService) {}
+  constructor(private chatbotService: ChatbotService) { }
 
   ngOnInit() {
     // Initialize with the system message
@@ -47,6 +49,9 @@ export class ChatbotComponent {
       error: (error) => {
         console.error('Error:', error);
         this.addAssistantMessage('Sorry, an error occurred.');
+      },
+      complete: () => {
+        this.scrollToBottom();
       }
     });
   }
@@ -66,5 +71,10 @@ export class ChatbotComponent {
     } else {
       this.addAssistantMessage(content);
     }
+  }
+
+  private scrollToBottom(): void {
+    const container = this.chatContainer.nativeElement;
+    container.scrollTop = container.scrollHeight; // Scroll to the bottom
   }
 }
