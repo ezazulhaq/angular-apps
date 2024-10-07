@@ -38,7 +38,8 @@ export class PrayerTimesComponent implements OnInit {
             .sort((a, b) => a.value.getTime() - b.value.getTime());
 
           // Find the closest future prayer time
-          const closestFuturePrayer = sortedTimes.find(prayer => prayer.value > now && prayer.value.getDate() === now.getDate());
+
+          const closestFuturePrayer = sortedTimes.slice().reverse().find(prayer => prayer.value <= now && prayer.value.getDate() === now.getDate());
           if (closestFuturePrayer) {
             closestFuturePrayer.isClosest = true;
           }
