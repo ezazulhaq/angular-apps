@@ -1,7 +1,7 @@
 .chatbot-assistant {
-    @apply text-start text-slate-800 dark:text-gray-200 bg-gray-300 dark:bg-slate-600 p-2 rounded-md rounded-bl-none;
+    @apply text-start text-slate-800 dark:text-gray-200 bg-gray-300 dark:bg-slate-600 p-2 rounded-lg rounded-bl-none;
 }
 
 .chatbot-user {
-    @apply text-end text-slate-800 dark:text-gray-200 bg-gray-300 dark:bg-slate-800 p-2 rounded-md rounded-br-none;
+    @apply text-end text-slate-800 dark:text-gray-200 bg-gray-300 dark:bg-slate-800 p-2 rounded-lg rounded-br-none;
 }
