@@ -24,7 +24,7 @@ export class ChatbotService {
     return new Observable<string>((observer) => {
       this.groq.chat.completions.create({
         messages: messages,
-        model: "llama3-8b-8192",
+        model: environment.groq.model,
         temperature: 1,
         max_tokens: 1024,
         top_p: 1,
