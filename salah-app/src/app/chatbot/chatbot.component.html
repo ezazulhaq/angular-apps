@@ -6,7 +6,15 @@
             <div
                 class="flex flex-row justify-between items-center space-x-4 bg-slate-800 dark:bg-gray-200 p-2 rounded-t-lg border-b-2 border-gray-500">
                 <div class="flex-grow">
-                    <span class="font-medium">Islamic Chatbot</span>
+                    <div class="flex flex-row space-x-2 items-center">
+                        <svg class="size-5 dark:fill-slate-800 fill-gray-200" role="img" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>Islamic Chatbot</title>
+                            <path
+                                d="M0 12c0 6.629 5.371 12 12 12s12-5.371 12-12S18.629 0 12 0 0 5.371 0 12m17.008 5.29H11.44a5.57 5.57 0 0 1-5.562-5.567A5.57 5.57 0 0 1 11.44 6.16a5.57 5.57 0 0 1 5.567 5.563Z" />
+                        </svg>
+                        <span class="font-medium">Islamic Chatbot</span>
+                    </div>
                 </div>
                 <div (click)="isChatbotVisible.set(false)">
                     <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor">
@@ -15,7 +23,8 @@
                     </svg>
                 </div>
             </div>
-            <div #chatContainer class="flex-grow overflow-y-auto bg-slate-700 dark:bg-gray-100 p-2 flex flex-col-reverse">
+            <div #chatContainer
+                class="flex-grow overflow-y-auto bg-slate-700 dark:bg-gray-100 p-2 flex flex-col-reverse">
                 <div class="flex flex-col space-y-3">
                     @for (message of messages; track message.role) {
                     @if (message.role !== 'system' && message.content){
@@ -57,9 +66,11 @@
     </div>
     }
     <div (click)="isChatbotVisible.set(true)" class="m-2">
-        <svg class="size-10 fill-slate-800 dark:fill-gray-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <svg class="size-14 fill-slate-800 dark:fill-gray-200" role="img" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <title>Islamic Chatbot</title>
             <path
-                d="M256 448c141.4 0 256-93.1 256-208S397.4 32 256 32S0 125.1 0 240c0 45.1 17.7 86.8 47.7 120.9c-1.9 24.5-11.4 46.3-21.4 62.9c-5.5 9.2-11.1 16.6-15.2 21.6c-2.1 2.5-3.7 4.4-4.9 5.7c-.6 .6-1 1.1-1.3 1.4l-.3 .3c0 0 0 0 0 0c0 0 0 0 0 0s0 0 0 0s0 0 0 0c-4.6 4.6-5.9 11.4-3.4 17.4c2.5 6 8.3 9.9 14.8 9.9c28.7 0 57.6-8.9 81.6-19.3c22.9-10 42.4-21.9 54.3-30.6c31.8 11.5 67 17.9 104.1 17.9zM128 208a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm128 0a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm96 32a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
+                d="M0 12c0 6.629 5.371 12 12 12s12-5.371 12-12S18.629 0 12 0 0 5.371 0 12m17.008 5.29H11.44a5.57 5.57 0 0 1-5.562-5.567A5.57 5.57 0 0 1 11.44 6.16a5.57 5.57 0 0 1 5.567 5.563Z" />
         </svg>
     </div>
 </div>
