@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import Groq from 'groq-sdk';
 import { Observable } from 'rxjs';
-import { ChatCompletion, ChatCompletionContentPart, ChatCompletionMessageParam } from 'groq-sdk/resources/chat/completions.mjs';
+import { ChatCompletionMessageParam } from 'groq-sdk/resources/chat/completions.mjs';
 
 @Injectable({
   providedIn: 'root'
