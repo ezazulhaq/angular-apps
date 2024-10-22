@@ -25,9 +25,9 @@ export class ChatbotService {
       this.groq.chat.completions.create({
         messages: messages,
         model: environment.groq.model,
-        temperature: 0.6,
+        temperature: 0.4,
         max_tokens: 512,
-        top_p: 0.6,
+        top_p: 0.4,
         stream: true,
         stop: null
       }).then(async (chatCompletion) => {
