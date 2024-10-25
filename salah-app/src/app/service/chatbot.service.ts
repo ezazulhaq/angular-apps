@@ -14,7 +14,7 @@ export class ChatbotService {
   constructor() {
     this.groq = new Groq(
       {
-        apiKey: environment.groq.apikey,
+        apiKey: import.meta.env.NG_APP_GROQ_API_KEY,
         dangerouslyAllowBrowser: true
       }
     );
