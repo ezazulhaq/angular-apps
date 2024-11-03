@@ -11,4 +11,7 @@ export const environment = {
     groq: {
         model: `${groqApiModel}`
     },
+    supabase: {
+        anonKey: import.meta.env.SUPABASE_ANON_KEY
+    }
 };
