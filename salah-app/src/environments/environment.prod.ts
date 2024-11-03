@@ -12,6 +12,7 @@ export const environment = {
         model: `${groqApiModel}`
     },
     supabase: {
+        url: import.meta.env.SUPABASE_URL
         anonKey: import.meta.env.SUPABASE_ANON_KEY
     }
 };

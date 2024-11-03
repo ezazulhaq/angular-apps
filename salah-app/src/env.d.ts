@@ -7,6 +7,7 @@ declare interface Env {
   readonly NG_APP_GROQ_API_KEY: string;
   readonly NG_APP_GROQ_API_MODEL: string;
 
+  readonly SUPABASE_URL: string;
   readonly SUPABASE_ANON_KEY: string;
 
   [key: string]: any;
