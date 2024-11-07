@@ -4,7 +4,9 @@
     <div class="surah-all" [routerLink]="['./ayah']"
         [queryParams]="{ surahNumber: surah.surah_id, surahName: surah.name_en, surahName_ar: surah.name }">
         <div class="flex flex-row justify-between w-full">
-            <span>{{surah.surah_id}}</span>
+            <div class="font-medium text-sm">
+                <span class="surah-numbers">{{surah.surah_id}}</span>
+            </div>
             <span>{{surah.name_en | titlecase}}</span>
         </div>
     </div>

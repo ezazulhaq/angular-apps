@@ -10,7 +10,7 @@ import { Translation } from '../../model/translation.model';
   templateUrl: './ayah.component.html',
   styleUrl: './ayah.component.css',
   host: {
-    class: 'app-bg'
+    class: 'app-bg',
   }
 })
 export class AyahComponent {
