@@ -27,7 +27,6 @@ export class QuranComponent implements OnInit {
         this.supabaseService.getSurahList().subscribe(
             {
                 next: (data: any) => {
-                    console.log(data.data);
                     this.surahList.set(data.data);
                 }
             }

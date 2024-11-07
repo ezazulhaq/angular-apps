@@ -35,7 +35,6 @@ export class AyahComponent {
     this.supabaseService.getSurahTranslation("en", +this.surahNumber, "ahmedraza").subscribe(
       {
         next: (data: any) => {
-          console.log(data.data);
           this.ayahs.set(data.data);
         }
       }
