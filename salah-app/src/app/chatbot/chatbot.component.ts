@@ -23,6 +23,12 @@ export class ChatbotComponent {
   constructor(private chatbotService: ChatbotService) { }
 
   ngOnInit() {
+
+    // AutoClose Dialoge after 10 secs
+    setInterval(() => {
+      this.isChatbotDialogeVisible.set(false);
+    }, 10000);
+
     // Initialize with the system message
     this.messages.push({
       role: 'system',
