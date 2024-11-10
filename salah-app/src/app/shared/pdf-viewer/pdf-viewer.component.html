@@ -42,7 +42,7 @@
                 fill="currentFill" />
         </svg>
         <span class="sr-only">Loading...</span>
-        <span>{{ +(progressData.loaded / progressData.total * 100) }}%</span>
+        <span>{{ +(progressData.loaded / progressData.total * 100) | number:'1.0-0' }}%</span>
     </div>
     }
 
