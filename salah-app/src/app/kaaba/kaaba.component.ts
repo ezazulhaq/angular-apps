@@ -71,7 +71,8 @@ export class KaabaComponent implements OnInit, OnDestroy {
   }
 
   setupDeviceOrientation() {
-    if ('DeviceOrientationEvent' in window) {
+    const win = window as any;
+    if (typeof win !== 'undefined' && 'DeviceOrientationEvent' in win) {
       const handleOrientation = (event: ExtendedDeviceOrientationEvent) => {
         let heading: number | null = null;
         if (this.isIOS) {
@@ -81,18 +82,18 @@ export class KaabaComponent implements OnInit, OnDestroy {
           // For Android devices
           heading = 360 - event.alpha;
         }
-        
+
         if (heading !== null) {
           this.heading$.next(heading);
         }
       };
 
       if (this.isIOS) {
-        window.addEventListener('deviceorientation', handleOrientation as EventListener, true);
-      } else if ('ondeviceorientationabsolute' in window) {
-        window.addEventListener('deviceorientationabsolute', handleOrientation as EventListener, true);
+        win.addEventListener('deviceorientation', handleOrientation as EventListener, true);
+      } else if ('ondeviceorientationabsolute' in win) {
+        win.addEventListener('deviceorientationabsolute', handleOrientation as EventListener, true);
       } else {
-        window.addEventListener('deviceorientation', handleOrientation as EventListener, true);
+        win.addEventListener('deviceorientation', handleOrientation as EventListener, true);
       }
 
       this.compassSubscription = combineLatest([this.heading$, this.kaabaDirection$])
@@ -113,5 +114,8 @@ export class KaabaComponent implements OnInit, OnDestroy {
       console.error('Device orientation is not supported by this device.');
     }
   }
+}
 
+interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
+  webkitCompassHeading?: number;
 }
