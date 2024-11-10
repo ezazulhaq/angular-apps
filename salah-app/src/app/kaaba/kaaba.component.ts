@@ -73,33 +73,40 @@ export class KaabaComponent implements OnInit, OnDestroy {
   setupDeviceOrientation() {
     if ('DeviceOrientationEvent' in window) {
       const handleOrientation = (event: ExtendedDeviceOrientationEvent) => {
-        if (event.webkitCompassHeading !== undefined) {
+        let heading: number | null = null;
+        if (this.isIOS) {
           // For iOS devices
-          this.heading$.next(event.webkitCompassHeading);
+          heading = event.webkitCompassHeading ?? null;
         } else if (event.alpha !== null) {
           // For Android devices
-          this.heading$.next(360 - event.alpha);
+          heading = 360 - event.alpha;
+        }
+        
+        if (heading !== null) {
+          this.heading$.next(heading);
         }
       };
 
-      window.addEventListener('deviceorientation', handleOrientation as EventListener, true);
+      if (this.isIOS) {
+        window.addEventListener('deviceorientation', handleOrientation as EventListener, true);
+      } else if ('ondeviceorientationabsolute' in window) {
+        window.addEventListener('deviceorientationabsolute', handleOrientation as EventListener, true);
+      } else {
+        window.addEventListener('deviceorientation', handleOrientation as EventListener, true);
+      }
 
       this.compassSubscription = combineLatest([this.heading$, this.kaabaDirection$])
         .pipe(
           map(([heading, kaabaDirection]) => {
-            if (kaabaDirection !== null) {
+            if (heading !== null && kaabaDirection !== null) {
               return (kaabaDirection - heading + 360) % 360;
             }
-            return 0;
+            return null;
           })
         )
         .subscribe(relativeDirection => {
           if (relativeDirection !== null) {
             this.compassDeg.set(relativeDirection);
-            const compassElement = document.querySelector('.compass') as HTMLElement;
-            if (compassElement) {
-              compassElement.style.transform = `rotate(${relativeDirection}deg)`;
-            }
           }
         });
     } else {
