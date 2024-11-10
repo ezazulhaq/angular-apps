@@ -51,6 +51,7 @@ export class SupabaseService {
             this.supabase
                 .from('surahs')
                 .select('surah_id, name, name_transliteration, name_en, total_ayas')
+                .order('surah_id', { ascending: true })
         );
     }
 }

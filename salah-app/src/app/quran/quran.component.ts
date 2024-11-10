@@ -27,8 +27,7 @@ export class QuranComponent implements OnInit {
         this.supabaseService.getSurahList().subscribe(
             {
                 next: (data: any) => {
-                    const surahs: Surah[] = data.data.sort((a: Surah, b: Surah) => a.surah_id - b.surah_id).slice();
-                    this.surahList.set(surahs);
+                    this.surahList.set(data.data);
                 }
             }
         );
