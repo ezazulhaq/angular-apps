@@ -8,10 +8,10 @@ import { Observable, from } from 'rxjs';
 })
 export class SupabaseService {
 
-    private supabaseUrl: string = environment.supabase.url;
-    private supabaseKey: string = environment.supabase.anonKey;
+    private readonly supabaseUrl: string = environment.supabase.url;
+    private readonly supabaseKey: string = environment.supabase.anonKey;
 
-    private supabase: SupabaseClient;
+    private readonly supabase: SupabaseClient;
 
     constructor() {
         // Verify that both environment variables are correctly loaded
