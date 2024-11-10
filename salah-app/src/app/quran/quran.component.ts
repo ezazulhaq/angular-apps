@@ -21,13 +21,14 @@ export class QuranComponent implements OnInit {
 
     surahList = signal<Surah[]>([]);
 
-    constructor(private supabaseService: SupabaseService) { }
+    constructor(private readonly supabaseService: SupabaseService) { }
 
     ngOnInit(): void {
         this.supabaseService.getSurahList().subscribe(
             {
                 next: (data: any) => {
-                    this.surahList.set(data.data);
+                    const surahs: Surah[] = data.data.sort((a: Surah, b: Surah) => a.surah_id - b.surah_id).slice();
+                    this.surahList.set(surahs);
                 }
             }
         );
