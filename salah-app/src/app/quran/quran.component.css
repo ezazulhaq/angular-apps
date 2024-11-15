@@ -5,3 +5,7 @@
 .surah-numbers {
   @apply inline-flex justify-center items-center size-7 rounded-full text-gray-300 dark:text-slate-900 bg-slate-800 dark:bg-white;
 }
+
+.surah-info {
+  @apply font-semibold text-xs text-slate-500 dark:text-gray-500;
+}
