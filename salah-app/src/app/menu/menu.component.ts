@@ -17,7 +17,6 @@ export class MenuComponent {
 
   constructor() {
     effect(() => {
-      console.log("menuvisible - " + this.menuvisible());
       this.localMenuVisible.set(this.menuvisible());
     }, { allowSignalWrites: true });
   }
