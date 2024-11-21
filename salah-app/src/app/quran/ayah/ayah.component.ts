@@ -1,12 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { SupabaseService } from '../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Translation } from '../../model/translation.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ayah',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule
+  ],
   templateUrl: './ayah.component.html',
   styleUrl: './ayah.component.css',
   host: {
@@ -20,6 +23,8 @@ export class AyahComponent {
   surahName_ar!: string;
 
   ayahs = signal<Translation[]>([]);
+
+  isTranslationVisible = signal<boolean>(true);
 
   constructor(
     private supabaseService: SupabaseService,
