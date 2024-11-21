@@ -27,8 +27,8 @@ export class AyahComponent {
   isTranslationVisible = signal<boolean>(true);
 
   constructor(
-    private supabaseService: SupabaseService,
-    private route: ActivatedRoute) {
+    private readonly supabaseService: SupabaseService,
+    private readonly route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.surahNumber = params['surahNumber'];
       this.surahName = params['surahName'];
