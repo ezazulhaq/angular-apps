@@ -1,4 +1,4 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, signal, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Translation } from '../../model/translation.model';
@@ -17,6 +17,9 @@ import { FormsModule } from '@angular/forms';
   }
 })
 export class AyahComponent {
+
+  @ViewChild('stickyCheckbox') stickyCheckbox!: ElementRef;
+  private originalOffset: number = 0;
 
   surahNumber!: string;
   surahName!: string;
@@ -44,6 +47,20 @@ export class AyahComponent {
         }
       }
     );
+  }
+
+  ngAfterViewInit() {
+    this.originalOffset = this.stickyCheckbox.nativeElement.offsetTop;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  handleCheckBoxScroll() {
+    const element = this.stickyCheckbox.nativeElement;
+    if (window.scrollY >= this.originalOffset) {
+      element.classList.add('checkbox-fixed');
+    } else {
+      element.classList.remove('checkbox-fixed');
+    }
   }
 
 }
