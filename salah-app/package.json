@@ -33,6 +33,7 @@
     "@angular/cli": "^18.2.12",
     "@angular/compiler-cli": "^18.2.5",
     "@ngx-env/builder": "^18.0.1",
+    "@tailwindcss/forms": "^0.5.9",
     "@types/jasmine": "~5.1.0",
     "autoprefixer": "^10.4.20",
     "jasmine-core": "~5.1.0",

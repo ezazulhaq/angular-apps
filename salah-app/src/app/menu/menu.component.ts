@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, effect, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -10,11 +10,19 @@ import { RouterLink } from '@angular/router';
 })
 export class MenuComponent {
 
+  menuvisible = input.required<boolean>();
   menuClose = output<boolean>();
 
-  constructor() { }
+  protected localMenuVisible = signal(false);
+
+  constructor() {
+    effect(() => {
+      this.localMenuVisible.set(this.menuvisible());
+    }, { allowSignalWrites: true });
+  }
 
   onMenuItemClick() {
+    this.localMenuVisible.set(false);
     this.menuClose.emit(false)
   }
 

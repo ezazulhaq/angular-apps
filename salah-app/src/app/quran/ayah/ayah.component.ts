@@ -1,12 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, signal, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Translation } from '../../model/translation.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ayah',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule
+  ],
   templateUrl: './ayah.component.html',
   styleUrl: './ayah.component.css',
   host: {
@@ -15,15 +18,20 @@ import { Translation } from '../../model/translation.model';
 })
 export class AyahComponent {
 
+  @ViewChild('stickyCheckbox') stickyCheckbox!: ElementRef;
+  private originalOffset: number = 0;
+
   surahNumber!: string;
   surahName!: string;
   surahName_ar!: string;
 
   ayahs = signal<Translation[]>([]);
 
+  isTranslationVisible = signal<boolean>(true);
+
   constructor(
-    private supabaseService: SupabaseService,
-    private route: ActivatedRoute) {
+    private readonly supabaseService: SupabaseService,
+    private readonly route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.surahNumber = params['surahNumber'];
       this.surahName = params['surahName'];
@@ -39,6 +47,20 @@ export class AyahComponent {
         }
       }
     );
+  }
+
+  ngAfterViewInit() {
+    this.originalOffset = this.stickyCheckbox.nativeElement.offsetTop;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  handleCheckBoxScroll() {
+    const element = this.stickyCheckbox.nativeElement;
+    if (window.scrollY >= this.originalOffset) {
+      element.classList.add('checkbox-fixed');
+    } else {
+      element.classList.remove('checkbox-fixed');
+    }
   }
 
 }

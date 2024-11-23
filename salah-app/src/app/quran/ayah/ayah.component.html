@@ -1,4 +1,11 @@
 <div class="text-2xl font-semibold my-8">{{surahName}}<br>({{surahName_ar}})</div>
+<div #stickyCheckbox class="w-full mb-6">
+    <label class="inline-flex items-center">
+        <input type="checkbox" [(ngModel)]="isTranslationVisible"
+            class="form-checkbox size-4 rounded border-slate-300 text-slate-600 focus:ring-slate-500 cursor-pointer hover:border-slate-500" />
+        <span class="ml-2">Translation</span>
+    </label>
+</div>
 <div class="flex flex-col space-y-6 justify-center items-center">
     @for (ayah of ayahs(); track $index) {
     <div class="flex flex-col space-y-6 w-full border-gray-600 border-b-2 pb-4 px-4">
@@ -6,7 +13,9 @@
             <span class="ayah-numbers">{{ayah.ayah_number}}</span>
         </div>
         <div class="text-end text-2xl">{{ayah.arabic_text_original}}</div>
+        @if(isTranslationVisible()){
         <div class="text-start">{{ayah.translation}}</div>
+        }
     </div>
     }
 </div>
