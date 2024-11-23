@@ -1,4 +1,4 @@
-import { CommonModule, TitleCasePipe, isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID, computed, effect, input, signal } from '@angular/core';
 import { PDFProgressData, PDFDocumentProxy, PdfViewerModule } from 'ng2-pdf-viewer';
 import { FormsModule } from '@angular/forms';
@@ -6,11 +6,9 @@ import { IslamicLibrary } from '../../model/islamic-library.model';
 
 @Component({
   selector: 'app-pdf-viewer',
-  standalone: true,
   imports: [
     CommonModule,
     PdfViewerModule,
-    TitleCasePipe,
     FormsModule,
   ],
   templateUrl: './pdf-viewer.component.html',

@@ -1,4 +1,4 @@
-import { AsyncPipe, TitleCasePipe } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { SalahAppService } from '../service/salah-app.service';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
@@ -12,10 +12,8 @@ interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
 
 @Component({
   selector: 'app-kaaba',
-  standalone: true,
   imports: [
     TitleCasePipe,
-    AsyncPipe
   ],
   templateUrl: './kaaba.component.html',
   styleUrl: './kaaba.component.css',

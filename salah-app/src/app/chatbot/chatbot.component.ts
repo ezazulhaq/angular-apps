@@ -4,11 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { ChatCompletionMessageParam } from 'groq-sdk/resources/chat/completions.mjs';
 
 @Component({
-  selector: 'app-chatbot',
-  standalone: true,
-  imports: [FormsModule],
-  templateUrl: './chatbot.component.html',
-  styleUrl: './chatbot.component.css'
+    selector: 'app-chatbot',
+    imports: [FormsModule],
+    templateUrl: './chatbot.component.html',
+    styleUrl: './chatbot.component.css'
 })
 export class ChatbotComponent {
 

@@ -1,6 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PrayerTimesComponent } from './prayer-times/prayer-times.component';
 import { MenuComponent } from './menu/menu.component';
 import { ThemeSelectorService } from './service/theme.service';
 import { AutoUpdateService } from './service/auto-update.service';
@@ -8,10 +7,8 @@ import { ChatbotComponent } from "./chatbot/chatbot.component";
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [
     RouterOutlet,
-    PrayerTimesComponent,
     MenuComponent,
     ChatbotComponent
   ],

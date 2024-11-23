@@ -1,16 +1,13 @@
 import { Component } from '@angular/core';
 import { IslamicLibrary } from '../model/islamic-library.model';
 import { RouterLink } from '@angular/router';
-import { PdfViewerComponent } from '../shared/pdf-viewer/pdf-viewer.component';
 import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-library',
-  standalone: true,
   imports: [
     TitleCasePipe,
     RouterLink,
-    PdfViewerComponent
   ],
   templateUrl: './library.component.html',
   styleUrl: './library.component.css',
@@ -214,11 +211,11 @@ export class LibraryComponent {
     const islamic_library = localStorage.getItem('islamic_library');
     if (!islamic_library) {
       this.islamic_library = this.islamic_library
-      .map(
-        item => {
-          return { ...item, page: 1, totalPage: 0 };
-        }
-      );
+        .map(
+          item => {
+            return { ...item, page: 1, totalPage: 0 };
+          }
+        );
       localStorage.setItem('islamic_library', JSON.stringify(this.islamic_library));
     }
   }

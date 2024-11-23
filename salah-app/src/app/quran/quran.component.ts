@@ -6,7 +6,6 @@ import { Surah } from '../model/surah.model';
 
 @Component({
     selector: 'app-quran',
-    standalone: true,
     imports: [
         CommonModule,
         RouterLink,

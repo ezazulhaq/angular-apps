@@ -2,11 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-calendar',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './calendar.component.html',
-  styleUrl: './calendar.component.css'
+    selector: 'app-calendar',
+    imports: [CommonModule],
+    templateUrl: './calendar.component.html',
+    styleUrl: './calendar.component.css'
 })
 export class CalendarComponent {
   @Output() dateSelected = new EventEmitter<Date>();

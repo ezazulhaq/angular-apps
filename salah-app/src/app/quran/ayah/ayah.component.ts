@@ -5,16 +5,15 @@ import { Translation } from '../../model/translation.model';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-ayah',
-  standalone: true,
-  imports: [
-    FormsModule
-  ],
-  templateUrl: './ayah.component.html',
-  styleUrl: './ayah.component.css',
-  host: {
-    class: 'app-bg',
-  }
+    selector: 'app-ayah',
+    imports: [
+        FormsModule
+    ],
+    templateUrl: './ayah.component.html',
+    styleUrl: './ayah.component.css',
+    host: {
+        class: 'app-bg',
+    }
 })
 export class AyahComponent {
 

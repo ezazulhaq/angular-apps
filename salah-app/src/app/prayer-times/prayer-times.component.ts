@@ -9,14 +9,13 @@ import { PrayerTimeInfo } from './prayer-times.model';
 import { CalendarComponent } from "../shared/calendar/calendar.component";
 
 @Component({
-  selector: 'app-prayer-times',
-  standalone: true,
-  imports: [CommonModule, DatePipe, CalendarComponent],
-  templateUrl: './prayer-times.component.html',
-  styleUrl: './prayer-times.component.css',
-  host: {
-    class: "app-bg"
-  }
+    selector: 'app-prayer-times',
+    imports: [CommonModule, DatePipe, CalendarComponent],
+    templateUrl: './prayer-times.component.html',
+    styleUrl: './prayer-times.component.css',
+    host: {
+        class: "app-bg"
+    }
 })
 export class PrayerTimesComponent implements OnInit {
   address = signal<string>("");
