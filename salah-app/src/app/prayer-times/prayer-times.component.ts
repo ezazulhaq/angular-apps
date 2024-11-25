@@ -33,17 +33,15 @@ export class PrayerTimesComponent implements OnInit {
 
           const now = new Date();
           const sortedTimes: PrayerTimeInfo[] = Object.entries(namazTimes)
-            .map(([key, value]) => ({ key, value: value, isClosest: false }))
-            .sort((a, b) => a.value.time.getTime() - b.value.time.getTime());
+            .map(([key, value]) => ({ key, value: new Date(value), isClosest: false }))
+            .sort((a, b) => a.value.getTime() - b.value.getTime());
 
           // Find the closest future prayer time
 
-          const closestFuturePrayer = sortedTimes.slice().reverse().find(prayer => prayer.value.time <= now && prayer.value.time.getDate() === now.getDate());
+          const closestFuturePrayer = sortedTimes.slice().reverse().find(prayer => prayer.value <= now && prayer.value.getDate() === now.getDate());
           if (closestFuturePrayer) {
             closestFuturePrayer.isClosest = true;
           }
-
-          console.log(sortedTimes);
 
           return sortedTimes;
         }),
