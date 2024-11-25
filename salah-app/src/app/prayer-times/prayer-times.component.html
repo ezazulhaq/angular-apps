@@ -35,15 +35,81 @@
 
     @defer (when getTimes()) {
     <div class="flex flex-col space-y-8 w-full md:w-1/2 px-10">
-        @for (prayer of getTimes() | async; track prayer.value) {
-        <div class="relative group" [ngClass]="prayer.isClosest ? 'prayer-next' : 'prayer-all'">
-            <span class="group-hover:text-slate-700 dark:group-hover:text-gray-200">{{ prayer.key | titlecase }}</span>
-            <span class="group-hover:text-slate-700 dark:group-hover:text-gray-200">{{ prayer.value | date:'shortTime'
-                }}</span>
+        @for (prayer of getTimes() | async; track prayer.value.time) {
 
+        @let rakats = prayer.value.rakats;
+
+        <div class="relative group" [ngClass]="prayer.isClosest ? 'prayer-next' : 'prayer-all'">
+            <div class="flex flex-row space-x-4 justify-between items-center w-full">
+                <span class="group-hover:text-slate-700 dark:group-hover:text-gray-200">
+                    {{ prayer.key | titlecase }}</span>
+                <span class="group-hover:text-slate-700 dark:group-hover:text-gray-200">
+                    {{ prayer.value.time | date:'shortTime' }}
+                </span>
+            </div>
+
+            @if(rakats){
+            <div class="w-full hidden group-hover:block group-focus:block group-active:block">
+                <div class="flex flex-row space-x-4 justify-evenly items-center border-gray-500 border-t-2 pt-4">
+
+                    @if(rakats.before_fard.sunnah != 0){
+                    <div class="flex flex-col space-y-4 justify-between items-center">
+                        <span>
+                            Before Fard (Sunnah)
+                        </span>
+                        <span>
+                            {{rakats.before_fard.sunnah}}
+                        </span>
+                    </div>
+                    }
+
+                    <div class="flex flex-col space-y-4 justify-between items-center">
+                        <span>
+                            Fard
+                        </span>
+                        <span>
+                            {{rakats.fard}}
+                        </span>
+                    </div>
+
+                    @if(rakats.after_fard.sunnah != 0){
+                    <div class="flex flex-col space-y-4 justify-between items-center">
+                        <span>
+                            After Fard (Sunnah)
+                        </span>
+                        <span>
+                            {{rakats.after_fard.sunnah}}
+                        </span>
+                    </div>
+                    }
+
+                    @if(rakats.after_fard.nafl != 0){
+                    <div class="flex flex-col space-y-4 justify-between items-center">
+                        <span>
+                            After Fard (Nafl)
+                        </span>
+                        <span>
+                            {{rakats.after_fard.nafl}}
+                        </span>
+                    </div>
+                    }
+
+                    @if(rakats.after_fard.wajib != 0){
+                    <div class="flex flex-col space-y-4 justify-between items-center">
+                        <span>
+                            After Fard (Wajib)
+                        </span>
+                        <span>
+                            {{rakats.after_fard.wajib}}
+                        </span>
+                    </div>
+                    }
+                </div>
+            </div>
+            }
             @if(prayer.isClosest){
-            <div class="absolute -top-2 -right-2 rounded-full bg-slate-800 dark:bg-gray-200 size-4"></div>
-            <div class="absolute -top-2 -right-2 rounded-full bg-slate-800 dark:bg-gray-200 size-4 animate-ping"></div>
+            <div class="absolute -top-6 -right-2 rounded-full bg-slate-800 dark:bg-gray-200 size-4"></div>
+            <div class="absolute -top-6 -right-2 rounded-full bg-slate-800 dark:bg-gray-200 size-4 animate-ping"></div>
             }
         </div>
         }

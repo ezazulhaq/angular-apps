@@ -1,5 +1,7 @@
+import { NamazTypes } from "../model/namaz-time.model";
+
 export interface PrayerTimeInfo {
     key: string;
-    value: Date;
+    value: NamazTypes;
     isClosest: boolean;
 }
