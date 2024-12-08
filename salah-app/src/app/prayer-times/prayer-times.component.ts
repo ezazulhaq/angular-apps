@@ -1,4 +1,4 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, OnInit, signal } from '@angular/core';
 import { SalahAppService } from '../service/salah-app.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { OpenStreetMapResponse } from '../model/open-stream-map.model';
@@ -7,10 +7,11 @@ import { map } from 'rxjs/internal/operators/map';
 import { shareReplay } from 'rxjs/internal/operators/shareReplay';
 import { PrayerTimeInfo } from './prayer-times.model';
 import { CalendarComponent } from "../shared/calendar/calendar.component";
+import { RakatComponent } from './rakat/rakat.component';
 
 @Component({
   selector: 'app-prayer-times',
-  imports: [CommonModule, DatePipe, CalendarComponent],
+  imports: [CommonModule, DatePipe, CalendarComponent, RakatComponent],
   templateUrl: './prayer-times.component.html',
   styleUrl: './prayer-times.component.css',
   host: {
@@ -24,6 +25,8 @@ export class PrayerTimesComponent implements OnInit {
   selectedDate = signal<Date>(new Date());
 
   haveLocationAccess = signal<boolean>(true);
+
+  prayerName = signal<string>("");
 
   getTimes = computed(() => {
     return this.prayerService.getPrayerTimes(this.selectedDate())

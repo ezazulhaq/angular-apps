@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, computed, effect, input, output, signal } from '@angular/core';
+import { Rakats } from './rakat.model';
+import { rakats } from './rakat.contant';
 
 @Component({
   selector: 'app-rakat',
@@ -7,5 +9,18 @@ import { Component } from '@angular/core';
   styleUrl: './rakat.component.css'
 })
 export class RakatComponent {
+
+  name = input.required<string>();
+  resetName = output<string>();
+
+  getRakat = computed(() => {
+    return rakats.find((rakat: Rakats) => rakat.name === this.name())
+  });
+
+  constructor() { }
+
+  closeRakatsPopUp() {
+    this.resetName.emit("");
+  }
 
 }

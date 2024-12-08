@@ -1,6 +1,6 @@
 import { Rakats } from "./rakat.model";
 
-const rakats: Rakats[] = [
+export const rakats: Rakats[] = [
     {
         name: "fajr",
         before_fard: {
