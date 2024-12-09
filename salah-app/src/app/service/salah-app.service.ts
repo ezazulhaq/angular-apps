@@ -64,79 +64,12 @@ export class SalahAppService {
         const params = CalculationMethod.MuslimWorldLeague();
         const prayerTimes = new PrayerTimes(coordinates, date, params);
         return {
-          fajr: {
-            time: prayerTimes.fajr,
-            rakats: {
-              before_fard: {
-                sunnah: 2
-              },
-              fard: 2,
-              after_fard: {
-                sunnah: 0,
-                nafl: 0,
-                wajib: 0
-              }
-            }
-          },
-          sunrise: {
-            time: prayerTimes.sunrise,
-          },
-          dhuhr: {
-            time: prayerTimes.dhuhr,
-            rakats: {
-              before_fard: {
-                sunnah: 4
-              },
-              fard: 4,
-              after_fard: {
-                sunnah: 2,
-                nafl: 2,
-                wajib: 0
-              }
-            }
-          },
-          asr: {
-            time: prayerTimes.asr,
-            rakats: {
-              before_fard: {
-                sunnah: 4
-              },
-              fard: 4,
-              after_fard: {
-                sunnah: 0,
-                nafl: 0,
-                wajib: 0
-              }
-            }
-          },
-          maghrib: {
-            time: prayerTimes.maghrib,
-            rakats: {
-              before_fard: {
-                sunnah: 0
-              },
-              fard: 3,
-              after_fard: {
-                sunnah: 2,
-                nafl: 2,
-                wajib: 0
-              }
-            }
-          },
-          isha: {
-            time: prayerTimes.isha,
-            rakats: {
-              before_fard: {
-                sunnah: 4
-              },
-              fard: 4,
-              after_fard: {
-                sunnah: 2,
-                nafl: 2,
-                wajib: 3
-              }
-            }
-          }
+          fajr: prayerTimes.fajr,
+          sunrise: prayerTimes.sunrise,
+          dhuhr: prayerTimes.dhuhr,
+          asr: prayerTimes.asr,
+          maghrib: prayerTimes.maghrib,
+          isha: prayerTimes.isha
         };
       })
     );

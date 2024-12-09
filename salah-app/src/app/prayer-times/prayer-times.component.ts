@@ -1,4 +1,4 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, OnInit, signal } from '@angular/core';
 import { SalahAppService } from '../service/salah-app.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { OpenStreetMapResponse } from '../model/open-stream-map.model';
@@ -7,10 +7,11 @@ import { map } from 'rxjs/internal/operators/map';
 import { shareReplay } from 'rxjs/internal/operators/shareReplay';
 import { PrayerTimeInfo } from './prayer-times.model';
 import { CalendarComponent } from "../shared/calendar/calendar.component";
+import { RakatComponent } from './rakat/rakat.component';
 
 @Component({
   selector: 'app-prayer-times',
-  imports: [CommonModule, DatePipe, CalendarComponent],
+  imports: [CommonModule, DatePipe, CalendarComponent, RakatComponent],
   templateUrl: './prayer-times.component.html',
   styleUrl: './prayer-times.component.css',
   host: {
@@ -25,6 +26,8 @@ export class PrayerTimesComponent implements OnInit {
 
   haveLocationAccess = signal<boolean>(true);
 
+  prayerName = signal<string>("");
+
   getTimes = computed(() => {
     return this.prayerService.getPrayerTimes(this.selectedDate())
       .pipe(
@@ -33,17 +36,15 @@ export class PrayerTimesComponent implements OnInit {
 
           const now = new Date();
           const sortedTimes: PrayerTimeInfo[] = Object.entries(namazTimes)
-            .map(([key, value]) => ({ key, value: value, isClosest: false }))
-            .sort((a, b) => a.value.time.getTime() - b.value.time.getTime());
+            .map(([key, value]) => ({ key, value: new Date(value), isClosest: false }))
+            .sort((a, b) => a.value.getTime() - b.value.getTime());
 
           // Find the closest future prayer time
 
-          const closestFuturePrayer = sortedTimes.slice().reverse().find(prayer => prayer.value.time <= now && prayer.value.time.getDate() === now.getDate());
+          const closestFuturePrayer = sortedTimes.slice().reverse().find(prayer => prayer.value <= now && prayer.value.getDate() === now.getDate());
           if (closestFuturePrayer) {
             closestFuturePrayer.isClosest = true;
           }
-
-          console.log(sortedTimes);
 
           return sortedTimes;
         }),
