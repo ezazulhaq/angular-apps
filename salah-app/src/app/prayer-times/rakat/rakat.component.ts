@@ -1,10 +1,11 @@
 import { Component, computed, effect, input, output, signal } from '@angular/core';
+import { RakatDetailComponent } from './rakat-detail/rakat-detail.component';
 import { Rakats } from './rakat.model';
 import { rakats } from './rakat.contant';
 
 @Component({
   selector: 'app-rakat',
-  imports: [],
+  imports: [RakatDetailComponent],
   templateUrl: './rakat.component.html',
   styleUrl: './rakat.component.css'
 })
