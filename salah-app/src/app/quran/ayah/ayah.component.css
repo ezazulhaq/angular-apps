@@ -3,5 +3,5 @@
 }
 
 .checkbox-fixed {
-  @apply fixed top-0 z-50 w-full py-2 px-4 bg-white dark:bg-slate-800 shadow-md shadow-gray-400 dark:shadow-slate-600;
+  @apply fixed top-0 z-50 w-full md:max-w-2xl py-2 px-4 bg-white dark:bg-slate-800 shadow-md shadow-gray-400 dark:shadow-slate-600;
 }
