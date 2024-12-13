@@ -62,7 +62,7 @@ export const rakats: Rakats[] = [
         }
     },
     {
-        name: "umuah",
+        name: "jumuah",
         before_fard: {
             sunnah: 4
         },
