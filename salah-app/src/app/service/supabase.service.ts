@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
-import { Observable, from } from 'rxjs';
+import { Observable, from, tap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -52,6 +52,42 @@ export class SupabaseService {
                 .from('surahs')
                 .select('surah_id, name, name_transliteration, name_en, total_ayas')
                 .order('surah_id', { ascending: true })
+        );
+    }
+
+    /**
+     * Searches for hadiths based on a given query text.
+     * 
+     * @param query - The search text to find relevant hadiths
+     * @returns An Observable that emits the search results from the Supabase Edge Function
+     * 
+     * @example
+     * // Example usage
+     * this.supabaseService.searchHadith("give me importance of Salat")
+     *   .subscribe(
+     *     results => console.log(results),
+     *     error => console.error(error)
+     *   );
+     * 
+     * @remarks
+     * - The function invokes a Supabase Edge Function named 'search_hadiths'
+     * - Results are limited to 5 items per search
+     * - The request body is automatically stringified before sending
+     */
+    searchHadith(query: string): Observable<any> {
+        const body = {
+            query_text: query,
+            result_limit: 5
+        };
+
+        return from(
+            this.supabase.functions
+                .invoke(
+                    'search_hadiths',
+                    {
+                        body: JSON.stringify(body)
+                    }
+                )
         );
     }
 }
