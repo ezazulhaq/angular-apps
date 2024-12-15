@@ -1,12 +1,16 @@
 import { Component, ElementRef, ViewChild, signal } from '@angular/core';
 import { ChatbotService } from '../service/chatbot.service';
 import { FormsModule } from '@angular/forms';
-import { SearchHadithResponse } from '../model/search-hadith.model';
+import { HadithReference, SearchHadithResponse } from '../model/search-hadith.model';
 import { ChatbotMessage } from './chatbot.model';
+import { HadithLinksComponent } from './hadith-links/hadith-links.component';
 
 @Component({
   selector: 'app-chatbot',
-  imports: [FormsModule],
+  imports: [
+    FormsModule,
+    HadithLinksComponent
+  ],
   templateUrl: './chatbot.component.html',
   styleUrl: './chatbot.component.css'
 })
@@ -40,7 +44,7 @@ export class ChatbotComponent {
 
     this.chatbotService.queryIslam(this.userMessage).subscribe({
       next: (data: SearchHadithResponse) => {
-        this.updateLastAssistantMessage(data.summary);
+        this.updateLastAssistantMessage(data.summary, data.results);
       },
       error: (error) => {
         console.error('Error:', error);
@@ -57,16 +61,16 @@ export class ChatbotComponent {
     this.messages.push({ role: 'user', content });
   }
 
-  private addAssistantMessage(content: string) {
-    this.messages.push({ role: 'assistant', content });
+  private addAssistantMessage(content: string, links?: HadithReference[]) {
+    this.messages.push({ role: 'assistant', content, links });
   }
 
-  private updateLastAssistantMessage(content: string) {
+  private updateLastAssistantMessage(content: string, links?: HadithReference[]) {
     const lastMessage = this.messages[this.messages.length - 1];
     if (lastMessage && lastMessage.role === 'assistant') {
       lastMessage.content = content;
     } else {
-      this.addAssistantMessage(content);
+      this.addAssistantMessage(content, links);
     }
   }
 
