@@ -16,7 +16,7 @@ export class AutoUpdateService {
   checkForUpdate(): void {
     const now = Date.now();
 
-    if ((now - this.lastUpdateCheck() > this.UPDATE_COOLDOWN())
+    if (((now - this.lastUpdateCheck()) > this.UPDATE_COOLDOWN())
       && this.swUpdate.isEnabled) {
       this.lastUpdateCheck.set(now);
 
