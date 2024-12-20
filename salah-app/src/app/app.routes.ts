@@ -5,6 +5,7 @@ import { LibraryComponent } from './library/library.component';
 import { ReaderComponent } from './library/reader/reader.component';
 import { QuranComponent } from './quran/quran.component';
 import { AyahComponent } from './quran/ayah/ayah.component';
+import { HadithComponent } from './hadith/hadith.component';
 
 export const routes: Routes = [
     {
@@ -26,6 +27,11 @@ export const routes: Routes = [
         path: 'quran/ayah',
         title: 'Ayah',
         component: AyahComponent
+    },
+    {
+        path: 'hadith',
+        title: 'Hadith',
+        component: HadithComponent
     },
     {
         path: 'library',

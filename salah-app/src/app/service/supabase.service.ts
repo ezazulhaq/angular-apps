@@ -90,4 +90,20 @@ export class SupabaseService {
                 )
         );
     }
+
+    /**
+     * Method to call the 'get_chapter_info_by_source' stored procedure and return an Observable
+     */
+    getHadithChaptersFromSource(
+        source_name: string
+    ): Observable<any> {
+        return from(
+            this.supabase.rpc(
+                'get_chapter_info_by_source',
+                {
+                    source_name
+                }
+            )
+        );
+    }
 }
