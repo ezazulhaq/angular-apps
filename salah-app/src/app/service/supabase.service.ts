@@ -71,13 +71,13 @@ export class SupabaseService {
      * 
      * @remarks
      * - The function invokes a Supabase Edge Function named 'search_hadiths'
-     * - Results are limited to 5 items per search
+     * - Results are limited to 3 items per search
      * - The request body is automatically stringified before sending
      */
     searchHadith(query: string): Observable<any> {
         const body = {
             query_text: query,
-            result_limit: 5
+            result_limit: 3
         };
 
         return from(
