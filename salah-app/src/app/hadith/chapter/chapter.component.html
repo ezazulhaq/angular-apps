@@ -1,0 +1,11 @@
+<div class="text-2xl font-semibold my-8">{{ hadiths()[0].chapter_name }}</div>
+<div class="flex flex-col space-y-6 justify-center items-center">
+    @for (hadith of hadiths(); track $index) {
+    <div class="flex flex-col space-y-6 w-full border-gray-600 border-b-2 pb-4 px-4">
+        <div class="font-medium text-sm">
+            <span class="hadith-numbers">{{hadith.hadith_no}}</span>
+        </div>
+        <div class="text-start">{{hadith.text_en}}</div>
+    </div>
+    }
+</div>

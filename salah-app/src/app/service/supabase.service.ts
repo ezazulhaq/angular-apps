@@ -106,4 +106,20 @@ export class SupabaseService {
             )
         );
     }
+
+    /**
+     * Method to call the 'get_hadiths_by_chapter_id' stored procedure and return an Observable
+     */
+    getHadithByChapterId(
+        input_chapter_id: string
+    ): Observable<any> {
+        return from(
+            this.supabase.rpc(
+                'get_hadiths_by_chapter_id',
+                {
+                    input_chapter_id
+                }
+            )
+        );
+    }
 }
