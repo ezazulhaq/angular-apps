@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { SupabaseService } from '../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Hadiths } from '../hadith.model';
@@ -18,6 +18,8 @@ export class ChapterComponent implements OnInit {
 
   hadiths = signal<Hadiths[]>([]);
 
+  chapterName = signal<string>("");
+
   constructor(
     private readonly supabaseService: SupabaseService,
     private readonly route: ActivatedRoute) {
@@ -31,9 +33,27 @@ export class ChapterComponent implements OnInit {
       {
         next: (data: any) => {
           this.hadiths.set(data.data);
+          this.chapterName.set(data.data[0].chapter_name);
         }
       }
     );
   }
+
+  splitChapterName = computed(
+    () => {
+      const parts = this.chapterName().split('-').map(part => part.trim());
+
+      if (parts.length !== 2) {
+        return {
+          name_en: this.chapterName(),
+          name_ar: ''
+        };
+      }
+
+      return {
+        name_en: parts[0],
+        name_ar: parts[1]
+      };
+    });
 
 }
