@@ -1,3 +1,7 @@
+@if(localMenuVisible()){
+<div (click)="onMenuItemClick()"
+    class="fixed z-10 top-0 left-0 w-full h-full bg-gray-500/60 flex items-center justify-center"></div>
+}
 <div class="app-menu-left" [class.translate-x-0]="localMenuVisible()" [class.-translate-x-full]="!localMenuVisible()">
     <button type="button" class="group flex flex-row justify-center items-center space-x-4 py-3" routerLink="prayer"
         (click)="onMenuItemClick()">
