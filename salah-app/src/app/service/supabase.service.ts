@@ -71,13 +71,13 @@ export class SupabaseService {
      * 
      * @remarks
      * - The function invokes a Supabase Edge Function named 'search_hadiths'
-     * - Results are limited to 5 items per search
+     * - Results are limited to 3 items per search
      * - The request body is automatically stringified before sending
      */
     searchHadith(query: string): Observable<any> {
         const body = {
             query_text: query,
-            result_limit: 5
+            result_limit: 3
         };
 
         return from(
@@ -88,6 +88,38 @@ export class SupabaseService {
                         body: JSON.stringify(body)
                     }
                 )
+        );
+    }
+
+    /**
+     * Method to call the 'get_chapter_info_by_source' stored procedure and return an Observable
+     */
+    getHadithChaptersFromSource(
+        source_name: string
+    ): Observable<any> {
+        return from(
+            this.supabase.rpc(
+                'get_chapter_info_by_source',
+                {
+                    source_name
+                }
+            )
+        );
+    }
+
+    /**
+     * Method to call the 'get_hadiths_by_chapter_id' stored procedure and return an Observable
+     */
+    getHadithByChapterId(
+        input_chapter_id: string
+    ): Observable<any> {
+        return from(
+            this.supabase.rpc(
+                'get_hadiths_by_chapter_id',
+                {
+                    input_chapter_id
+                }
+            )
         );
     }
 }
