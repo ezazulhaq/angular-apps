@@ -2,8 +2,11 @@
 <div class="flex flex-col justify-center items-center space-y-6 pb-40">
 
     @if(prayerName() && prayerName() !== 'sunrise'){
-    <app-rakat class="fixed z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" [name]="prayerName()"
-        (resetName)="prayerName.set($event)"></app-rakat>
+    <div (click)="prayerName.set('')"
+        class="fixed z-10 top-0 left-0 w-full h-full bg-gray-500/60 flex items-center justify-center">
+        <app-rakat class="transform" [name]="prayerName()" (resetName)="prayerName.set($event)">
+        </app-rakat>
+    </div>
     }
 
     <div class="flex flex-row px-12 space-x-4 justify-center items-center">
