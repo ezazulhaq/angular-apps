@@ -7,7 +7,7 @@
             @for (library of getCategoryItems(category); track $index) {
             <div class="text-md text-start py-2 font-normal hover:cursor-pointer hover:font-semibold"
                 [routerLink]="['../reader']"
-                [queryParams]="{ pdfName: library.pdfName, storageKey: library.storageKey }">
+                [queryParams]="{ pdfName: library.pdfName, category: library.category, storageKey: library.storageKey }">
                 <span>{{ library.name | titlecase }}</span>
             </div>
             }

@@ -4,13 +4,13 @@ import { PdfViewerComponent } from "../../shared/pdf-viewer/pdf-viewer.component
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector: 'app-reader',
-    imports: [PdfViewerComponent],
-    templateUrl: './reader.component.html',
-    styleUrl: './reader.component.css',
-    host: {
-        class: 'app-bg'
-    }
+  selector: 'app-reader',
+  imports: [PdfViewerComponent],
+  templateUrl: './reader.component.html',
+  styleUrl: './reader.component.css',
+  host: {
+    class: 'app-bg'
+  }
 })
 export class ReaderComponent {
 
@@ -21,7 +21,7 @@ export class ReaderComponent {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.pdfSrc = `https://${environment.s3Bucket}/${params['pdfName']}`;
+      this.pdfSrc = `https://${environment.s3Bucket}/${params['category']}/${params['pdfName']}`;
       this.storageKey = params['storageKey'];
     });
   }
