@@ -8,6 +8,12 @@ export const library: IslamicLibrary[] = [
         storageKey: 'quranPage'
     },
     {
+        name: "Qur'an Translation English",
+        pdfName: 'quran_translation_english.pdf',
+        category: 'quran',
+        storageKey: 'quranEnglishPage'
+    },
+    {
         name: "Para 01 - Alif Lam Meem (الٓمٓ)",
         pdfName: 'para01.pdf',
         category: 'quran',
