@@ -3,11 +3,13 @@ import { IslamicLibrary } from '../model/islamic-library.model';
 import { RouterLink } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
 import { library } from './library.contant';
+import { ReplaceUnderlinePipe } from '../pipes/replace-underline.pipe';
 
 @Component({
   selector: 'app-library',
   imports: [
     TitleCasePipe,
+    ReplaceUnderlinePipe,
     RouterLink,
   ],
   templateUrl: './library.component.html',
