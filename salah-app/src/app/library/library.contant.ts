@@ -252,5 +252,29 @@ export const library: IslamicLibrary[] = [
         pdfName: 'the_sealed_nectar.pdf',
         category: 'prophet_muhammad_(ﷺ)',
         storageKey: 'the_sealed_nectar'
+    },
+    {
+        name: "the life of the prophet muhammad - volume 1",
+        pdfName: 'the_life_of_the_prophet_muhammad_volume_1.pdf',
+        category: 'prophet_muhammad_(ﷺ)',
+        storageKey: 'lifeOfProphet1'
+    },
+    {
+        name: "the life of the prophet muhammad - volume 2",
+        pdfName: 'the_life_of_the_prophet_muhammad_volume_2.pdf',
+        category: 'prophet_muhammad_(ﷺ)',
+        storageKey: 'lifeOfProphet2'
+    },
+    {
+        name: "the life of the prophet muhammad - volume 3",
+        pdfName: 'the_life_of_the_prophet_muhammad_volume_3.pdf',
+        category: 'prophet_muhammad_(ﷺ)',
+        storageKey: 'lifeOfProphet3'
+    },
+    {
+        name: "the life of the prophet muhammad - volume 4",
+        pdfName: 'the_life_of_the_prophet_muhammad_volume_4.pdf',
+        category: 'prophet_muhammad_(ﷺ)',
+        storageKey: 'lifeOfProphet4'
     }
 ];
