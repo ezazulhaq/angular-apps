@@ -34,7 +34,7 @@ export class ChatbotComponent {
     }, 10000);
 
     // Add initial assistant message
-    this.addAssistantMessage("I am an Islamic scholar. Please ask me only questions regarding the Quran and its teachings.");
+    this.addAssistantMessage("I am an Islamic scholar. Please ask me only questions regarding the Islam and its teachings.");
   }
 
   sendMessage() {
