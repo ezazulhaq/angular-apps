@@ -7,8 +7,14 @@ import { QuranComponent } from './quran/quran.component';
 import { AyahComponent } from './quran/ayah/ayah.component';
 import { HadithComponent } from './hadith/hadith.component';
 import { ChapterComponent } from './hadith/chapter/chapter.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
+    {
+        path: 'home',
+        title: 'Salah',
+        component: HomeComponent
+    },
     {
         path: 'prayer',
         title: 'Prayer Times',
@@ -51,11 +57,11 @@ export const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: 'prayer',
+        redirectTo: 'home',
         pathMatch: 'full'
     },
     {
         path: '**',
-        redirectTo: 'prayer'
+        redirectTo: 'home'
     }
 ];
