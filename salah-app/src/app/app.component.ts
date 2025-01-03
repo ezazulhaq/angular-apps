@@ -4,13 +4,15 @@ import { MenuComponent } from './menu/menu.component';
 import { ThemeSelectorService } from './service/theme.service';
 import { AutoUpdateService } from './service/auto-update.service';
 import { ChatbotComponent } from "./chatbot/chatbot.component";
+import { ScrollTopComponent } from './shared/scroll-top/scroll-top.component';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet,
     MenuComponent,
-    ChatbotComponent
+    ChatbotComponent,
+    ScrollTopComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
