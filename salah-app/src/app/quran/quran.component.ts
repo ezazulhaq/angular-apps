@@ -20,6 +20,8 @@ export class QuranComponent implements OnInit {
 
     surahList = signal<Surah[]>([]);
 
+    isAscending = signal<boolean>(true);
+
     constructor(private readonly supabaseService: SupabaseService) { }
 
     ngOnInit(): void {
@@ -29,6 +31,18 @@ export class QuranComponent implements OnInit {
                     this.surahList.set(data.data);
                 }
             }
+        );
+    }
+
+    toggleSort() {
+        this.isAscending.set(!this.isAscending());
+        this.surahList.set(
+            this.surahList().sort(
+                (a, b) => {
+                    const comparison = a.surah_id - b.surah_id;
+                    return this.isAscending() ? comparison : -comparison;
+                }
+            )
         );
     }
 }
