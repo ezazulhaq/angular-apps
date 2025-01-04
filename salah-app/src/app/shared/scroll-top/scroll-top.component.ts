@@ -17,11 +17,7 @@ export class ScrollTopComponent {
     this.isVisible.set(scrollPosition > this.scrollThreshold);
   }
 
-  constructor(){
-    effect(()=>{
-      console.log(this.isVisible());
-    })
-  }
+  constructor() { }
 
   scrollToTop() {
     window.scrollTo({
