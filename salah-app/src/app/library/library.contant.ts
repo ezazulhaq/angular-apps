@@ -974,15 +974,17 @@ export const library: IslamicLibrary[] = [
         pdfName: 'ishraq_volume_1.pdf',
         category: 'tafsir_al_Quran_ishraq',
         storageKey: 'ishraq8'
+    },
+    {
+        name: "after prophet",
+        pdfName: 'After_the_Prophet-The_Epic_Story_of_the_Shia-Sunni_Split_in_Islam.pdf',
+        category: 'islam',
+        storageKey: 'afterProphet'
+    },
+    {
+        name: "stories of the prophets",
+        pdfName: 'stories_of_the_prophets.pdf',
+        category: 'islam',
+        storageKey: 'storiesOfProphets'
     }
 ];
-
-const ibnKathir = Array.from({ length: 114 }, (_, index) => {
-    const surahNumber = index + 1;
-    return {
-        name: `surah ${surahNumber} - al fatihah`, // You'll need to replace actual surah names
-        pdfName: `surah-${surahNumber}-al-fatihah.pdf`, // You'll need to replace actual PDF names
-        category: 'tafsir_al_quran_ibn_kathir',
-        storageKey: `kathir${surahNumber}`
-    };
-});
