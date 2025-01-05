@@ -5,7 +5,3 @@
 .app-settings-item {
   @apply flex flex-row justify-between items-center space-x-4 pt-4 px-4 w-full;
 }
-
-.close-btn {
-  @apply bg-gray-300 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 shadow-lg focus:outline-none rounded-full text-sm p-2;
-}
