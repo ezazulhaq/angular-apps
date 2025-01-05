@@ -5,12 +5,14 @@ import { ThemeSelectorService } from './service/theme.service';
 import { AutoUpdateService } from './service/auto-update.service';
 import { ChatbotComponent } from "./chatbot/chatbot.component";
 import { ScrollTopComponent } from './shared/scroll-top/scroll-top.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet,
     MenuComponent,
+    SettingsComponent,
     ChatbotComponent,
     ScrollTopComponent
   ],
@@ -22,21 +24,13 @@ export class AppComponent implements OnInit {
   isThemeDark = signal<boolean>(false);
 
   isMenuVisible = signal<boolean>(false);
+  isSettingsVisible = signal<boolean>(false);
 
   constructor(
     protected themeSelector: ThemeSelectorService,
     private autoUpdateService: AutoUpdateService
   ) {
     this.themeSelector.setSystemTheme();
-  }
-
-  switchTheme(): void {
-    this.isThemeDark.set(!this.isThemeDark());
-    if (this.isThemeDark()) {
-      this.themeSelector.setDarkTheme();
-    } else {
-      this.themeSelector.setLightTheme();
-    }
   }
 
   ngOnInit(): void {
@@ -46,6 +40,10 @@ export class AppComponent implements OnInit {
 
   toggleMenu() {
     this.isMenuVisible.update(value => !value);
+  }
+
+  toggleSettings() {
+    this.isSettingsVisible.update(value => !value);
   }
 
 }
