@@ -1,4 +1,4 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Hadiths } from '../hadith.model';
@@ -13,6 +13,9 @@ import { Hadiths } from '../hadith.model';
   }
 })
 export class ChapterComponent implements OnInit {
+
+  @ViewChild('stickyTitle') stickyTitle!: ElementRef;
+  private originalOffset: number = 0;
 
   chapterId!: string;
 
@@ -39,6 +42,10 @@ export class ChapterComponent implements OnInit {
     );
   }
 
+  ngAfterViewInit() {
+    this.originalOffset = this.stickyTitle.nativeElement.offsetTop;
+  }
+
   splitChapterName = computed(
     () => {
       const parts = this.chapterName().split('-').map(part => part.trim());
@@ -55,5 +62,17 @@ export class ChapterComponent implements OnInit {
         name_ar: parts[1]
       };
     });
+
+  @HostListener('window:scroll', ['$event'])
+  handleTitleScroll() {
+    const element = this.stickyTitle.nativeElement;
+    if (window.scrollY >= this.originalOffset + 300) {
+      element.classList.remove('app-title');
+      element.classList.add('app-title-stick');
+    } else {
+      element.classList.add('app-title');
+      element.classList.remove('app-title-stick');
+    }
+  }
 
 }
