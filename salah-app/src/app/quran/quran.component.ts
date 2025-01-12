@@ -3,12 +3,14 @@ import { Component, OnInit, signal } from '@angular/core';
 import { SupabaseService } from '../service/supabase.service';
 import { RouterLink } from '@angular/router';
 import { Surah } from '../model/surah.model';
+import { ListHomeComponent } from '../shared/skeleton/list-home/list-home.component';
 
 @Component({
     selector: 'app-quran',
     imports: [
         CommonModule,
         RouterLink,
+        ListHomeComponent
     ],
     templateUrl: './quran.component.html',
     styleUrl: './quran.component.css',
