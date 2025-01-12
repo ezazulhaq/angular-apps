@@ -2,6 +2,7 @@ import { Component, computed, linkedSignal, OnInit, signal } from '@angular/core
 import { SupabaseService } from '../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Hadiths } from '../hadith.model';
+import { BookmarkService } from '../../service/bookmark.service';
 
 @Component({
   selector: 'app-chapter',
@@ -24,6 +25,7 @@ export class ChapterComponent implements OnInit {
 
   constructor(
     private readonly supabaseService: SupabaseService,
+    private readonly bookmarkService: BookmarkService,
     private readonly route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.chapterId = params['id'];
@@ -59,36 +61,11 @@ export class ChapterComponent implements OnInit {
     });
 
   isBookmarked(hadithId: string): boolean {
-    return this.bookmarkedHadiths().has(hadithId);
+    return this.bookmarkService.isBookmarked(hadithId);
   }
 
-  toggleBookmark(hadithId: string) {
-    this.bookmarkedHadiths.update(
-      bookmarked => {
-        const newBookmarked = new Set(bookmarked);
-        if (newBookmarked.has(hadithId)) {
-          newBookmarked.delete(hadithId);
-        } else {
-          newBookmarked.add(hadithId);
-        }
-        return newBookmarked;
-      });
-
-    // Persist to localStorage
-    this.saveBookmarksToStorage();
-  }
-
-  // Persist bookmarks to localStorage
-  private saveBookmarksToStorage() {
-    localStorage.setItem(
-      'bookmarkedHadiths',
-      JSON.stringify(
-        {
-          "chapterId": this.chapterId,
-          "hadithNo": Array.from(this.bookmarkedHadiths())
-        }
-      )
-    );
+  toggleBookmark(hadith: Hadiths) {
+    this.bookmarkService.toggleBookmark(hadith);
   }
 
 }

@@ -4,7 +4,7 @@
     <div class="relative flex flex-col space-y-6 w-full border-gray-600 border-b-2 pb-4 px-4">
 
         <!-- Bookmark -->
-        <button (click)="toggleBookmark(hadith.id)"
+        <button (click)="toggleBookmark(hadith)"
             class="absolute top-2 right-4 size-3 fill-slate-800 dark:fill-gray-200">
             @if(isBookmarked(hadith.id)){
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
