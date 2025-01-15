@@ -1,5 +1,5 @@
 <div class="text-2xl font-semibold my-8 mx-10 md:mx-6">{{ splitChapterName().name_en }}</div>
-<div class="flex flex-col space-y-6 justify-center items-center">
+<div #hadithContainer class="flex flex-col space-y-6 justify-center items-center">
     @for (hadith of hadiths(); track $index) {
     <div class="relative flex flex-col space-y-6 w-full border-gray-600 border-b-2 pb-4 px-4">
 
@@ -20,7 +20,7 @@
             }
         </button>
 
-        <div>
+        <div [id]="'hadith-' + hadith.hadith_no">
             <span class="hadith-numbers">{{hadith.hadith_no}}</span>
         </div>
         <div class="text-start">

@@ -1,4 +1,4 @@
-import { Component, computed, linkedSignal, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, linkedSignal, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Hadiths } from '../hadith.model';
@@ -13,9 +13,14 @@ import { BookmarkService } from '../../service/bookmark.service';
     class: 'app-bg',
   }
 })
-export class ChapterComponent implements OnInit {
+export class ChapterComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('hadithContainer') hadithContainer!: ElementRef;
+
+  private hadithIdToScrollTo = signal<number | null>(null);
 
   chapterId!: string;
+  hadithNoParam!: number;
 
   hadiths = signal<Hadiths[]>([]);
 
@@ -29,6 +34,11 @@ export class ChapterComponent implements OnInit {
     private readonly route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.chapterId = params['id'];
+      this.hadithNoParam = params['hadithNo'];
+
+      if (this.hadithNoParam) {
+        this.hadithIdToScrollTo.set(+this.hadithNoParam);
+      }
     });
   }
 
@@ -41,6 +51,12 @@ export class ChapterComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngAfterViewInit(): void {
+    if (this.hadithIdToScrollTo() !== null) {
+      this.scrollToHadith(this.hadithIdToScrollTo());
+    }
   }
 
   splitChapterName = computed(
@@ -66,6 +82,21 @@ export class ChapterComponent implements OnInit {
 
   toggleBookmark(hadith: Hadiths) {
     this.bookmarkService.toggleBookmark(hadith);
+  }
+
+  private scrollToHadith(hadithId: number | null): void {
+    // Find the hadith by id
+    const hadithElement = this.hadithContainer.nativeElement.querySelector(
+      `#hadith-${hadithId}`
+    );
+    if (hadithElement) {
+      hadithElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    } else {
+      console.warn(`Hadith with ID ${hadithId} not found.`);
+    }
   }
 
 }
