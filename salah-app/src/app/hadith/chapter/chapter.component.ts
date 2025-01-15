@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, ElementRef, linkedSignal, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, OnInit, signal, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Hadiths } from '../hadith.model';
