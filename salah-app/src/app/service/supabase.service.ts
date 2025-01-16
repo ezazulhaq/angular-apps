@@ -122,4 +122,20 @@ export class SupabaseService {
             )
         );
     }
+
+    /**
+     * Method to call the 'get_hadith_details' stored procedure and return an Observable
+     */
+    getHadithDetailsFromId(
+        hadith_id: string[]
+    ): Observable<any> {
+        return from(
+            this.supabase.rpc(
+                'get_hadith_details',
+                {
+                    hadith_id
+                }
+            )
+        );
+    }
 }

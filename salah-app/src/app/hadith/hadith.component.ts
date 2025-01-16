@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SupabaseService } from '../service/supabase.service';
-import { HadithChapters } from './hadith.model';
+import { HadithChapters, HadithDetails } from './hadith.model';
 import { ListHomeComponent } from '../shared/skeleton/list-home/list-home.component';
+import { BookmarkService } from '../service/bookmark.service';
+import { computeMsgId } from '@angular/compiler';
 
 @Component({
   selector: 'app-hadith',
@@ -24,7 +26,12 @@ export class HadithComponent {
 
   hadithSource = signal<string>("Sahih Bukhari");
 
-  constructor(private readonly supabaseService: SupabaseService) { }
+  bookMarkDetails = signal<HadithDetails[]>([]);
+
+  constructor(
+    private readonly supabaseService: SupabaseService,
+    private readonly bookMarkService: BookmarkService
+  ) { }
 
   ngOnInit(): void {
     this.supabaseService.getHadithChaptersFromSource(this.hadithSource())
@@ -37,5 +44,22 @@ export class HadithComponent {
           complete: () => console.log("complete")
         }
       );
+
+    this.getBookmarkedHadiths();
   }
+
+  getBookmarkedHadiths = computed(() => {
+    const hadith_ids: string[] = this.bookMarkService.getBookmarkedHadiths();
+
+    this.supabaseService.getHadithDetailsFromId(hadith_ids)
+      .subscribe(
+        {
+          next: (data: any) => {
+            this.bookMarkDetails.set(data.data);
+          },
+          error: (error: any) => console.log(error.error),
+          complete: () => console.log("complete hadith details")
+        });
+  });
+
 }
