@@ -34,6 +34,11 @@ export class HadithComponent {
   ) { }
 
   ngOnInit(): void {
+    this.getChaptersFromSource();
+    this.getBookmarkedHadiths();
+  }
+
+  getChaptersFromSource = computed(() => {
     this.supabaseService.getHadithChaptersFromSource(this.hadithSource())
       .subscribe(
         {
@@ -44,9 +49,7 @@ export class HadithComponent {
           complete: () => console.log("complete")
         }
       );
-
-    this.getBookmarkedHadiths();
-  }
+  });
 
   getBookmarkedHadiths = computed(() => {
     const hadith_ids: string[] = this.bookMarkService.getBookmarkedHadiths();
