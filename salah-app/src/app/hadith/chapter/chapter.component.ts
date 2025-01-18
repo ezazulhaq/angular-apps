@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, effect, ElementRef, OnInit, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Hadiths } from '../hadith.model';
@@ -14,6 +14,9 @@ import { BookmarkService } from '../../service/bookmark.service';
   }
 })
 export class ChapterComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('stickyTitle') stickyTitle!: ElementRef;
+  private originalOffset: number = 0;
 
   @ViewChild('hadithContainer') hadithContainer!: ElementRef;
 
@@ -53,7 +56,9 @@ export class ChapterComponent implements OnInit, AfterViewInit {
     );
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
+    this.originalOffset = this.stickyTitle.nativeElement.offsetTop;
+
     if (this.hadithIdToScrollTo() !== null) {
       setTimeout(() => {
         this.scrollToHadith(this.hadithIdToScrollTo());
@@ -77,6 +82,18 @@ export class ChapterComponent implements OnInit, AfterViewInit {
         name_ar: parts[1]
       };
     });
+
+  @HostListener('window:scroll', ['$event'])
+  handleTitleScroll() {
+    const element = this.stickyTitle.nativeElement;
+    if (window.scrollY >= this.originalOffset + 300) {
+      element.classList.remove('app-title');
+      element.classList.add('app-title-stick');
+    } else {
+      element.classList.add('app-title');
+      element.classList.remove('app-title-stick');
+    }
+  }
 
   isBookmarked(hadithId: string): boolean {
     return this.bookmarkService.isBookmarked(hadithId);

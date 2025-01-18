@@ -24,14 +24,16 @@ export class HadithComponent {
 
   chapterList = signal<HadithChapters[]>([]);
 
-  hadithSource = signal<string>("Sahih Bukhari");
+  hadithSource = signal<string>('');
 
   bookMarkDetails = signal<HadithDetails[]>([]);
 
   constructor(
     private readonly supabaseService: SupabaseService,
     private readonly bookMarkService: BookmarkService
-  ) { }
+  ) {
+    this.loadHadithSource();
+  }
 
   ngOnInit(): void {
     this.getChaptersFromSource();
@@ -70,4 +72,11 @@ export class HadithComponent {
         });
   });
 
+
+  loadHadithSource() {
+    const hadithSource = localStorage.getItem('hadithSource') || 'Sahih Bukhari';
+    if (hadithSource) {
+      this.hadithSource.set(hadithSource);
+    }
+  }
 }

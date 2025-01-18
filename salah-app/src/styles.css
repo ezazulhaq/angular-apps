@@ -21,3 +21,15 @@
 .app-bookmark {
   @apply inline-flex justify-center items-center rounded-full text-gray-300 dark:text-slate-900 bg-slate-800 dark:bg-white px-2 my-0.5;
 }
+
+.app-bookmark {
+  @apply inline-flex justify-center items-center rounded-full text-gray-300 dark:text-slate-900 bg-slate-800 dark:bg-white px-2 my-0.5;
+}
+
+.app-title {
+  @apply text-2xl font-semibold my-8 mx-10 md:mx-6;
+}
+
+.app-title-stick {
+  @apply fixed top-0 z-50 w-full md:max-w-2xl py-2 px-4 bg-white dark:bg-slate-800 shadow-md shadow-gray-400 dark:shadow-slate-600;
+}
