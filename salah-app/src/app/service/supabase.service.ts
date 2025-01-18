@@ -91,6 +91,16 @@ export class SupabaseService {
         );
     }
 
+    findActiveHadithSources(): Observable<any> {
+        return from(
+            this.supabase
+                .from('sources')
+                .select('name')
+                .eq('is_active', true)
+        );
+
+    }
+
     /**
      * Method to call the 'get_chapter_info_by_source' stored procedure and return an Observable
      */
