@@ -109,9 +109,11 @@ export class ChapterComponent implements OnInit, AfterViewInit {
       `#hadith-${hadithId}`
     );
     if (hadithElement) {
-      hadithElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
+      const elementPosition = hadithElement.getBoundingClientRect().top + window.pageYOffset;
+
+      window.scrollTo({
+        top: elementPosition - 200,
+        behavior: 'smooth'
       });
     } else {
       console.warn(`Hadith with ID ${hadithId} not found.`);
