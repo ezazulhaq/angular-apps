@@ -55,9 +55,11 @@ export class HadithComponent {
       .subscribe(
         {
           next: (data: any) => {
-            const hadithDetails = data.data.sort((a: any, b: any) => {
-              return b.hadith_no - a.hadith_no;
-            });
+            const hadithDetails = data.data
+              .filter((hadith: HadithDetails) => hadith.source_name === this.hadithSource())
+              .sort((a: any, b: any) => {
+                return b.hadith_no - a.hadith_no;
+              });
             this.bookMarkDetails.set(hadithDetails);
           },
           error: (error: any) => console.log(error.error),
