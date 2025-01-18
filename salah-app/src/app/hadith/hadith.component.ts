@@ -20,9 +20,13 @@ export class HadithComponent {
 
   chapterList = signal<HadithChapters[]>([]);
 
-  hadithSource = signal<string>("Sahih Bukhari");
+  hadithSource = signal<string>('');
 
-  constructor(private readonly supabaseService: SupabaseService) { }
+  constructor(
+    private readonly supabaseService: SupabaseService
+  ) {
+    this.loadHadithSource();
+  }
 
   ngOnInit(): void {
     this.supabaseService.getHadithChaptersFromSource(this.hadithSource())
@@ -35,5 +39,12 @@ export class HadithComponent {
           complete: () => console.log("complete")
         }
       );
+  }
+
+  loadHadithSource() {
+    const hadithSource = localStorage.getItem('hadithSource') || 'Sahih Bukhari';
+    if (hadithSource) {
+      this.hadithSource.set(hadithSource);
+    }
   }
 }
