@@ -1,7 +1,8 @@
-import { Component, computed, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Hadiths } from '../hadith.model';
+import { BookmarkService } from '../../service/bookmark.service';
 
 @Component({
   selector: 'app-chapter',
@@ -12,22 +13,35 @@ import { Hadiths } from '../hadith.model';
     class: 'app-bg',
   }
 })
-export class ChapterComponent implements OnInit {
+export class ChapterComponent implements OnInit, AfterViewInit {
 
   @ViewChild('stickyTitle') stickyTitle!: ElementRef;
   private originalOffset: number = 0;
 
+  @ViewChild('hadithContainer') hadithContainer!: ElementRef;
+
+  private hadithIdToScrollTo = signal<number | null>(null);
+
   chapterId!: string;
+  hadithNoParam!: number;
 
   hadiths = signal<Hadiths[]>([]);
 
   chapterName = signal<string>("");
 
+  bookmarkedHadiths = signal<Set<string>>(new Set()); // Store bookmarked hadith IDs
+
   constructor(
     private readonly supabaseService: SupabaseService,
+    private readonly bookmarkService: BookmarkService,
     private readonly route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.chapterId = params['id'];
+      this.hadithNoParam = params['hadithNo'];
+
+      if (this.hadithNoParam) {
+        this.hadithIdToScrollTo.set(+this.hadithNoParam);
+      }
     });
   }
 
@@ -44,6 +58,12 @@ export class ChapterComponent implements OnInit {
 
   ngAfterViewInit() {
     this.originalOffset = this.stickyTitle.nativeElement.offsetTop;
+
+    if (this.hadithIdToScrollTo() !== null) {
+      setTimeout(() => {
+        this.scrollToHadith(this.hadithIdToScrollTo());
+      }, 1000);
+    }
   }
 
   splitChapterName = computed(
@@ -72,6 +92,31 @@ export class ChapterComponent implements OnInit {
     } else {
       element.classList.add('app-title');
       element.classList.remove('app-title-stick');
+    }
+  }
+
+  isBookmarked(hadithId: string): boolean {
+    return this.bookmarkService.isBookmarked(hadithId);
+  }
+
+  toggleBookmark(hadith: Hadiths) {
+    this.bookmarkService.toggleBookmark(hadith);
+  }
+
+  private scrollToHadith(hadithId: number | null): void {
+    // Find the hadith by id
+    const hadithElement = this.hadithContainer.nativeElement.querySelector(
+      `#hadith-${hadithId}`
+    );
+    if (hadithElement) {
+      const elementPosition = hadithElement.getBoundingClientRect().top + window.pageYOffset;
+
+      window.scrollTo({
+        top: elementPosition - 200,
+        behavior: 'smooth'
+      });
+    } else {
+      console.warn(`Hadith with ID ${hadithId} not found.`);
     }
   }
 
