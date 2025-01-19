@@ -29,8 +29,6 @@ export class ChapterComponent implements OnInit, AfterViewInit {
 
   chapterName = signal<string>("");
 
-  bookmarkedHadiths = signal<Set<string>>(new Set()); // Store bookmarked hadith IDs
-
   constructor(
     private readonly supabaseService: SupabaseService,
     private readonly bookmarkService: BookmarkService,
@@ -96,11 +94,11 @@ export class ChapterComponent implements OnInit, AfterViewInit {
   }
 
   isBookmarked(hadithId: string): boolean {
-    return this.bookmarkService.isBookmarked(hadithId);
+    return this.bookmarkService.isBookmarkedHadith(hadithId);
   }
 
   toggleBookmark(hadith: Hadiths) {
-    this.bookmarkService.toggleBookmark(hadith);
+    this.bookmarkService.toggleBookmarkHadith(hadith);
   }
 
   private scrollToHadith(hadithId: number | null): void {

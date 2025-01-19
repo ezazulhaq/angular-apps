@@ -11,11 +11,11 @@ export class BookmarkService {
     this.loadFromStorage();
   }
 
-  isBookmarked(hadithId: string): boolean {
+  isBookmarkedHadith(hadithId: string): boolean {
     return this.bookmarkedHadiths().has(hadithId);
   }
 
-  toggleBookmark(hadith: Hadiths) {
+  toggleBookmarkHadith(hadith: Hadiths) {
     this.bookmarkedHadiths.update(bookmarked => {
       const newBookmarked = new Set(bookmarked);
       if (newBookmarked.has(hadith.id)) {
@@ -25,7 +25,7 @@ export class BookmarkService {
       }
       return newBookmarked;
     });
-    this.saveToStorage();
+    this.saveToStorageHadith();
   }
 
   getBookmarkedHadiths(): string[] {
@@ -42,7 +42,7 @@ export class BookmarkService {
     return [];
   }
 
-  private saveToStorage() {
+  private saveToStorageHadith() {
     localStorage.setItem('bookmarkedHadiths',
       JSON.stringify(Array.from(this.bookmarkedHadiths())));
   }
