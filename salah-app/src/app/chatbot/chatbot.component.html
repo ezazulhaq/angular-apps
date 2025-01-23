@@ -7,20 +7,44 @@
                 class="flex flex-row justify-between items-center space-x-4 bg-slate-800 dark:bg-gray-200 p-2 rounded-t-lg border-b-2 border-gray-500">
                 <div class="flex-grow">
                     <div class="flex flex-row space-x-2 items-center">
-                        <svg class="size-5 dark:fill-slate-800 fill-gray-200" viewBox="0 0 24 24"
+                        <svg class="size-5 fill-gray-200 dark:fill-slate-800 " viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
                             <title>Islamic Chatbot</title>
-                            <path
-                                d="M0 12c0 6.629 5.371 12 12 12s12-5.371 12-12S18.629 0 12 0 0 5.371 0 12m17.008 5.29H11.44a5.57 5.57 0 0 1-5.562-5.567A5.57 5.57 0 0 1 11.44 6.16a5.57 5.57 0 0 1 5.567 5.563Z" />
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22Z">
+                                </path>
+                                <path
+                                    d="M15 12C15 12.5523 15.4477 13 16 13C16.5523 13 17 12.5523 17 12C17 11.4477 16.5523 11 16 11C15.4477 11 15 11.4477 15 12Z"
+                                    class="dark:fill-slate-100 fill-gray-900"></path>
+                                <path
+                                    d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z"
+                                    class="dark:fill-slate-100 fill-gray-900"></path>
+                                <path
+                                    d="M7 12C7 12.5523 7.44772 13 8 13C8.55228 13 9 12.5523 9 12C9 11.4477 8.55228 11 8 11C7.44772 11 7 11.4477 7 12Z"
+                                    class="dark:fill-slate-100 fill-gray-900"></path>
+                            </g>
                         </svg>
                         <span class="font-medium">Islamic Chatbot</span>
                     </div>
                 </div>
-                <div (click)="isChatbotVisible.set(false)">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor">
-                        <path
-                            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
-                    </svg>
+                <div class="flex flex-row space-x-2 items-center">
+                    <button (click)="clearChat()">
+                        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                            fill="currentColor">
+                            <path
+                                d="M386.3 160L336 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l128 0c17.7 0 32-14.3 32-32l0-128c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0s-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3s163.8-62.5 226.3 0L386.3 160z" />
+                        </svg>
+                    </button>
+                    <div (click)="isChatbotVisible.set(false)">
+                        <svg class="size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
+                            fill="currentColor">
+                            <path
+                                d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                        </svg>
+                    </div>
                 </div>
             </div>
             <div #chatContainer
