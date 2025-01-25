@@ -48,7 +48,7 @@ export class HadithComponent {
             this.chapterList.set(data.data);
           },
           error: (error: any) => console.log(error.error),
-          complete: () => console.log("complete")
+          complete: () => console.log("hadith chapters loaded")
         }
       );
   });

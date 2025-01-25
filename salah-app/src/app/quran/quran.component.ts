@@ -38,7 +38,7 @@ export class QuranComponent implements OnInit {
                         this.surahList.set(data.data);
                     },
                     error: (error: any) => console.log(error.error),
-                    complete: () => console.log("complete")
+                    complete: () => console.log("surahs loaded")
                 }
             );
     });
