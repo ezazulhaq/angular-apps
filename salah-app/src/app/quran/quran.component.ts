@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { SupabaseService } from '../service/supabase.service';
 import { RouterLink } from '@angular/router';
 import { Surah } from '../model/surah.model';
@@ -27,6 +27,10 @@ export class QuranComponent implements OnInit {
     constructor(private readonly supabaseService: SupabaseService) { }
 
     ngOnInit(): void {
+        this.getSurahList();
+    }
+
+    getSurahList = computed(() => {
         this.supabaseService.getSurahList().subscribe(
             {
                 next: (data: any) => {
@@ -34,7 +38,7 @@ export class QuranComponent implements OnInit {
                 }
             }
         );
-    }
+    });
 
     toggleSort() {
         this.isAscending.set(!this.isAscending());
