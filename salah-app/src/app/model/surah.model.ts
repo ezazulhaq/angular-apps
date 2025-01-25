@@ -5,3 +5,8 @@ export interface Surah {
     name_en: string;
     total_ayas: number;
 }
+
+export interface BookMarkedSurah {
+    surah_id: number;
+    ayah_id: number;
+}
