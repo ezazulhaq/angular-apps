@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { SupabaseService } from '../service/supabase.service';
 import { RouterLink } from '@angular/router';
-import { Surah } from '../model/surah.model';
+import { BookMarkedSurah, Surah } from '../model/surah.model';
 import { ListHomeComponent } from '../shared/skeleton/list-home/list-home.component';
+import { BookmarkService } from '../service/bookmark.service';
 
 @Component({
     selector: 'app-quran',
@@ -24,7 +25,12 @@ export class QuranComponent implements OnInit {
 
     isAscending = signal<boolean>(true);
 
-    constructor(private readonly supabaseService: SupabaseService) { }
+    bookMarkDetails = signal<{ bookmarked: BookMarkedSurah, surah: Surah }[]>([]);
+
+    constructor(
+        private readonly supabaseService: SupabaseService,
+        private readonly bookmarkService: BookmarkService
+    ) { }
 
     ngOnInit(): void {
         this.getSurahList();
@@ -38,10 +44,37 @@ export class QuranComponent implements OnInit {
                         this.surahList.set(data.data);
                     },
                     error: (error: any) => console.log(error.error),
-                    complete: () => console.log("surahs loaded")
+                    complete: () => {
+                        console.log("surahs loaded")
+                        this.setBookmarkDetails();
+                    }
                 }
             );
     });
+
+    private setBookmarkDetails() {
+        const bookmarkedAyahs: BookMarkedSurah[] = Array.from(this.bookmarkService.getBookmarkedAyah());
+
+        // Get unique surah_ids from bookmarkedAyahs
+        const uniqueSurahIds = [...new Set(bookmarkedAyahs.map(ayah => ayah.surah_id))];
+
+        // Filter surahs that match bookmarked ayahs
+        const bookMarkedSurahs = this.surahList()
+            .filter(surah =>
+                uniqueSurahIds.includes(surah.surah_id)
+            );
+
+        this.bookMarkDetails.set(
+            bookmarkedAyahs.map(bookmark => {
+                const surah = bookMarkedSurahs.find(surah => surah.surah_id === bookmark.surah_id);
+                return {
+                    bookmarked: bookmark,
+                    surah: surah!
+                };
+            })
+        );
+        console.log(this.bookMarkDetails());
+    }
 
     toggleSort() {
         this.isAscending.set(!this.isAscending());

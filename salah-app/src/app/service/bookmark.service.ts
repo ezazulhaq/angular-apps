@@ -104,7 +104,7 @@ export class BookmarkService {
     this.saveToStorageAyah();
   }
 
-  getBookmarkedAyah(): string[] {
+  getBookmarkedAyah(): BookMarkedSurah[] {
     const saved = localStorage.getItem('bookmarkedAyahs');
     if (saved) {
       try {

@@ -22,7 +22,7 @@ export class AyahComponent {
   @ViewChild('stickyCheckbox') stickyCheckbox!: ElementRef;
   private originalOffset: number = 0;
 
-  @ViewChild('AyahContainer') ayahContainer!: ElementRef;
+  @ViewChild('ayahContainer') ayahContainer!: ElementRef;
 
   private ayahIdToScrollTo = signal<number | null>(null);
 
