@@ -37,6 +37,7 @@ export class HadithComponent {
     this.hadithSource.set(this.supabaseService.hadithSource());
     this.getChaptersFromSource();
     this.getBookmarkedHadiths();
+    this.hadithSource.set(this.supabaseService.hadithSource());
   }
 
   getChaptersFromSource = computed(() => {
