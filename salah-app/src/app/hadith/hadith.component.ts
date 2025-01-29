@@ -31,24 +31,23 @@ export class HadithComponent {
   constructor(
     private readonly supabaseService: SupabaseService,
     private readonly bookMarkService: BookmarkService
-  ) {
-    this.loadHadithSource();
-  }
+  ) { }
 
   ngOnInit(): void {
+    this.hadithSource.set(this.supabaseService.hadithSource());
     this.getChaptersFromSource();
     this.getBookmarkedHadiths();
   }
 
   getChaptersFromSource = computed(() => {
-    this.supabaseService.getHadithChaptersFromSource(this.hadithSource())
+    this.supabaseService.getHadithChaptersFromSource()
       .subscribe(
         {
           next: (data: any) => {
             this.chapterList.set(data.data);
           },
           error: (error: any) => console.log(error.error),
-          complete: () => console.log("complete")
+          complete: () => console.log("hadith chapters loaded")
         }
       );
   });
@@ -72,11 +71,4 @@ export class HadithComponent {
         });
   });
 
-
-  loadHadithSource() {
-    const hadithSource = localStorage.getItem('hadithSource') || 'Sahih Bukhari';
-    if (hadithSource) {
-      this.hadithSource.set(hadithSource);
-    }
-  }
 }
