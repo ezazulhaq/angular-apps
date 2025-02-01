@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { Observable, from, tap } from 'rxjs';
@@ -13,6 +13,8 @@ export class SupabaseService {
 
     private readonly supabase: SupabaseClient;
 
+    hadithSource = signal<string>('');
+
     constructor() {
         // Verify that both environment variables are correctly loaded
         if (!this.supabaseUrl || !this.supabaseKey) {
@@ -20,6 +22,8 @@ export class SupabaseService {
         }
 
         this.supabase = createClient(this.supabaseUrl, this.supabaseKey);
+
+        this.hadithSource.set(localStorage.getItem('hadithSource') || 'Sahih Bukhari');
     }
 
     /**
@@ -91,17 +95,25 @@ export class SupabaseService {
         );
     }
 
+    findActiveHadithSources(): Observable<any> {
+        return from(
+            this.supabase
+                .from('sources')
+                .select('name')
+                .eq('is_active', true)
+        );
+
+    }
+
     /**
      * Method to call the 'get_chapter_info_by_source' stored procedure and return an Observable
      */
-    getHadithChaptersFromSource(
-        source_name: string
-    ): Observable<any> {
+    getHadithChaptersFromSource(): Observable<any> {
         return from(
             this.supabase.rpc(
                 'get_chapter_info_by_source',
                 {
-                    source_name
+                    source_name: this.hadithSource()
                 }
             )
         );
@@ -118,6 +130,22 @@ export class SupabaseService {
                 'get_hadiths_by_chapter_id',
                 {
                     input_chapter_id
+                }
+            )
+        );
+    }
+
+    /**
+     * Method to call the 'get_hadith_details' stored procedure and return an Observable
+     */
+    getHadithDetailsFromId(
+        hadith_id: string[]
+    ): Observable<any> {
+        return from(
+            this.supabase.rpc(
+                'get_hadith_details',
+                {
+                    hadith_id
                 }
             )
         );

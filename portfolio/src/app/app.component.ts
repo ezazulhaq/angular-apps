@@ -14,11 +14,20 @@ import { ContactComponent } from "./contact/contact.component";
 import { FooterComponent } from "./footer/footer.component";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
-  imports: [CommonModule, RouterOutlet, HeaderComponent, HeroComponent, AboutComponent, FactsComponent, SkillsComponent, ResumeComponent, PortfolioComponent, ServicesComponent, TestimonialsComponent, ContactComponent, FooterComponent]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    imports: [
+        CommonModule,
+        RouterOutlet,
+        HeaderComponent,
+        HeroComponent,
+        AboutComponent,
+        SkillsComponent,
+        ResumeComponent,
+        ContactComponent,
+        FooterComponent
+    ]
 })
 export class AppComponent {
 

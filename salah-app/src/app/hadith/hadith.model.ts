@@ -11,3 +11,11 @@ export interface Hadiths {
     hadith_no: number;
     text_en: string;
 }
+
+export interface HadithDetails {
+    source_id:string;
+    source_name:string;
+    chapter_id:string;
+    chapter_name:string;
+    hadith_no:number;
+}

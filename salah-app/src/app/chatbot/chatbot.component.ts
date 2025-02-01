@@ -57,6 +57,11 @@ export class ChatbotComponent {
     });
   }
 
+  protected clearChat() {
+    this.messages = [];
+    this.addAssistantMessage("I am an Islamic scholar. Please ask me only questions regarding the Islam and its teachings.");
+  }
+
   private addUserMessage(content: string) {
     this.messages.push({ role: 'user', content });
   }
