@@ -13,6 +13,8 @@ export class SupabaseService {
 
     private readonly supabase: SupabaseClient;
 
+    quranTranslator = signal<string>('');
+
     hadithSource = signal<string>('');
 
     constructor() {
@@ -23,7 +25,19 @@ export class SupabaseService {
 
         this.supabase = createClient(this.supabaseUrl, this.supabaseKey);
 
+        this.quranTranslator.set(localStorage.getItem('quranTranslator') || 'ahmedraza');
+
         this.hadithSource.set(localStorage.getItem('hadithSource') || 'Sahih Bukhari');
+    }
+
+    getQuranTranslators(): Observable<any> {
+        return from(
+            this.supabase
+                .from('translators')
+                .select('name, full_name')
+                .eq('is_active', true)
+                .order('name', { ascending: true })
+        );
     }
 
     /**

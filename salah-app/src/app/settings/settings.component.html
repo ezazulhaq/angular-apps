@@ -42,6 +42,22 @@
     <div class="app-settings-item">
         <div
             class="text-slate-700 dark:text-gray-400 group-hover:text-slate-900 dark:group-hover:text-gray-200 text-lg font-semibold">
+            Quran Translator
+        </div>
+
+        <select (change)="onQuranTranslatorChange($event)"
+            class="p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-slate-500 focus:border-slate-500">
+            @for (translator of quranTranslators(); track $index) {
+            <option [value]="translator.name" [selected]="translator.name === selectedTranslator()">
+                {{translator.full_name}}
+            </option>
+            }
+        </select>
+    </div>
+
+    <div class="app-settings-item">
+        <div
+            class="text-slate-700 dark:text-gray-400 group-hover:text-slate-900 dark:group-hover:text-gray-200 text-lg font-semibold">
             Hadith Source
         </div>
 

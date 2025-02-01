@@ -4,3 +4,8 @@ export interface Translation {
     translation: string;
     transliteration: string;
 }
+
+export interface Translator {
+    name: string;
+    full_name: string;
+}
