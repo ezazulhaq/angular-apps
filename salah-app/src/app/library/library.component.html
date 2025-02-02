@@ -5,13 +5,13 @@
         <summary class="text-xl text-start font-semibold cursor-pointer">
             {{ category | replaceUnderline | titlecase }}
         </summary>
-        <div class="ml-4 mt-2 border-t">
+        <div class="flex flex-col ml-4 mt-2 border-t">
             @for (library of getCategoryItems(category); track $index) {
-            <div class="text-md text-start py-2 font-normal hover:cursor-pointer hover:font-semibold"
+            <button class="text-md text-start py-2 font-normal hover:cursor-pointer hover:font-semibold"
                 [routerLink]="['../reader']"
                 [queryParams]="{ pdfName: library.pdfName, category: library.category, storageKey: library.storageKey }">
                 <span>{{ library.name | titlecase }}</span>
-            </div>
+            </button>
             }
         </div>
     </details>
