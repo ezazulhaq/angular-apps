@@ -986,5 +986,11 @@ export const library: IslamicLibrary[] = [
         pdfName: 'stories_of_the_prophets.pdf',
         category: 'islam',
         storageKey: 'storiesOfProphets'
+    },
+    {
+        name: "Riyad-Us-Saliheen",
+        pdfName: 'Riyad_Us-Saliheen.pdf',
+        category: 'islam',
+        storageKey: 'riyadussaliheen'
     }
 ];
