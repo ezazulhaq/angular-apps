@@ -52,7 +52,8 @@ export class AyahComponent {
   }
 
   ngOnInit(): void {
-    this.supabaseService.getSurahTranslation("en", +this.surahNumber, "ahmedraza").subscribe(
+    const translator = localStorage.getItem('quranTranslator') || 'ahmedraza';
+    this.supabaseService.getSurahTranslation("en", +this.surahNumber, translator).subscribe(
       {
         next: (data: any) => {
           this.ayahs.set(data.data);
