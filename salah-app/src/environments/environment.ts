@@ -7,6 +7,9 @@ const supabaseAnonKey = import.meta.env.SUPABASE_ANON_KEY;
 export const environment = {
     production: false,
     s3Bucket: s3Bucket,
+    github: {
+        pdfUri: 'raw.githubusercontent.com/ezazulhaq/angular-apps/63-salah-app-library-price-optimisation/library',
+    },
     api: {
         map: openStreetUrl
     },
