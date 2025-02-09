@@ -1,5 +1,5 @@
 import { Component, computed, effect, input, OnInit, output, signal } from '@angular/core';
-import { ThemeSelectorService } from '../service/theme.service';
+import { AppTheme, ThemeSelectorService } from '../service/theme.service';
 import { SupabaseService } from '../service/supabase.service';
 import { Translator } from '../model/translation.model';
 
@@ -36,7 +36,14 @@ export class SettingsComponent implements OnInit {
       }
     );
 
-    this.themeSelector.setSystemTheme();
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      theme === 'dark' ? this.themeSelector.setDarkTheme() : this.themeSelector.setLightTheme();
+    }
+    else {
+      this.themeSelector.setSystemTheme();
+    }
+
     this.getSelectedSource();
   }
 
