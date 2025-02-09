@@ -21,20 +21,14 @@ import { SettingsComponent } from './settings/settings.component';
 })
 export class AppComponent implements OnInit {
 
-  isThemeDark = signal<boolean>(false);
-
   isMenuVisible = signal<boolean>(false);
   isSettingsVisible = signal<boolean>(false);
 
   constructor(
-    protected themeSelector: ThemeSelectorService,
     private autoUpdateService: AutoUpdateService
-  ) {
-    this.themeSelector.setSystemTheme();
-  }
+  ) { }
 
   ngOnInit(): void {
-    this.isThemeDark.set(this.themeSelector.currentTheme() === 'dark');
     this.autoUpdateService.checkForUpdate();
   }
 
