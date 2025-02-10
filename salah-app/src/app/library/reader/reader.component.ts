@@ -21,7 +21,7 @@ export class ReaderComponent {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.pdfSrc = `https://${environment.s3Bucket}/${params['category']}/${params['pdfName']}`;
+      this.pdfSrc = `https://${environment.github.pdfUri}/${params['category']}/${params['pdfName']}`;
       this.storageKey = params['storageKey'];
     });
   }
