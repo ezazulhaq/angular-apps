@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{html,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'indopak': ['IndoPak', 'sans-serif']
+      }
+    },
   },
   plugins: [
     require('@tailwindcss/forms')
