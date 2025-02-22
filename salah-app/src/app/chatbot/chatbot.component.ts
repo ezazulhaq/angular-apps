@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HadithReference, SearchHadithResponse } from '../model/search-hadith.model';
 import { ChatbotMessage } from './chatbot.model';
 import { HadithLinksComponent } from './hadith-links/hadith-links.component';
+import * as showdown from 'showdown'; // Import the showdown library
 
 @Component({
   selector: 'app-chatbot',
@@ -24,6 +25,8 @@ export class ChatbotComponent {
   messages: ChatbotMessage[] = [];
   userMessage = '';
 
+  converter!: showdown.Converter;
+
   constructor(private chatbotService: ChatbotService) { }
 
   ngOnInit() {
@@ -35,6 +38,8 @@ export class ChatbotComponent {
 
     // Add initial assistant message
     this.addAssistantMessage("I am an Islamic scholar. Please ask me only questions regarding the Islam and its teachings.");
+
+    this.converter = new showdown.Converter();
   }
 
   sendMessage() {
@@ -82,5 +87,10 @@ export class ChatbotComponent {
   private scrollToBottom(): void {
     const container = this.chatContainer.nativeElement;
     container.scrollTop = container.scrollHeight; // Scroll to the bottom
+  }
+
+  //method to use converter
+  convertMarkdownToHtml(markdown: string): string {
+    return this.converter.makeHtml(markdown);
   }
 }
