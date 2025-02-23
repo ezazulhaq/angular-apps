@@ -36,7 +36,14 @@ export class PrayerTimesComponent implements OnInit {
 
           const now = new Date();
           const sortedTimes: PrayerTimeInfo[] = Object.entries(namazTimes)
-            .map(([key, value]) => ({ key, value: new Date(value), isClosest: false }))
+            .map(([key, value]) => {
+              // Check if today is Friday and the key is dhuhr
+              if (value.getDay() === 5 && key === 'dhuhr') {
+                return { key: 'jummah', value: new Date(value), isClosest: false };
+              } else {
+                return { key, value: new Date(value), isClosest: false };
+              }
+            })
             .sort((a, b) => a.value.getTime() - b.value.getTime());
 
           // Find the closest future prayer time
