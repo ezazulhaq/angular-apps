@@ -54,7 +54,7 @@
                     @if (message.content){
                     <div [class]="message.role === 'assistant' ? 'chatbot-assistant': 'chatbot-user'">
                         <div class="flex flex-col space-y-4">
-                            <span>{{message.content}}</span>
+                            <div class="message-content" [innerHTML]="convertMarkdownToHtml(message.content)"></div>
                             @if(message.links){
                             <app-hadith-links [hadithLinks]="message.links"></app-hadith-links>
                             }
