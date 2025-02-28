@@ -5,7 +5,7 @@ export interface Rakats {
     };
     fard: number;
     after_fard: {
-        sunnah: number | string; // "4+2" for Jumuah
+        sunnah: number | string; // "4+2" for Jummah
         nafl: number;
         wajib: number;
     };

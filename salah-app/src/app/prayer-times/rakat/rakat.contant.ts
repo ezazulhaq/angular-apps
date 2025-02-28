@@ -26,6 +26,18 @@ export const rakats: Rakats[] = [
         }
     },
     {
+        name: "jummah",
+        before_fard: {
+            sunnah: 4
+        },
+        fard: 2,
+        after_fard: {
+            sunnah: '4+2',
+            nafl: 2,
+            wajib: 0
+        }
+    },
+    {
         name: "asr",
         before_fard: {
             sunnah: 4
