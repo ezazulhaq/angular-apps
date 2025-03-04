@@ -8,7 +8,7 @@ export const environment = {
     production: false,
     s3Bucket: s3Bucket,
     github: {
-        pdfUri: 'raw.githubusercontent.com/ezazulhaq/angular-apps/master/library',
+        pdfUri: 'raw.githubusercontent.com/ezazulhaq/library/master/taqwa_tracker',
     },
     api: {
         map: openStreetUrl
