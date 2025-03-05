@@ -5,7 +5,7 @@
 <div class="flex flex-wrap space-x-2 justify-start items-center text-sm w-full px-10 mb-4">
     <div class="italic">Bookmarked :</div>
     @for(bookmark of bookMarkDetails(); track $index){
-    <button class="app-bookmark" [routerLink]="['./chapter']" [queryParams]="{ id: bookmark.chapter_id, hadithNo: bookmark.hadith_no }">
+    <button class="app-bookmark  font-indopak" [routerLink]="['./chapter']" [queryParams]="{ id: bookmark.chapter_id, hadithNo: bookmark.hadith_no }">
         {{ bookmark.chapter_name }} : {{ bookmark.hadith_no }}
     </button>
     }
@@ -21,7 +21,7 @@
                 <span class="chapter-numbers">{{ chapter.chapter_no }}</span>
             </div>
             <div class="grow flex flex-col justify-center items-end">
-                <div class="font-semibold">{{ chapter.chapter_name }}</div>
+                <div class="font-semibold font-indopak text-end">{{ chapter.chapter_name }}</div>
             </div>
         </div>
     </div>
