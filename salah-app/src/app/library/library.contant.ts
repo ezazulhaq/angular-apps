@@ -176,7 +176,7 @@ export const library: IslamicLibrary[] = [
         storageKey: 'para27Page'
     },
     {
-        name: "Para 28 - Qadd Aflaha (قَدْ أَفْلَحَ)",
+        name: "Para 28 - Qadd Sami Allah (قَدْ سَمِعَ اللهُ)",
         pdfName: 'para28.pdf',
         category: 'quran',
         storageKey: 'para28Page'
