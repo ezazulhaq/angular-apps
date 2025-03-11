@@ -27,6 +27,8 @@ export class ChatbotComponent {
 
   converter!: showdown.Converter;
 
+  isChatRequested = signal<boolean>(false);
+
   constructor(private chatbotService: ChatbotService) { }
 
   ngOnInit() {
@@ -45,6 +47,7 @@ export class ChatbotComponent {
   sendMessage() {
     if (this.userMessage.trim() === '') return;
 
+    this.isChatRequested.set(true);
     this.addUserMessage(this.userMessage);
 
     this.chatbotService.queryIslam(this.userMessage).subscribe({
@@ -57,6 +60,7 @@ export class ChatbotComponent {
       },
       complete: () => {
         this.userMessage = '';
+        this.isChatRequested.set(false);
         this.scrollToBottom();
       }
     });
