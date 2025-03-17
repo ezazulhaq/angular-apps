@@ -1,0 +1,60 @@
+import { TitleCasePipe } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { FeedbackService } from '../service/feedback.service';
+
+@Component({
+  selector: 'app-feedback',
+  imports: [
+    TitleCasePipe,
+    ReactiveFormsModule
+  ],
+  templateUrl: './feedback.component.html',
+  styleUrl: './feedback.component.css',
+  host: {
+    class: "app-bg"
+  }
+})
+export class FeedbackComponent {
+  feedbackForm: FormGroup;
+  isSubmitting = false;
+  submitSuccess = false;
+  submitError: string | null = null;
+
+  constructor(
+    private fb: FormBuilder,
+    private feedbackService: FeedbackService
+  ) {
+    this.feedbackForm = this.fb.group({
+      content: ['', [Validators.required, Validators.minLength(10)]],
+      category: ['General']
+    });
+  }
+
+  async onSubmit() {
+    if (this.feedbackForm.invalid) return;
+
+    this.isSubmitting = true;
+    this.submitError = null;
+
+    try {
+      const result = await this.feedbackService.submitFeedback({
+        content: this.feedbackForm.value.content,
+        category: this.feedbackForm.value.category
+      });
+
+      if (result.success) {
+        this.submitSuccess = true;
+        this.feedbackForm.reset({ category: 'General' });
+      } else {
+        this.submitError = 'Failed to submit feedback. Please try again.';
+      }
+    } catch (error) {
+      this.submitError = 'An unexpected error occurred.';
+      console.error(error);
+    } finally {
+      this.isSubmitting = false;
+    }
+  }
+}

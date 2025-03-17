@@ -8,6 +8,7 @@ import { AyahComponent } from './quran/ayah/ayah.component';
 import { HadithComponent } from './hadith/hadith.component';
 import { ChapterComponent } from './hadith/chapter/chapter.component';
 import { HomeComponent } from './home/home.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 export const routes: Routes = [
     {
@@ -54,6 +55,11 @@ export const routes: Routes = [
         path: 'reader',
         title: 'Library Reader',
         component: ReaderComponent
+    },
+    {
+        path: 'feedback',
+        title: 'Feedback',
+        component: FeedbackComponent
     },
     {
         path: '',
