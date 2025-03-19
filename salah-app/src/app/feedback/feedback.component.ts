@@ -1,5 +1,5 @@
 import { TitleCasePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { FeedbackService } from '../service/feedback.service';
@@ -18,8 +18,8 @@ import { FeedbackService } from '../service/feedback.service';
 })
 export class FeedbackComponent {
   feedbackForm: FormGroup;
-  isSubmitting = false;
-  submitSuccess = false;
+  isSubmitting = signal<boolean>(false);
+  submitSuccess = signal<boolean>(false);
   submitError: string | null = null;
 
   constructor(
@@ -35,7 +35,7 @@ export class FeedbackComponent {
   async onSubmit() {
     if (this.feedbackForm.invalid) return;
 
-    this.isSubmitting = true;
+    this.isSubmitting.set(true);
     this.submitError = null;
 
     try {
@@ -45,7 +45,7 @@ export class FeedbackComponent {
       });
 
       if (result.success) {
-        this.submitSuccess = true;
+        this.submitSuccess.set(true);
         this.feedbackForm.reset({ category: 'General' });
       } else {
         this.submitError = 'Failed to submit feedback. Please try again.';
@@ -54,7 +54,7 @@ export class FeedbackComponent {
       this.submitError = 'An unexpected error occurred.';
       console.error(error);
     } finally {
-      this.isSubmitting = false;
+      this.isSubmitting.set(false);
     }
   }
 }
