@@ -3,12 +3,14 @@ import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { FeedbackService } from '../service/feedback.service';
+import { SuccessComponent } from './success/success.component';
 
 @Component({
   selector: 'app-feedback',
   imports: [
     TitleCasePipe,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SuccessComponent,
   ],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.css',
