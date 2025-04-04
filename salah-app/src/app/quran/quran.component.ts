@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { SupabaseService } from '../service/supabase.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { BookMarkedSurah, Surah } from '../model/surah.model';
 import { ListHomeComponent } from '../shared/skeleton/list-home/list-home.component';
 import { BookmarkService } from '../service/bookmark.service';
@@ -28,12 +28,17 @@ export class QuranComponent implements OnInit {
     bookMarkDetails = signal<{ bookmarked: BookMarkedSurah, surah: Surah }[]>([]);
 
     constructor(
+        private readonly router: Router,
         private readonly supabaseService: SupabaseService,
         private readonly bookmarkService: BookmarkService
     ) { }
 
     ngOnInit(): void {
         this.getSurahList();
+    }
+
+    redirectToHome() {
+        this.router.navigate(['/home']);
     }
 
     getSurahList = computed(() => {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IslamicLibrary } from '../model/islamic-library.model';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
 import { library } from './library.contant';
 import { ReplaceUnderlinePipe } from '../pipes/replace-underline.pipe';
@@ -22,6 +22,10 @@ export class LibraryComponent {
 
   islamic_library: IslamicLibrary[] = library;
 
+  constructor(
+    private readonly router: Router,
+  ) { }
+
   ngOnInit() {
     this.addPageToLibraryItems();
     const islamic_library = localStorage.getItem('islamic_library');
@@ -34,6 +38,10 @@ export class LibraryComponent {
         );
       localStorage.setItem('islamic_library', JSON.stringify(this.islamic_library));
     }
+  }
+
+  redirectToHome() {
+    this.router.navigate(['/home']);
   }
 
   addPageToLibraryItems() {
