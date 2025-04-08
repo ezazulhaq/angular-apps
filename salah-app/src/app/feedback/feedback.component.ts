@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 import { FeedbackService } from '../service/feedback.service';
 import { SuccessComponent } from './success/success.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-feedback',
@@ -25,6 +26,7 @@ export class FeedbackComponent {
   submitError: string | null = null;
 
   constructor(
+    private readonly router: Router,
     private fb: FormBuilder,
     private feedbackService: FeedbackService
   ) {
@@ -32,6 +34,10 @@ export class FeedbackComponent {
       content: ['', [Validators.required, Validators.minLength(10)]],
       category: ['General']
     });
+  }
+
+  redirectToHome() {
+    this.router.navigate(['/home']);
   }
 
   async onSubmit() {

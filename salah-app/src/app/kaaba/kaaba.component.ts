@@ -4,6 +4,7 @@ import { SalahAppService } from '../service/salah-app.service';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 // Extended DeviceOrientationEvent interface to include webkitCompassHeading
 interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
@@ -31,7 +32,10 @@ export class KaabaComponent implements OnInit, OnDestroy {
   compassSvg: SafeHtml = '';
   private isIOS: boolean;
 
-  constructor(private kaabaService: SalahAppService, private sanitizer: DomSanitizer) {
+  constructor(
+    private readonly router: Router,
+    private kaabaService: SalahAppService,
+    private sanitizer: DomSanitizer) {
     this.heading$ = new BehaviorSubject<number>(0);
     this.kaabaDirection$ = this.kaabaService.getKaabaDirection();
     this.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -45,6 +49,10 @@ export class KaabaComponent implements OnInit, OnDestroy {
     if (this.compassSubscription) {
       this.compassSubscription.unsubscribe();
     }
+  }
+
+  redirectToHome() {
+    this.router.navigate(['/home']);
   }
 
   requestOrientationPermission() {
