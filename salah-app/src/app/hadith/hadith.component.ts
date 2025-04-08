@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SupabaseService } from '../service/supabase.service';
 import { HadithChapters, HadithDetails } from './hadith.model';
 import { ListHomeComponent } from '../shared/skeleton/list-home/list-home.component';
@@ -29,6 +29,7 @@ export class HadithComponent {
   bookMarkDetails = signal<HadithDetails[]>([]);
 
   constructor(
+    private readonly router: Router,
     private readonly supabaseService: SupabaseService,
     private readonly bookMarkService: BookmarkService
   ) { }
@@ -37,6 +38,10 @@ export class HadithComponent {
     this.hadithSource.set(this.supabaseService.hadithSource());
     this.getChaptersFromSource();
     this.getBookmarkedHadiths();
+  }
+
+  redirectToHome() {
+    this.router.navigate(['/home']);
   }
 
   getChaptersFromSource = computed(() => {

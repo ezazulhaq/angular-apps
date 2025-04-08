@@ -8,6 +8,7 @@ import { shareReplay } from 'rxjs/internal/operators/shareReplay';
 import { PrayerTimeInfo } from './prayer-times.model';
 import { CalendarComponent } from "../shared/calendar/calendar.component";
 import { RakatComponent } from './rakat/rakat.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-prayer-times',
@@ -59,7 +60,10 @@ export class PrayerTimesComponent implements OnInit {
       );
   });
 
-  constructor(private prayerService: SalahAppService) { }
+  constructor(
+    private readonly router: Router,
+    private prayerService: SalahAppService
+  ) { }
 
   ngOnInit(): void {
     // check if location access allowed
@@ -70,6 +74,10 @@ export class PrayerTimesComponent implements OnInit {
     });
 
     this.fetchAddress();
+  }
+
+  redirectToHome() {
+    this.router.navigate(['/home']);
   }
 
   fetchAddress() {
