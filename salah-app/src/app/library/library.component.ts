@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
 import { library } from './library.contant';
 import { ReplaceUnderlinePipe } from '../pipes/replace-underline.pipe';
+import { SupabaseService } from '../service/supabase.service';
 
 @Component({
   selector: 'app-library',
@@ -24,6 +25,7 @@ export class LibraryComponent {
 
   constructor(
     private readonly router: Router,
+    private readonly supabase: SupabaseService,
   ) { }
 
   ngOnInit() {

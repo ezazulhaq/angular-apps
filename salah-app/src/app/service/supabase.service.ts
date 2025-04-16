@@ -1,7 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
-import { Observable, from, tap } from 'rxjs';
+import { Observable, from, map, tap } from 'rxjs';
+import { IslamicLibrary } from '../model/islamic-library.model';
 
 @Injectable({
     providedIn: 'root'
@@ -163,5 +164,68 @@ export class SupabaseService {
                 }
             )
         );
+    }
+
+    /**
+     * Retrieves active Islamic library entries from the database.
+     * 
+     * @returns An Observable of IslamicLibrary array containing active library entries
+     *          sorted by ID in ascending order. Each entry includes name, PDF name,
+     *          category, and storage key information.
+     * 
+     * The returned data is mapped from the database format to match the IslamicLibrary interface:
+     * - name: The display name of the library entry
+     * - pdfName: The name of the PDF file
+     * - category: The category of the library entry
+     * - storageKey: The storage reference key for the document
+     */
+    getIslamicLibrary(): Observable<IslamicLibrary[]> {
+        const library = localStorage.getItem('islamic_library');
+
+        return from(
+            this.supabase
+                .from('islamic_library')
+                .select('name, pdf_name, category, storage_key')
+                .eq('is_active', true)
+                .order('id', { ascending: true })
+        ).pipe(
+            map((response: any) => {
+                // Map the response to match the IslamicLibrary interface
+                return response.data.map((item: any) => ({
+                    name: item.name,
+                    pdfName: item.pdf_name,
+                    category: item.category,
+                    storageKey: item.storage_key
+                }));
+            }),
+            map((library: IslamicLibrary[]) => this.addPageToLibraryItems(library)),
+            tap((library: IslamicLibrary[]) => {
+                const libraryData = localStorage.getItem('islamic_library');
+
+                if (!libraryData) {
+                    library.map(
+                        item => {
+                            return {
+                                ...item,
+                                page: 1,
+                                totalPage: 0
+                            };
+                        }
+                    );
+                    localStorage.setItem('islamic_library', JSON.stringify(library));
+                }
+            })
+        );
+    }
+
+    private addPageToLibraryItems(library: IslamicLibrary[]): IslamicLibrary[] {
+        return library
+            .map(
+                item => {
+                    const storedPage = localStorage.getItem(item.storageKey!);
+                    const page = storedPage ? +storedPage : 1;
+                    return { ...item, page };
+                }
+            );
     }
 }
