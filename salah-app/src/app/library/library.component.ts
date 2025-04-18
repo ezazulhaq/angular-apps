@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { IslamicLibrary } from '../model/islamic-library.model';
 import { Router, RouterLink } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
-import { library } from './library.contant';
 import { ReplaceUnderlinePipe } from '../pipes/replace-underline.pipe';
-import { SupabaseService } from '../service/supabase.service';
+import { LibraryService } from '../service/library.service';
 
 @Component({
   selector: 'app-library',
@@ -21,48 +20,36 @@ import { SupabaseService } from '../service/supabase.service';
 })
 export class LibraryComponent {
 
-  islamic_library: IslamicLibrary[] = library;
+  islamic_library = signal<IslamicLibrary[]>([]);
 
   constructor(
     private readonly router: Router,
-    private readonly supabase: SupabaseService,
+    private readonly libraryService: LibraryService,
   ) { }
 
   ngOnInit() {
-    this.addPageToLibraryItems();
-    const islamic_library = localStorage.getItem('islamic_library');
-    if (!islamic_library) {
-      this.islamic_library = this.islamic_library
-        .map(
-          item => {
-            return { ...item, page: 1, totalPage: 0 };
-          }
-        );
-      localStorage.setItem('islamic_library', JSON.stringify(this.islamic_library));
-    }
+    this.libraryService.getIslamicLibrary().subscribe(
+      {
+        next: data => {
+          this.islamic_library.set(data);
+        },
+        error: error => {
+          console.error(error);
+        }
+      }
+    );
   }
 
   redirectToHome() {
     this.router.navigate(['/home']);
   }
 
-  addPageToLibraryItems() {
-    this.islamic_library = this.islamic_library
-      .map(
-        item => {
-          const storedPage = localStorage.getItem(item.storageKey!);
-          const page = storedPage ? +storedPage : 1;
-          return { ...item, page };
-        }
-      );
-  }
-
   getCategories() {
-    return [...new Set(this.islamic_library.map(item => item.category))];
+    return [...new Set(this.islamic_library().map(item => item.category))];
   }
 
   getCategoryItems(category: string) {
-    return this.islamic_library.filter(item => item.category === category);
+    return this.islamic_library().filter(item => item.category === category);
   }
 
 }
