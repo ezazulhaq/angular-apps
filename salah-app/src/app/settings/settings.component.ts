@@ -84,7 +84,6 @@ export class SettingsComponent implements OnInit {
       .subscribe(
         {
           next: (data: any) => {
-            console.log(data.data);
             this.quranTranslators.set(data.data);
           }
         }
