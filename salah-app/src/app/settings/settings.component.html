@@ -4,6 +4,7 @@
 }
 <div class="relative app-settings-right" [class.translate-x-0]="localMenuVisible()"
     [class.translate-x-full]="!localMenuVisible()">
+    <!-- Menu Close Button -->
     <div class="md:hidden absolute top-2 right-2">
         <button class="app-menu-close-btn" (click)="onMenuItemClick()">
             <svg class="size-5 fill-gray-500 dark:fill-gray-400" xmlns="http://www.w3.org/2000/svg"
@@ -14,6 +15,8 @@
         </button>
     </div>
 
+    <!-- Menu Items -->
+    <!-- Theme Menu Item -->
     <div class="group app-settings-item">
         <div
             class="text-slate-700 dark:text-gray-400 group-hover:text-slate-900 dark:group-hover:text-gray-200 text-lg font-semibold">
@@ -39,6 +42,7 @@
         </button>
     </div>
 
+    <!-- Quran Translator Menu Item -->
     <div class="app-settings-item">
         <div
             class="text-slate-700 dark:text-gray-400 group-hover:text-slate-900 dark:group-hover:text-gray-200 text-lg font-semibold">
@@ -55,6 +59,7 @@
         </select>
     </div>
 
+    <!-- Hadith Source Menu Item -->
     <div class="app-settings-item">
         <div
             class="text-slate-700 dark:text-gray-400 group-hover:text-slate-900 dark:group-hover:text-gray-200 text-lg font-semibold">
