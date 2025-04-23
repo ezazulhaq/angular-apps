@@ -51,7 +51,6 @@ export class SettingsComponent implements OnInit {
     this.isThemeDark.set(this.themeSelector.currentTheme() === 'dark');
     this.getQuranTranslators();
     this.getHadithSources();
-
   }
 
   getSelectedSource() {
@@ -113,6 +112,8 @@ export class SettingsComponent implements OnInit {
   onMenuItemClick() {
     this.localMenuVisible.set(false);
     this.settingsClose.emit(false)
+    //reload page when onMenuItemClick
+    window.location.reload();
   }
 
   onQuranTranslatorChange(event: Event) {
