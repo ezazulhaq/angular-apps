@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'indopak': ['IndoPak', 'sans-serif']
+        'indopak': ['IndoPak', 'sans-serif'],
+        'app-serif': ['"PT Serif"', 'serif'],
       }
     },
   },
