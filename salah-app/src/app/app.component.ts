@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { ThemeSelectorService } from './service/theme.service';
 import { AutoUpdateService } from './service/auto-update.service';
-import { ChatbotComponent } from "./chatbot/chatbot.component";
 import { ScrollTopComponent } from './shared/scroll-top/scroll-top.component';
 import { SettingsComponent } from './settings/settings.component';
 
@@ -13,7 +12,6 @@ import { SettingsComponent } from './settings/settings.component';
     RouterOutlet,
     MenuComponent,
     SettingsComponent,
-    ChatbotComponent,
     ScrollTopComponent
   ],
   templateUrl: './app.component.html',
