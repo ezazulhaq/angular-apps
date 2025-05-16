@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { HadithReference, SearchHadithResponse } from '../model/search-hadith.model';
 import { ChatbotMessage } from './chatbot.model';
 import { HadithLinksComponent } from './hadith-links/hadith-links.component';
-import * as showdown from 'showdown'; // Import the showdown library
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-chatbot',
   imports: [
     FormsModule,
-    HadithLinksComponent
+    HadithLinksComponent,
+    MarkdownModule
   ],
   templateUrl: './chatbot.component.html',
   styleUrl: './chatbot.component.css'
@@ -22,10 +23,8 @@ export class ChatbotComponent {
   isChatbotVisible = signal<boolean>(false);
   isChatbotDialogeVisible = signal<boolean>(true);
 
-  messages: ChatbotMessage[] = [];
+  messages = signal<ChatbotMessage[]>([]);
   userMessage = '';
-
-  converter!: showdown.Converter;
 
   isChatRequested = signal<boolean>(false);
 
@@ -40,8 +39,6 @@ export class ChatbotComponent {
 
     // Add initial assistant message
     this.addAssistantMessage("I am an Islamic scholar. Please ask me only questions regarding the Islam and its teachings.");
-
-    this.converter = new showdown.Converter();
   }
 
   sendMessage() {
@@ -67,20 +64,20 @@ export class ChatbotComponent {
   }
 
   protected clearChat() {
-    this.messages = [];
+    this.messages.set([]);
     this.addAssistantMessage("I am an Islamic scholar. Please ask me only questions regarding the Islam and its teachings.");
   }
 
   private addUserMessage(content: string) {
-    this.messages.push({ role: 'user', content });
+    this.messages.update(messages => [...messages, { role: 'user', content }]);
   }
 
   private addAssistantMessage(content: string, links?: HadithReference[]) {
-    this.messages.push({ role: 'assistant', content, links });
+    this.messages.update(messages => [...messages, { role: 'assistant', content, links }]);
   }
 
   private updateLastAssistantMessage(content: string, links?: HadithReference[]) {
-    const lastMessage = this.messages[this.messages.length - 1];
+    const lastMessage = this.messages()[this.messages().length - 1];
     if (lastMessage && lastMessage.role === 'assistant') {
       lastMessage.content = content;
     } else {
@@ -93,8 +90,4 @@ export class ChatbotComponent {
     container.scrollTop = container.scrollHeight; // Scroll to the bottom
   }
 
-  //method to use converter
-  convertMarkdownToHtml(markdown: string): string {
-    return this.converter.makeHtml(markdown);
-  }
 }

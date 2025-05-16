@@ -22,9 +22,10 @@
     "@ngx-env/core": "^2.0.2",
     "@supabase/supabase-js": "^2.46.1",
     "adhan": "^4.4.3",
+    "marked": "^15.0.11",
     "ng2-pdf-viewer": "^10.4.0",
+    "ngx-markdown": "^19.1.1",
     "rxjs": "~7.8.0",
-    "showdown": "^2.1.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },

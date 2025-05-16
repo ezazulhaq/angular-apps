@@ -53,12 +53,18 @@
             <div #chatContainer
                 class="flex-grow overflow-y-auto bg-slate-700 dark:bg-gray-100 p-2 flex flex-col-reverse">
                 <div class="flex flex-col space-y-3">
-                    @for (message of messages; track $index) {
+                    @for (message of messages(); track $index) {
                     @if (message.content){
                     <div [class]="message.role === 'assistant' ? 'chatbot-assistant': 'chatbot-user'">
                         <div class="flex flex-col space-y-4">
-                            <div class="message-content" [innerHTML]="convertMarkdownToHtml(message.content)"></div>
-                            @if(message.links){
+                            <!-- Use ngx-markdown component with [data] binding -->
+                            <div class="message-content">
+                                @if (message.role === 'assistant') {
+                                <markdown [data]="message.content"></markdown>
+                                } @else {
+                                <div>{{message.content}}</div>
+                                }
+                            </div> @if(message.links){
                             <app-hadith-links [hadithLinks]="message.links"></app-hadith-links>
                             }
                         </div>
