@@ -9,8 +9,30 @@ import { HadithComponent } from './hadith/hadith.component';
 import { ChapterComponent } from './hadith/chapter/chapter.component';
 import { HomeComponent } from './home/home.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { authGuard } from './guard/auth.gaurd';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
+    {
+        path: 'login',
+        title: 'Login',
+        component: LoginComponent
+    },
+    {
+        path: 'register',
+        title: 'Register',
+        component: RegisterComponent
+    },
+    {
+        path: 'profile',
+        title: 'Profile',
+        component: ProfileComponent,
+        canActivate: [
+            authGuard
+        ]
+    },
     {
         path: 'home',
         title: 'Salah',
@@ -29,22 +51,34 @@ export const routes: Routes = [
     {
         path: 'quran',
         title: 'Quran',
-        component: QuranComponent
+        component: QuranComponent,
+        canActivate: [
+            authGuard
+        ]
     },
     {
         path: 'quran/ayah',
         title: 'Ayah',
-        component: AyahComponent
+        component: AyahComponent,
+        canActivate: [
+            authGuard
+        ]
     },
     {
         path: 'hadith',
         title: 'Hadith',
-        component: HadithComponent
+        component: HadithComponent,
+        canActivate: [
+            authGuard
+        ]
     },
     {
         path: 'hadith/chapter',
         title: 'Chapter',
-        component: ChapterComponent
+        component: ChapterComponent,
+        canActivate: [
+            authGuard
+        ]
     },
     {
         path: 'library',
@@ -68,6 +102,6 @@ export const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'home'
+        redirectTo: 'login'
     }
 ];
