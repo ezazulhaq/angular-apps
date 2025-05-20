@@ -13,7 +13,10 @@ import { CommonModule } from '@angular/common';
     RouterLink
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  host: {
+    class: "app-bg"
+  }
 })
 export class LoginComponent {
   loginForm: FormGroup;
