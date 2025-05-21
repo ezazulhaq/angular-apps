@@ -11,7 +11,10 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule
   ],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css'
+  styleUrl: './profile.component.css',
+  host: {
+    class: "app-bg"
+  }
 })
 export class ProfileComponent {
 
