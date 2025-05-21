@@ -12,7 +12,10 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
+  host: {
+    class: "app-bg"
+  }
 })
 export class RegisterComponent {
 
