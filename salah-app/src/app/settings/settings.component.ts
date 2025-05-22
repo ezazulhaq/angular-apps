@@ -1,7 +1,8 @@
-import { Component, computed, effect, input, OnInit, output, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, OnInit, output, signal } from '@angular/core';
 import { AppTheme, ThemeSelectorService } from '../service/theme.service';
 import { SupabaseService } from '../service/supabase.service';
 import { Translator } from '../model/translation.model';
+import { HeaderService } from '../header/header.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,8 +12,7 @@ import { Translator } from '../model/translation.model';
 })
 export class SettingsComponent implements OnInit {
 
-  settingsVisible = input.required<boolean>();
-  settingsClose = output<boolean>();
+  headerService = inject(HeaderService);
 
   isThemeDark = signal<boolean>(false);
 
@@ -32,7 +32,7 @@ export class SettingsComponent implements OnInit {
   ) {
     effect(
       () => {
-        this.localMenuVisible.set(this.settingsVisible());
+        this.localMenuVisible.set(this.headerService.isSettingsVisible());
       }
     );
 
@@ -110,8 +110,7 @@ export class SettingsComponent implements OnInit {
   }
 
   onMenuItemClick() {
-    this.localMenuVisible.set(false);
-    this.settingsClose.emit(false)
+    this.headerService.closeSettings();
     //reload page when onMenuItemClick
     window.location.reload();
   }

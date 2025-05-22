@@ -1,5 +1,7 @@
-import { Component, effect, input, output, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HeaderService } from '../header/header.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -9,22 +11,23 @@ import { RouterLink } from '@angular/router';
 })
 export class MenuComponent {
 
-  menuvisible = input.required<boolean>();
-  menuClose = output<boolean>();
+  headerService = inject(HeaderService);
+  authService = inject(AuthService);
 
   protected localMenuVisible = signal(false);
 
   constructor() {
     effect(
       () => {
-        this.localMenuVisible.set(this.menuvisible());
+        this.localMenuVisible.set(this.headerService.isMenuVisible());
       }
     );
   }
 
   onMenuItemClick() {
-    this.localMenuVisible.set(false);
-    this.menuClose.emit(false)
+    this.headerService.closeMenu();
+  }
+
   }
 
 }
