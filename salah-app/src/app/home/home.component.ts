@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ModuleComponent } from './module/module.component';
 import { ChatbotComponent } from '../chatbot/chatbot.component';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -15,5 +16,7 @@ import { ChatbotComponent } from '../chatbot/chatbot.component';
   }
 })
 export class HomeComponent {
+
+  authService = inject(AuthService);
 
 }
