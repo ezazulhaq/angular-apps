@@ -28,6 +28,15 @@ export class MenuComponent {
     this.headerService.closeMenu();
   }
 
+  onLogOut() {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.onMenuItemClick();
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
 
 }
