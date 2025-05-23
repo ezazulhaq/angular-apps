@@ -3,6 +3,7 @@ import { AppTheme, ThemeSelectorService } from '../service/theme.service';
 import { SupabaseService } from '../service/supabase.service';
 import { Translator } from '../model/translation.model';
 import { HeaderService } from '../header/header.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,6 +14,7 @@ import { HeaderService } from '../header/header.service';
 export class SettingsComponent implements OnInit {
 
   headerService = inject(HeaderService);
+  authService = inject(AuthService);
 
   isThemeDark = signal<boolean>(false);
 
@@ -49,11 +51,17 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isThemeDark.set(this.themeSelector.currentTheme() === 'dark');
-    this.getQuranTranslators();
-    this.getHadithSources();
+
+    if (this.authService.isLoggedIn()) {
+      this.getQuranTranslators();
+      this.getHadithSources();
+    }
   }
 
   getSelectedSource() {
+    if (this.authService.isLoggedIn())
+      return;
+
     // Load saved hadith source from localStorage
     const savedSource = localStorage.getItem('hadithSource');
 
