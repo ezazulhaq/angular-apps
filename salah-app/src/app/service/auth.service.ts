@@ -132,7 +132,7 @@ export class AuthService {
       tap(() => {
         this.currentUser.set(null);
         this.isAuthenticated.set(false);
-        this.router.navigate(['/login']);
+        this.router.navigate(['/home']);
       }),
       map(() => void 0),
       catchError(error => {
