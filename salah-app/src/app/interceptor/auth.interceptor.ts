@@ -9,7 +9,7 @@ export const authInterceptor = (authService: AuthService): HttpInterceptorFn => 
         // Check if the user is authenticated
         if (authService.isLoggedIn()) {
             // Clone the request and add the auth token
-            const token = localStorage.getItem('auth_token');
+            const token = localStorage.getItem('sb-macznmfhfslwgrqjcabe-auth-token') ? JSON.parse(localStorage.getItem('sb-macznmfhfslwgrqjcabe-auth-token') || '').access_token : '';
 
             if (token) {
                 req = req.clone({
