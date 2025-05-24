@@ -61,7 +61,7 @@ export class SettingsComponent implements OnInit {
   }
 
   private loadSavedPreferences(): void {
-    if (this.authService.isLoggedIn()) {
+    if (!this.authService.isLoggedIn()) {
       return;
     }
 
