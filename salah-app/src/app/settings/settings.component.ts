@@ -120,7 +120,7 @@ export class SettingsComponent implements OnInit {
 
   onMenuItemClick(): void {
     this.headerService.closeSettings();
-    window.location.reload();
+    //window.location.reload();
   }
 
   onQuranTranslatorChange(event: Event): void {
