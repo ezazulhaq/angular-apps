@@ -2,6 +2,7 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HeaderService } from '../header/header.service';
 import { AuthService } from '../service/auth.service';
+import { version } from '../../../package.json'
 
 @Component({
   selector: 'app-menu',
@@ -15,6 +16,8 @@ export class MenuComponent {
   authService = inject(AuthService);
 
   protected localMenuVisible = signal(false);
+
+  protected readonly appVersion: string = version;
 
   constructor() {
     effect(
