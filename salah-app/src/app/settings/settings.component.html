@@ -42,6 +42,7 @@
         </button>
     </div>
 
+    @if (authService.isLoggedIn()) {
     <!-- Quran Translator Menu Item -->
     <div class="app-settings-item">
         <div
@@ -75,4 +76,6 @@
             }
         </select>
     </div>
+    }
+
 </div>

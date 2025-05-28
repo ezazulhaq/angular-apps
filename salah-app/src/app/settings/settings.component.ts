@@ -1,7 +1,9 @@
-import { Component, computed, effect, input, OnInit, output, signal } from '@angular/core';
-import { AppTheme, ThemeSelectorService } from '../service/theme.service';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { ThemeSelectorService } from '../service/theme.service';
 import { SupabaseService } from '../service/supabase.service';
 import { Translator } from '../model/translation.model';
+import { HeaderService } from '../header/header.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,94 +13,101 @@ import { Translator } from '../model/translation.model';
 })
 export class SettingsComponent implements OnInit {
 
-  settingsVisible = input.required<boolean>();
-  settingsClose = output<boolean>();
+  // Injected services
+  private readonly headerService = inject(HeaderService);
+  protected readonly authService = inject(AuthService);
+  private readonly themeSelector = inject(ThemeSelectorService);
+  private readonly supabaseService = inject(SupabaseService);
 
+  // UI state
+  protected localMenuVisible = signal(false);
   isThemeDark = signal<boolean>(false);
 
+  // Data state
   quranTranslators = signal<Translator[]>([]);
-
   selectedTranslator = signal<string>('');
-
   hadithSources = signal<string[]>([]);
-
   selectedSource = signal<string>('');
 
-  protected localMenuVisible = signal(false);
+  constructor() {
+    // Track settings menu visibility
+    effect(() => {
+      this.localMenuVisible.set(this.headerService.isSettingsVisible());
+    });
 
-  constructor(
-    protected themeSelector: ThemeSelectorService,
-    private readonly supabaseService: SupabaseService,
-  ) {
-    effect(
-      () => {
-        this.localMenuVisible.set(this.settingsVisible());
-      }
-    );
+    // Initialize theme
+    this.initializeTheme();
 
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-      theme === 'dark' ? this.themeSelector.setDarkTheme() : this.themeSelector.setLightTheme();
-    }
-    else {
-      this.themeSelector.setSystemTheme();
-    }
-
-    this.getSelectedSource();
+    // Load saved preferences
+    this.loadSavedPreferences();
   }
 
   ngOnInit(): void {
     this.isThemeDark.set(this.themeSelector.currentTheme() === 'dark');
-    this.getQuranTranslators();
-    this.getHadithSources();
+
+    if (this.authService.isLoggedIn()) {
+      this.loadQuranTranslators();
+      this.loadHadithSources();
+    }
   }
 
-  getSelectedSource() {
-    // Load saved hadith source from localStorage
+  private initializeTheme(): void {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      theme === 'dark' ? this.themeSelector.setDarkTheme() : this.themeSelector.setLightTheme();
+    } else {
+      this.themeSelector.setSystemTheme();
+    }
+  }
+
+  private loadSavedPreferences(): void {
+    if (!this.authService.isLoggedIn()) {
+      return;
+    }
+
+    this.loadHadithSourcePreference();
+    this.loadQuranTranslatorPreference();
+  }
+
+  private loadHadithSourcePreference(): void {
     const savedSource = localStorage.getItem('hadithSource');
-
     if (savedSource) {
-      this.selectedSource.set(savedSource)
+      this.selectedSource.set(savedSource);
       this.supabaseService.hadithSource.set(savedSource);
+    } else {
+      const defaultSource = this.supabaseService.hadithSource();
+      localStorage.setItem('hadithSource', defaultSource);
+      this.selectedSource.set(defaultSource);
     }
-    else {
-      localStorage.setItem('hadithSource', this.supabaseService.hadithSource());
-      this.selectedSource.set(this.supabaseService.hadithSource());
-    }
+  }
 
+  private loadQuranTranslatorPreference(): void {
     const savedTranslator = localStorage.getItem('quranTranslator');
-
     if (savedTranslator) {
       this.selectedTranslator.set(savedTranslator);
       this.supabaseService.quranTranslator.set(savedTranslator);
-    }
-    else {
-      localStorage.setItem('quranTranslator', this.supabaseService.quranTranslator());
-      this.selectedTranslator.set(this.supabaseService.quranTranslator());
+    } else {
+      const defaultTranslator = this.supabaseService.quranTranslator();
+      localStorage.setItem('quranTranslator', defaultTranslator);
+      this.selectedTranslator.set(defaultTranslator);
     }
   }
 
-  getQuranTranslators = computed(() => {
-    this.supabaseService.getQuranTranslators()
-      .subscribe(
-        {
-          next: (data: any) => {
-            this.quranTranslators.set(data.data);
-          }
-        }
-      );
-  });
+  private loadQuranTranslators(): void {
+    this.supabaseService.getQuranTranslators().subscribe({
+      next: (data: { data: Translator[] }) => {
+        this.quranTranslators.set(data.data);
+      }
+    });
+  }
 
-  getHadithSources = computed(() => {
-    this.supabaseService.findActiveHadithSources()
-      .subscribe(
-        {
-          next: (data: any) => {
-            this.hadithSources.set(data.data.map((item: any) => item.name));
-          }
-        }
-      );
-  });
+  private loadHadithSources(): void {
+    this.supabaseService.findActiveHadithSources().subscribe({
+      next: (data: { data: { name: string }[] }) => {
+        this.hadithSources.set(data.data.map(item => item.name));
+      }
+    });
+  }
 
   switchTheme(): void {
     this.isThemeDark.set(!this.isThemeDark());
@@ -109,27 +118,22 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  onMenuItemClick() {
-    this.localMenuVisible.set(false);
-    this.settingsClose.emit(false)
-    //reload page when onMenuItemClick
-    window.location.reload();
+  onMenuItemClick(): void {
+    this.headerService.closeSettings();
+    //window.location.reload();
   }
 
-  onQuranTranslatorChange(event: Event) {
+  onQuranTranslatorChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedTranslator.set(select.value);
-
-    // Save to localStorage when selection changes
-    localStorage.setItem('quranTranslator', this.selectedTranslator());
+    localStorage.setItem('quranTranslator', select.value);
+    this.supabaseService.quranTranslator.set(select.value);
   }
 
-  onHadithSourceChange(event: Event) {
+  onHadithSourceChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedSource.set(select.value);
-
-    // Save to localStorage when selection changes
-    localStorage.setItem('hadithSource', this.selectedSource());
+    localStorage.setItem('hadithSource', select.value);
+    this.supabaseService.hadithSource.set(select.value);
   }
-
 }
