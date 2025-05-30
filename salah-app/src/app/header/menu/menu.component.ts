@@ -1,8 +1,8 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { HeaderService } from '../header/header.service';
-import { AuthService } from '../service/auth.service';
-import { version } from '../../../package.json'
+import { HeaderService } from '../header.service';
+import { AuthService } from '../../service/auth.service';
+import { version } from '../../../../package.json'
 
 @Component({
   selector: 'app-menu',

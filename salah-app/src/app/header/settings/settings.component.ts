@@ -1,9 +1,9 @@
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
-import { ThemeSelectorService } from '../service/theme.service';
-import { SupabaseService } from '../service/supabase.service';
-import { Translator } from '../model/translation.model';
-import { HeaderService } from '../header/header.service';
-import { AuthService } from '../service/auth.service';
+import { ThemeSelectorService } from '../../service/theme.service';
+import { SupabaseService } from '../../service/supabase.service';
+import { Translator } from '../../model/translation.model';
+import { HeaderService } from '../../header/header.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-settings',
