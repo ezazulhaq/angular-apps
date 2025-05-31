@@ -126,14 +126,12 @@ export class SettingsComponent implements OnInit {
   onQuranTranslatorChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedTranslator.set(select.value);
-    localStorage.setItem('quranTranslator', select.value);
     this.supabaseService.quranTranslator.set(select.value);
   }
 
   onHadithSourceChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedSource.set(select.value);
-    localStorage.setItem('hadithSource', select.value);
     this.supabaseService.hadithSource.set(select.value);
   }
 }

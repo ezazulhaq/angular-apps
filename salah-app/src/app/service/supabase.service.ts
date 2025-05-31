@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { effect, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { Observable, from, map, tap } from 'rxjs';
@@ -27,8 +27,12 @@ export class SupabaseService {
         this.supabase = createClient(this.supabaseUrl, this.supabaseKey);
 
         this.quranTranslator.set(localStorage.getItem('quranTranslator') || 'ahmedraza');
-
         this.hadithSource.set(localStorage.getItem('hadithSource') || 'Sahih Bukhari');
+
+        effect(() => {
+            localStorage.setItem('quranTranslator', this.quranTranslator());
+            localStorage.setItem('hadithSource', this.hadithSource());
+        });
     }
 
     getQuranTranslators(): Observable<any> {
