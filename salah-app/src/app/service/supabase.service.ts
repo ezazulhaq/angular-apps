@@ -110,6 +110,22 @@ export class SupabaseService {
         );
     }
 
+    /**
+     * Retrieves a list of active hadith sources from the database.
+     * 
+     * @returns An Observable that emits the names of active hadith sources
+     * 
+     * @example
+     * this.supabaseService.findActiveHadithSources()
+     *   .subscribe(
+     *     sources => console.log(sources),
+     *     error => console.error('Failed to load sources:', error)
+     *   );
+     * 
+     * @remarks
+     * - Queries the 'sources' table and filters for records where 'is_active' is true
+     * - Only selects the 'name' field from each record
+     */
     findActiveHadithSources(): Observable<any> {
         return from(
             this.supabase
