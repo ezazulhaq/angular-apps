@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { SupabaseService } from '../service/supabase.service';
 import { HadithChapters, HadithDetails } from './hadith.model';
@@ -24,7 +24,7 @@ export class HadithComponent {
 
   chapterList = signal<HadithChapters[]>([]);
 
-  hadithSource = signal<string>('');
+  hadithSource = computed(() => this.supabaseService.hadithSource());
 
   bookMarkDetails = signal<HadithDetails[]>([]);
 
@@ -32,19 +32,24 @@ export class HadithComponent {
     private readonly router: Router,
     private readonly supabaseService: SupabaseService,
     private readonly bookMarkService: BookmarkService
-  ) { }
+  ) {
+    effect(() => {
+      console.log(`Hadith Source Home: ${this.hadithSource()}`);
+      this.getChaptersFromSource();
+      this.getBookmarkedHadiths();
+    });
+  }
 
   ngOnInit(): void {
-    this.hadithSource.set(this.supabaseService.hadithSource());
-    this.getChaptersFromSource();
-    this.getBookmarkedHadiths();
+    // Initial data loading is handled by the effect
   }
 
   redirectToHome() {
     this.router.navigate(['/home']);
   }
 
-  getChaptersFromSource = computed(() => {
+  private getChaptersFromSource() {
+    console.log("getChaptersFromSource function called");
     this.supabaseService.getHadithChaptersFromSource()
       .subscribe(
         {
@@ -55,9 +60,10 @@ export class HadithComponent {
           complete: () => console.log("hadith chapters loaded")
         }
       );
-  });
+  };
 
-  getBookmarkedHadiths = computed(() => {
+  private getBookmarkedHadiths() {
+    console.log("getBookmarkedHadiths function called");
     const hadith_ids: string[] = this.bookMarkService.getBookmarkedHadiths();
 
     this.supabaseService.getHadithDetailsFromId(hadith_ids)
@@ -74,6 +80,5 @@ export class HadithComponent {
           error: (error: any) => console.log(error.error),
           complete: () => console.log("complete hadith details")
         });
-  });
-
+  };
 }

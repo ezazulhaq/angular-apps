@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, signal, ViewChild } from '@angular/core';
+import { Component, computed, effect, ElementRef, HostListener, signal, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Translation } from '../../model/translation.model';
@@ -35,6 +35,8 @@ export class AyahComponent {
 
   isTranslationVisible = signal<boolean>(true);
 
+  translator = computed(() => this.supabaseService.quranTranslator());
+
   constructor(
     private readonly supabaseService: SupabaseService,
     private readonly bookmarkService: BookmarkService,
@@ -49,17 +51,14 @@ export class AyahComponent {
         this.ayahIdToScrollTo.set(+this.ayahNoParam);
       }
     });
+
+    effect(() => {
+      this.getTranslatedAayahs();
+    });
   }
 
   ngOnInit(): void {
-    const translator = localStorage.getItem('quranTranslator') || 'ahmedraza';
-    this.supabaseService.getSurahTranslation("en", +this.surahNumber, translator).subscribe(
-      {
-        next: (data: any) => {
-          this.ayahs.set(data.data);
-        }
-      }
-    );
+    // Initial data loading is handled by the effect
   }
 
   ngAfterViewInit() {
@@ -105,6 +104,19 @@ export class AyahComponent {
     } else {
       console.warn(`Ayah with Number ${ayahNo} not found.`);
     }
+  }
+
+  private getTranslatedAayahs() {
+    console.log("getTranslatedAayahs function called");
+    this.supabaseService.getSurahTranslation("en", +this.surahNumber, this.translator()).subscribe(
+      {
+        next: (data: any) => {
+          this.ayahs.set(data.data);
+        },
+        error: (error: any) => console.log(error.error),
+        complete: () => console.log(`Aayahs set this translator: ${this.translator()}`)
+      }
+    );
   }
 
 }
