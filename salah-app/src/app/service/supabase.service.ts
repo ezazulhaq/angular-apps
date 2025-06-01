@@ -14,9 +14,9 @@ export class SupabaseService {
 
     private readonly supabase: SupabaseClient;
 
-    quranTranslator = signal<string>('');
+    quranTranslator = signal<string>(localStorage.getItem('quranTranslator') || 'ahmedraza');
 
-    hadithSource = signal<string>('');
+    hadithSource = signal<string>(localStorage.getItem('hadithSource') || 'Sahih Bukhari');
 
     constructor() {
         // Verify that both environment variables are correctly loaded
@@ -25,9 +25,6 @@ export class SupabaseService {
         }
 
         this.supabase = createClient(this.supabaseUrl, this.supabaseKey);
-
-        this.quranTranslator.set(localStorage.getItem('quranTranslator') || 'ahmedraza');
-        this.hadithSource.set(localStorage.getItem('hadithSource') || 'Sahih Bukhari');
 
         effect(() => {
             localStorage.setItem('quranTranslator', this.quranTranslator());
