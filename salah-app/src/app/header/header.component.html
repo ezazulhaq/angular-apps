@@ -1,5 +1,7 @@
 <!-- Header -->
-<div class="absolute top-0 left-0 z-10 w-full flex items-center justify-between p-4 bg-opacity-0">
+<div class="fixed top-0 left-0 z-10 w-full flex items-center justify-between p-4 bg-opacity-0 transform transition-all duration-500 ease-in-out"
+    [class.translate-y-0]="isHeaderVisible" [class.-translate-y-full]="!isHeaderVisible"
+    [class.opacity-100]="isHeaderVisible" [class.opacity-0]="!isHeaderVisible">
     <!-- Menu Icon -->
     <button class="app-hamburger" (click)="toggleMenu()">
         <svg class="size-5 fill-gray-500 dark:fill-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
