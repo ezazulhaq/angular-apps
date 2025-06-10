@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Tasbih } from '../model/tasbih.model';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +8,7 @@ export class TasbihService {
 
   private readonly STORAGE_KEY = 'tasbih_counters';
 
-  private tasbihListSubject = new BehaviorSubject<Tasbih[]>([]);
-  public tasbihList$ = this.tasbihListSubject.asObservable();
+  tasbihList = signal<Tasbih[]>([]);
 
   private defaultTasbihs: Tasbih[] = [
     {
@@ -54,15 +52,15 @@ export class TasbihService {
       const storedData = localStorage.getItem(this.STORAGE_KEY);
       if (storedData) {
         const tasbihs = JSON.parse(storedData);
-        this.tasbihListSubject.next(tasbihs);
+        this.tasbihList.set(tasbihs);
       } else {
         // Initialize with default tasbihs if none exists
-        this.tasbihListSubject.next(this.defaultTasbihs);
+        this.tasbihList.set(this.defaultTasbihs);
         this.saveToStorage(this.defaultTasbihs);
       }
     } catch (error) {
       console.error('Error loading tasbihs from storage:', error);
-      this.tasbihListSubject.next(this.defaultTasbihs);
+      this.tasbihList.set(this.defaultTasbihs);
     }
   }
 
@@ -74,59 +72,55 @@ export class TasbihService {
     }
   }
 
-  getTasbihList(): Observable<Tasbih[]> {
-    return this.tasbihList$;
-  }
-
   getTasbihById(id: string): Tasbih | undefined {
-    return this.tasbihListSubject.value.find(tasbih => tasbih.id === id);
+    return this.tasbihList().find(tasbih => tasbih.id === id);
   }
 
   incrementCount(id: string): void {
-    const tasbihs = this.tasbihListSubject.value.map(tasbih => {
+    const tasbihs = this.tasbihList().map(tasbih => {
       if (tasbih.id === id) {
         return { ...tasbih, count: tasbih.count + 1 };
       }
       return tasbih;
     });
 
-    this.tasbihListSubject.next(tasbihs);
+    this.tasbihList.set(tasbihs);
     this.saveToStorage(tasbihs);
   }
 
   resetCount(id: string): void {
-    const tasbihs = this.tasbihListSubject.value.map(tasbih => {
+    const tasbihs = this.tasbihList().map(tasbih => {
       if (tasbih.id === id) {
         return { ...tasbih, count: 0 };
       }
       return tasbih;
     });
 
-    this.tasbihListSubject.next(tasbihs);
+    this.tasbihList.set(tasbihs);
     this.saveToStorage(tasbihs);
   }
 
   addTasbih(tasbih: Tasbih): void {
-    const tasbihs = [...this.tasbihListSubject.value, tasbih];
-    this.tasbihListSubject.next(tasbihs);
+    const tasbihs = [...this.tasbihList(), tasbih];
+    this.tasbihList.set(tasbihs);
     this.saveToStorage(tasbihs);
   }
 
   updateTasbih(updatedTasbih: Tasbih): void {
-    const tasbihs = this.tasbihListSubject.value.map(tasbih => {
+    const tasbihs = this.tasbihList().map(tasbih => {
       if (tasbih.id === updatedTasbih.id) {
         return updatedTasbih;
       }
       return tasbih;
     });
 
-    this.tasbihListSubject.next(tasbihs);
+    this.tasbihList.set(tasbihs);
     this.saveToStorage(tasbihs);
   }
 
   deleteTasbih(id: string): void {
-    const tasbihs = this.tasbihListSubject.value.filter(tasbih => tasbih.id !== id);
-    this.tasbihListSubject.next(tasbihs);
+    const tasbihs = this.tasbihList().filter(tasbih => tasbih.id !== id);
+    this.tasbihList.set(tasbihs);
     this.saveToStorage(tasbihs);
   }
 
