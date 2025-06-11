@@ -13,9 +13,9 @@
                 Choose Dhikr:
             </label>
             <div class="relative">
-                <select id="tasbihSelect" [(ngModel)]="selectedTasbihId" (change)="onTasbihSelect(selectedTasbihId)"
+                <select id="tasbihSelect" [(ngModel)]="selectedTasbihId" (change)="onTasbihSelect(selectedTasbihId())"
                     class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-3 text-gray-700 dark:text-white focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    <option *ngFor="let tasbih of tasbihs" [value]="tasbih.id">
+                    <option *ngFor="let tasbih of tasbihs()" [value]="tasbih.id">
                         {{ tasbih.name }}
                     </option>
                 </select>
@@ -29,12 +29,12 @@
         </div>
 
         <!-- Selected Tasbih Display -->
-        <div *ngIf="selectedTasbih" class="flex-1 flex flex-col items-center justify-center mb-4">
+        <div *ngIf="selectedTasbih()" class="flex-1 flex flex-col items-center justify-center mb-4">
             <!-- Arabic Text -->
             <div class="text-center mb-6">
-                <p class="text-4xl font-indopak mb-2">{{ selectedTasbih.arabicText }}</p>
-                <p class="text-lg text-gray-600 dark:text-gray-400">{{ selectedTasbih.transliteration }}</p>
-                <p class="text-sm text-gray-500 dark:text-gray-500">{{ selectedTasbih.translation }}</p>
+                <p class="text-4xl font-indopak mb-2">{{ selectedTasbih()!.arabicText }}</p>
+                <p class="text-lg text-gray-600 dark:text-gray-400">{{ selectedTasbih()!.transliteration }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-500">{{ selectedTasbih()!.translation }}</p>
             </div>
 
             <!-- Progress Circle -->
@@ -51,12 +51,11 @@
                 </svg>
                 <!-- Count Display -->
                 <div class="absolute inset-0 flex flex-col items-center justify-center">
-                    <span [@countAnimation]="selectedTasbih.count"
-                        class="text-5xl font-bold text-gray-800 dark:text-white">
-                        {{ selectedTasbih.count }}
+                    <span class="text-5xl font-bold text-gray-800 dark:text-white">
+                        {{ selectedTasbih()!.count }}
                     </span>
                     <span class="text-sm text-gray-500 dark:text-gray-400">
-                        of {{ selectedTasbih.targetCount }}
+                        of {{ selectedTasbih()!.targetCount }}
                     </span>
                 </div>
             </div>
