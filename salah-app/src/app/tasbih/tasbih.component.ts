@@ -4,6 +4,7 @@ import { Tasbih } from '../model/tasbih.model';
 import { TasbihService } from '../service/tasbih.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tasbih',
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 export class TasbihComponent implements OnInit {
 
   private tasbihService = inject(TasbihService);
+  private router = inject(Router);
 
   tasbihs = signal<Tasbih[]>([]);
   selectedTasbihId = signal<string>('1');
@@ -42,6 +44,10 @@ export class TasbihComponent implements OnInit {
     // Load user preferences from localStorage
     const vibrationPref = localStorage.getItem('tasbih_vibration');
     this.isVibrationEnabled = vibrationPref ? JSON.parse(vibrationPref) : true;
+  }
+
+  redirectToHome() {
+    this.router.navigate(['/home']);
   }
 
   updateSelectedTasbih(): void {
