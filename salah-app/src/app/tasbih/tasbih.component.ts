@@ -27,7 +27,7 @@ export class TasbihComponent implements OnInit {
   selectedTasbihId = signal<string>('1');
   selectedTasbih = linkedSignal(() => this.tasbihs().find(t => t.id === this.selectedTasbihId()));
   isVibrationEnabled: boolean = true;
-  isCountingComplete: boolean = false;
+  isCountingComplete = signal<boolean>(false);
 
   constructor() {
     this.tasbihs.set(this.tasbihService.tasbihList());
@@ -35,12 +35,11 @@ export class TasbihComponent implements OnInit {
     effect(() => {
       this.tasbihs.set(this.tasbihService.tasbihList());
       this.selectedTasbih.set(this.tasbihs().find(t => t.id === this.selectedTasbihId()));
+      this.isCountingComplete.set(this.selectedTasbih()!.count >= this.selectedTasbih()!.targetCount);
     });
   }
 
   ngOnInit(): void {
-    this.updateSelectedTasbih();
-
     // Load user preferences from localStorage
     const vibrationPref = localStorage.getItem('tasbih_vibration');
     this.isVibrationEnabled = vibrationPref ? JSON.parse(vibrationPref) : true;
@@ -50,19 +49,12 @@ export class TasbihComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  updateSelectedTasbih(): void {
-    this.isCountingComplete = this.selectedTasbih()
-      ? this.selectedTasbih()!.count >= this.selectedTasbih()!.targetCount
-      : false;
-  }
-
   onTasbihSelect(id: string): void {
     this.selectedTasbihId.set(id);
-    this.updateSelectedTasbih();
   }
 
   increment(): void {
-    if (!this.selectedTasbih) return;
+    if (!this.selectedTasbih()) return;
 
     this.tasbihService.incrementCount(this.selectedTasbihId());
 
@@ -72,9 +64,7 @@ export class TasbihComponent implements OnInit {
     }
 
     // Check if target count is reached
-    this.updateSelectedTasbih();
-    if (this.selectedTasbih && this.selectedTasbih()!.count === this.selectedTasbih()!.targetCount) {
-      this.isCountingComplete = true;
+    if (this.selectedTasbih() && this.selectedTasbih()!.count === this.selectedTasbih()!.targetCount) {
       if (this.isVibrationEnabled && 'vibrate' in navigator) {
         navigator.vibrate([100, 50, 100]);
       }
@@ -82,9 +72,8 @@ export class TasbihComponent implements OnInit {
   }
 
   resetCounter(): void {
-    if (this.selectedTasbihId) {
+    if (this.selectedTasbihId()) {
       this.tasbihService.resetCount(this.selectedTasbihId());
-      this.isCountingComplete = false;
     }
   }
 
