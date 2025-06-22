@@ -27,7 +27,8 @@
         </div>
 
         <!-- Selected Tasbih Display -->
-        <div *ngIf="selectedTasbih()" class="flex-1 flex flex-col items-center justify-center mb-4">
+        @if (selectedTasbih()) {
+        <div class="flex-1 flex flex-col items-center justify-center mb-4">
             <!-- Arabic Text -->
             <div class="text-center mb-6">
                 <p class="text-4xl font-indopak mb-2">{{ selectedTasbih()!.arabicText }}</p>
@@ -59,11 +60,13 @@
             </div>
 
             <!-- Completion Message -->
-            <div *ngIf="isCountingComplete()" class="text-center mb-6 animate-pulse">
+            @if (isCountingComplete()) {
+            <div class="text-center mb-6 animate-pulse">
                 <p class="text-emerald-600 dark:text-emerald-400 text-xl font-semibold">
                     Dhikr Complete! Alhamdulillah
                 </p>
             </div>
+            }
 
             <!-- Counter Button -->
             <button (click)="increment()"
@@ -80,13 +83,14 @@
                 </button>
                 <button (click)="toggleVibration()"
                     class="px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
-                    [class.bg-emerald-100]="isVibrationEnabled" [class.text-emerald-700]="isVibrationEnabled"
-                    [class.bg-gray-200]="!isVibrationEnabled" [class.dark:bg-gray-700]="!isVibrationEnabled"
-                    [class.text-gray-700]="!isVibrationEnabled" [class.dark:text-white]="!isVibrationEnabled">
-                    Vibration: {{ isVibrationEnabled ? 'On' : 'Off' }}
+                    [class.bg-emerald-100]="isVibrationEnabled()" [class.text-emerald-700]="isVibrationEnabled()"
+                    [class.bg-gray-200]="!isVibrationEnabled()" [class.dark:bg-gray-700]="!isVibrationEnabled()"
+                    [class.text-gray-700]="!isVibrationEnabled()" [class.dark:text-white]="!isVibrationEnabled()">
+                    Vibration: {{ isVibrationEnabled() ? 'On' : 'Off' }}
                 </button>
             </div>
         </div>
+        }
     </main>
 
     <!-- Footer -->

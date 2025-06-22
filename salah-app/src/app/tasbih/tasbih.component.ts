@@ -26,7 +26,7 @@ export class TasbihComponent implements OnInit {
   tasbihs = signal<Tasbih[]>([]);
   selectedTasbihId = signal<string>('1');
   selectedTasbih = linkedSignal(() => this.tasbihs().find(t => t.id === this.selectedTasbihId()));
-  isVibrationEnabled: boolean = true;
+  isVibrationEnabled = signal<boolean>(true);
   isCountingComplete = signal<boolean>(false);
 
   constructor() {
@@ -42,7 +42,7 @@ export class TasbihComponent implements OnInit {
   ngOnInit(): void {
     // Load user preferences from localStorage
     const vibrationPref = localStorage.getItem('tasbih_vibration');
-    this.isVibrationEnabled = vibrationPref ? JSON.parse(vibrationPref) : true;
+    this.isVibrationEnabled.set(vibrationPref ? JSON.parse(vibrationPref) : true);
   }
 
   redirectToHome() {
@@ -59,13 +59,13 @@ export class TasbihComponent implements OnInit {
     this.tasbihService.incrementCount(this.selectedTasbihId());
 
     // Provide haptic feedback if enabled and available
-    if (this.isVibrationEnabled && 'vibrate' in navigator) {
+    if (this.isVibrationEnabled() && 'vibrate' in navigator) {
       navigator.vibrate(20);
     }
 
     // Check if target count is reached
     if (this.selectedTasbih() && this.selectedTasbih()!.count === this.selectedTasbih()!.targetCount) {
-      if (this.isVibrationEnabled && 'vibrate' in navigator) {
+      if (this.isVibrationEnabled() && 'vibrate' in navigator) {
         navigator.vibrate([100, 50, 100]);
       }
     }
@@ -78,8 +78,8 @@ export class TasbihComponent implements OnInit {
   }
 
   toggleVibration(): void {
-    this.isVibrationEnabled = !this.isVibrationEnabled;
-    localStorage.setItem('tasbih_vibration', JSON.stringify(this.isVibrationEnabled));
+    this.isVibrationEnabled.update(value => !value);
+    localStorage.setItem('tasbih_vibration', JSON.stringify(this.isVibrationEnabled()));
   }
 
   getCompletionPercentage(): number {
