@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { authGuard } from './guard/auth.gaurd';
 import { ProfileComponent } from './profile/profile.component';
+import { TasbihComponent } from './tasbih/tasbih.component';
 
 export const routes: Routes = [
     {
@@ -94,6 +95,11 @@ export const routes: Routes = [
         path: 'feedback',
         title: 'Feedback',
         component: FeedbackComponent
+    },
+    {
+        path: 'tasbih',
+        title: 'Tasbih Counter',
+        component: TasbihComponent
     },
     {
         path: '',
