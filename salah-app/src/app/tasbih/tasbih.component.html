@@ -69,9 +69,8 @@
             }
 
             <!-- Counter Button -->
-            <button (click)="increment()"
-                class="w-40 h-40 rounded-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-white text-2xl font-bold shadow-lg transition-transform transform active:scale-95 mb-6"
-                [disabled]="isCountingComplete()" [class.opacity-50]="isCountingComplete()">
+            <button (click)="increment()" class="tap-button" [disabled]="isCountingComplete()"
+                [class.opacity-50]="isCountingComplete()">
                 Tap
             </button>
 
