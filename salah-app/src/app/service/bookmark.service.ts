@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Hadiths } from '../hadith/hadith.model';
+import { HadithDetails, Hadiths } from '../hadith/hadith.model';
 import { BookMarkedSurah } from '../model/surah.model';
 
 @Injectable({
@@ -139,5 +139,14 @@ export class BookmarkService {
       console.error('Error loading bookmarks:', error);
       this.bookmarkedAyahs.set(new Set());
     }
+  }
+
+  removeHadithBookmark(hadith: Hadiths){
+    this.bookmarkedHadiths.update(bookmarked => {
+      const newBookmarked = new Set(bookmarked);
+      newBookmarked.delete(hadith.id);
+      return newBookmarked;
+    });
+    this.saveToStorageHadith();
   }
 }
