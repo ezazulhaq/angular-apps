@@ -81,4 +81,16 @@ export class HadithComponent {
           complete: () => console.log("complete hadith details")
         });
   };
+
+  removeBookmark(bookmark: HadithDetails) {
+    this.supabaseService.getHadithByChapterId(bookmark.chapter_id).subscribe(
+      {
+        next: (data: any) => {
+          const hadith = data.data.find((hadith: HadithDetails) => hadith.hadith_no === bookmark.hadith_no);
+          this.bookMarkService.removeHadithBookmark(hadith);
+        },
+        complete: () => this.getBookmarkedHadiths()
+      }
+    );
+  }
 }

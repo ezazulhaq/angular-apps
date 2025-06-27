@@ -5,9 +5,15 @@
 <div class="flex flex-wrap space-x-2 justify-start items-center text-sm w-full px-10 mb-4">
     <div class="italic">Bookmarked :</div>
     @for(bookmark of bookMarkDetails(); track $index){
-    <button class="app-bookmark  font-indopak" [routerLink]="['./chapter']" [queryParams]="{ id: bookmark.chapter_id, hadithNo: bookmark.hadith_no }">
-        {{ bookmark.chapter_name }} : {{ bookmark.hadith_no }}
-    </button>
+    <div class="app-bookmark">
+        <button class="font-indopak" [routerLink]="['./chapter']"
+            [queryParams]="{ id: bookmark.chapter_id, hadithNo: bookmark.hadith_no }">
+            {{ bookmark.chapter_name }} : {{ bookmark.hadith_no }}
+        </button>
+        <button (click)="removeBookmark(bookmark)">
+            x
+        </button>
+    </div>
     }
 </div>
 }
