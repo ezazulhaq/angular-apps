@@ -15,6 +15,7 @@ export const environment = {
     },
     supabase: {
         url: supabaseUrl,
-        anonKey: supabaseAnonKey
+        anonKey: supabaseAnonKey,
+        projectId: 'macznmfhfslwgrqjcabe'
     }
 };
