@@ -149,4 +149,18 @@ export class BookmarkService {
     });
     this.saveToStorageHadith();
   }
+
+  removeAyahBookmark(bookMarkedSurah: BookMarkedSurah){
+    this.bookmarkedAyahs.update(bookmarked => {
+      const newBookmarked = new Set(bookmarked);
+      Array.from(newBookmarked).forEach(item => {
+        if (item.surah_id === bookMarkedSurah.surah_id &&
+          item.ayah_id === bookMarkedSurah.ayah_id) {
+          newBookmarked.delete(item);
+        }
+      });
+      return newBookmarked;
+    });
+    this.saveToStorageAyah();
+  }
 }
