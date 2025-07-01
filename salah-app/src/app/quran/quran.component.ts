@@ -92,4 +92,9 @@ export class QuranComponent implements OnInit {
             )
         );
     }
+
+    removeBookmark(bookmark: BookMarkedSurah){
+        this.bookmarkService.removeAyahBookmark(bookmark);
+        this.setBookmarkDetails();
+    }
 }

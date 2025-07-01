@@ -17,10 +17,15 @@
 <div class="flex flex-wrap space-x-2 justify-start items-center text-sm w-full px-10 mb-4">
     <div class="italic">Bookmarked :</div>
     @for(bookmark of bookMarkDetails(); track $index){
-    <button class="app-bookmark" [routerLink]="['./ayah']"
-        [queryParams]="{ surahNumber: bookmark.surah.surah_id, surahName: bookmark.surah.name_transliteration, surahName_ar: bookmark.surah.name, ayahNo: bookmark.bookmarked.ayah_id }">
-        {{ bookmark.surah.surah_id }}-{{ bookmark.surah.name_transliteration }} : {{ bookmark.bookmarked.ayah_id }}
-    </button>
+    <div class="app-bookmark">
+        <button [routerLink]="['./ayah']"
+            [queryParams]="{ surahNumber: bookmark.surah.surah_id, surahName: bookmark.surah.name_transliteration, surahName_ar: bookmark.surah.name, ayahNo: bookmark.bookmarked.ayah_id }">
+            {{ bookmark.surah.surah_id }}-{{ bookmark.surah.name_transliteration }} : {{ bookmark.bookmarked.ayah_id }}
+        </button>
+        <button (click)="removeBookmark(bookmark.bookmarked)">
+            x
+        </button>
+    </div>
     }
 </div>
 }
