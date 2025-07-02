@@ -29,7 +29,7 @@
         <div [id]="'ayah-' + ayah.ayah_number" class="font-medium text-sm">
             <span class="ayah-numbers">{{ayah.ayah_number}}</span>
         </div>
-        <div class="text-end text-3xl font-indopak">{{ayah.arabic_text_original}} ۝</div>
+        <div class="text-end text-3xl font-indopak leading-[50px]">{{ayah.arabic_text_original}} ۝</div>
         @if(isTranslationVisible()){
         <div class="font-app-serif text-lg text-start">{{ayah.translation}}</div>
         }
