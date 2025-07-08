@@ -2,6 +2,31 @@
     @if(isLoaded()){
     <div class="absolute bottom-0 left-0 right-0 flex flex-row justify-center items-center pb-4 z-[5]">
         <div class="flex flex-row">
+            <!-- Zoom Out Button -->
+            <button type="button" (click)="zoomOut()"
+                class="mr-2 p-1 rounded hover:bg-gray-100 active:bg-gray-200 focus:bg-gray-100"
+                [disabled]="zoom() <= 0.5">
+                <svg class="size-6 text-slate-600 hover:text-slate-800 active:text-slate-800 focus:text-slate-800"
+                    fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                    <path d="M7 9h5v1H7z" />
+                </svg>
+            </button>
+
+            <!-- Zoom In Button -->
+            <button type="button" (click)="zoomIn()"
+                class="mr-2 p-1 rounded hover:bg-gray-100 active:bg-gray-200 focus:bg-gray-100"
+                [disabled]="zoom() >= 3">
+                <svg class="size-6 text-slate-600 hover:text-slate-800 active:text-slate-800 focus:text-slate-800"
+                    fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                    <path d="M7 9h5v1H7z" />
+                    <path d="M9 7h1v5H9z" />
+                </svg>
+            </button>
+
             <!-- Previous Page Button -->
             <button type="button" (click)="prevPage()">
                 <svg class="size-8 text-slate-600 hover:text-slate-800 active:text-slate-800 focus:text-slate-800"
@@ -28,8 +53,8 @@
     </div>
     }
 
-    <pdf-viewer [src]="pdfSrc()" [original-size]="false" [autoresize]="true" class="pdf-viewer" [(page)]="page"
-        (after-load-complete)="afterLoadComplete($event)" (page-rendered)="pageRendered($event)"
+    <pdf-viewer [src]="pdfSrc()" [original-size]="false" [autoresize]="true" [zoom]="zoom()" class="pdf-viewer"
+        [(page)]="page" (after-load-complete)="afterLoadComplete($event)" (page-rendered)="pageRendered($event)"
         (error)="onError($event)" (on-progress)="onProgress($event)">
     </pdf-viewer>
 

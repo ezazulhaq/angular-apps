@@ -5,4 +5,5 @@ export interface IslamicLibrary {
     storageKey?: string;
     page?: number;
     totalPage?: number;
+    zoom?: number;
 }

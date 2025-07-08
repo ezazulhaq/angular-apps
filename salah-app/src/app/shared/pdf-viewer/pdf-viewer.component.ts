@@ -23,6 +23,7 @@ export class PdfViewerComponent implements OnInit {
   pagesRendered = signal<number>(0);
   totalPages = signal<number>(0);
   isLoaded = signal<boolean>(false);
+  zoom = signal<number>(1);
   progressData!: PDFProgressData;
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: Object) {
@@ -36,6 +37,7 @@ export class PdfViewerComponent implements OnInit {
       const islamicLibrary = this.getIslamicLibraryFromLocalStorage()?.find(item => item.storageKey === this.storageKey()) ?? null;
       if (islamicLibrary) {
         this.page.set(islamicLibrary.page ?? 1);
+        this.zoom.set(islamicLibrary.zoom ?? 1);
       }
     }
   }
@@ -55,13 +57,27 @@ export class PdfViewerComponent implements OnInit {
     this.page.update(value => value - 1);
   }
 
+  zoomIn() {
+    if (this.zoom() >= 3) return;
+    this.zoom.update(value => Math.min(value + 0.25, 3));
+  }
+
+  zoomOut() {
+    if (this.zoom() <= 0.5) return;
+    this.zoom.update(value => Math.max(value - 0.25, 0.5));
+  }
+
   onError(event: any) {
     console.error('Error loading PDF', event);
   }
 
   afterLoadComplete(pdfData: PDFDocumentProxy) {
-    const savedPage = this.getIslamicLibraryFromLocalStorage()?.find(item => item.storageKey === this.storageKey())?.page ?? 1;
+    const savedLibrary = this.getIslamicLibraryFromLocalStorage()?.find(item => item.storageKey === this.storageKey());
+    const savedPage = savedLibrary?.page ?? 1;
+    const savedZoom = savedLibrary?.zoom ?? 1;
+
     this.page.set(savedPage > pdfData.numPages ? pdfData.numPages : savedPage); // Ensure valid page number
+    this.zoom.set(savedZoom);
     this.totalPages.set(pdfData.numPages);
     this.isLoaded.set(true);
   }
