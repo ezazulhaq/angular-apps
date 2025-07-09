@@ -14,6 +14,7 @@ import { RegisterComponent } from './register/register.component';
 import { authGuard } from './guard/auth.gaurd';
 import { ProfileComponent } from './profile/profile.component';
 import { TasbihComponent } from './tasbih/tasbih.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 export const routes: Routes = [
     {
