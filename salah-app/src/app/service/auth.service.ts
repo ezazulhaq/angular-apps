@@ -147,6 +147,22 @@ export class AuthService {
     );
   }
 
+  updatePassword(newPassword: string): Observable<void> {
+    return from(this.supabase.auth.updateUser({
+      password: newPassword
+    })).pipe(
+      map(response => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return void 0;
+      }),
+      catchError(error => {
+        return throwError(() => new Error(error.message || 'Failed to update password'));
+      })
+    );
+  }
+
   logout(): Observable<void> {
     return from(this.supabase.auth.signOut()).pipe(
       tap(() => {
