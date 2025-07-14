@@ -101,6 +101,84 @@ export class ChapterComponent implements OnInit, AfterViewInit {
     this.bookmarkService.toggleBookmarkHadith(hadith);
   }
 
+  async copyHadith(hadith: Hadiths) {
+    try {
+      let textToCopy = '';
+
+      // Add chapter and hadith information
+      textToCopy += `${this.splitChapterName().name_en}`;
+      if (this.splitChapterName().name_ar) {
+        textToCopy += ` (${this.splitChapterName().name_ar})`;
+      }
+      textToCopy += ` - Hadith ${hadith.hadith_no}\n\n`;
+
+      // Add hadith text
+      textToCopy += `${hadith.text_en}\n\n`;
+
+      // Add source attribution
+      textToCopy += `Source: ${this.splitChapterName().name_en} - Hadith ${hadith.hadith_no}`;
+
+      await navigator.clipboard.writeText(textToCopy);
+
+      // Show success message
+      this.showCopySuccessMessage();
+
+    } catch (error) {
+      console.error('Failed to copy hadith:', error);
+
+      // Fallback for older browsers
+      this.fallbackCopyToClipboard(hadith);
+    }
+  }
+
+  private showCopySuccessMessage() {
+    // Create a temporary success message
+    const message = document.createElement('div');
+    message.textContent = 'Hadith copied to clipboard!';
+    message.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50 transition-opacity duration-300';
+
+    document.body.appendChild(message);
+
+    // Remove the message after 2 seconds
+    setTimeout(() => {
+      message.style.opacity = '0';
+      setTimeout(() => {
+        document.body.removeChild(message);
+      }, 300);
+    }, 2000);
+  }
+
+  private fallbackCopyToClipboard(hadith: Hadiths) {
+    const textArea = document.createElement('textarea');
+
+    let textToCopy = '';
+    textToCopy += `${this.splitChapterName().name_en}`;
+    if (this.splitChapterName().name_ar) {
+      textToCopy += ` (${this.splitChapterName().name_ar})`;
+    }
+    textToCopy += ` - Hadith ${hadith.hadith_no}\n\n`;
+    textToCopy += `${hadith.text_en}\n\n`;
+    textToCopy += `Source: ${this.splitChapterName().name_en} - Hadith ${hadith.hadith_no}`;
+
+    textArea.value = textToCopy;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      document.execCommand('copy');
+      this.showCopySuccessMessage();
+    } catch (err) {
+      console.error('Fallback copy failed:', err);
+    }
+
+    document.body.removeChild(textArea);
+  }
+
   private scrollToHadith(hadithId: number | null): void {
     // Find the hadith by id
     const hadithElement = this.hadithContainer.nativeElement.querySelector(
