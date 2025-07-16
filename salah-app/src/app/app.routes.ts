@@ -9,13 +9,13 @@ import { HadithComponent } from './hadith/hadith.component';
 import { ChapterComponent } from './hadith/chapter/chapter.component';
 import { HomeComponent } from './home/home.component';
 import { FeedbackComponent } from './feedback/feedback.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 import { authGuard } from './guard/auth.gaurd';
 import { ProfileComponent } from './profile/profile.component';
 import { TasbihComponent } from './tasbih/tasbih.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 
 export const routes: Routes = [
     {
