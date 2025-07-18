@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
-import { SalahAppService } from '../service/salah-app.service';
+import { SalahAppService } from '../../../service/salah-app.service';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';

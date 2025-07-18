@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { HadithDetails, Hadiths } from '../hadith/hadith.model';
+import { HadithDetails, Hadiths } from '../home/module/hadith/hadith.model';
 import { BookMarkedSurah } from '../model/surah.model';
 
 @Injectable({

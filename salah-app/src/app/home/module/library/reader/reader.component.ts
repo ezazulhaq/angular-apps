@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { PdfViewerComponent } from "../../shared/pdf-viewer/pdf-viewer.component";
+import { environment } from '../../../../../environments/environment';
+import { PdfViewerComponent } from "../../../../shared/pdf-viewer/pdf-viewer.component";
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

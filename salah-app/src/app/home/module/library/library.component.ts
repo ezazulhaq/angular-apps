@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { IslamicLibrary } from '../model/islamic-library.model';
+import { IslamicLibrary } from '../../../model/islamic-library.model';
 import { Router, RouterLink } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
-import { ReplaceUnderlinePipe } from '../pipes/replace-underline.pipe';
-import { LibraryService } from '../service/library.service';
+import { ReplaceUnderlinePipe } from '../../../pipes/replace-underline.pipe';
+import { LibraryService } from '../../../service/library.service';
 
 @Component({
   selector: 'app-library',

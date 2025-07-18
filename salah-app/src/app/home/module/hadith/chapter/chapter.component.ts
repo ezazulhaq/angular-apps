@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, computed, effect, ElementRef, HostListener, OnInit, signal, ViewChild } from '@angular/core';
-import { SupabaseService } from '../../service/supabase.service';
+import { SupabaseService } from '../../../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Hadiths } from '../hadith.model';
-import { BookmarkService } from '../../service/bookmark.service';
+import { BookmarkService } from '../../../../service/bookmark.service';
 
 @Component({
   selector: 'app-chapter',

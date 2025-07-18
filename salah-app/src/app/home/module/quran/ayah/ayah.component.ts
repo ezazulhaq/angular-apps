@@ -1,10 +1,10 @@
 import { Component, computed, effect, ElementRef, HostListener, signal, ViewChild } from '@angular/core';
-import { SupabaseService } from '../../service/supabase.service';
+import { SupabaseService } from '../../../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
-import { Translation } from '../../model/translation.model';
+import { Translation } from '../../../../model/translation.model';
 import { FormsModule } from '@angular/forms';
-import { BookmarkService } from '../../service/bookmark.service';
-import { BookMarkedSurah } from '../../model/surah.model';
+import { BookmarkService } from '../../../../service/bookmark.service';
+import { BookMarkedSurah } from '../../../../model/surah.model';
 
 @Component({
   selector: 'app-ayah',

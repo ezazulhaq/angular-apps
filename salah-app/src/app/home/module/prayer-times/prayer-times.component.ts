@@ -1,12 +1,12 @@
 import { Component, computed, effect, OnInit, signal } from '@angular/core';
-import { SalahAppService } from '../service/salah-app.service';
+import { SalahAppService } from '../../../service/salah-app.service';
 import { CommonModule, DatePipe } from '@angular/common';
-import { OpenStreetMapResponse } from '../model/open-stream-map.model';
-import { NamazTimes } from '../model/namaz-time.model';
+import { OpenStreetMapResponse } from '../../../model/open-stream-map.model';
+import { NamazTimes } from '../../../model/namaz-time.model';
 import { map } from 'rxjs/internal/operators/map';
 import { shareReplay } from 'rxjs/internal/operators/shareReplay';
 import { PrayerTimeInfo } from './prayer-times.model';
-import { CalendarComponent } from "../shared/calendar/calendar.component";
+import { CalendarComponent } from "../../../shared/calendar/calendar.component";
 import { RakatComponent } from './rakat/rakat.component';
 import { Router } from '@angular/router';
 

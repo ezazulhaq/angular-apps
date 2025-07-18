@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, OnInit, signal } from '@angular/core';
-import { SupabaseService } from '../service/supabase.service';
+import { SupabaseService } from '../../../service/supabase.service';
 import { Router, RouterLink } from '@angular/router';
-import { BookMarkedSurah, Surah } from '../model/surah.model';
-import { ListHomeComponent } from '../shared/skeleton/list-home/list-home.component';
-import { BookmarkService } from '../service/bookmark.service';
+import { BookMarkedSurah, Surah } from '../../../model/surah.model';
+import { ListHomeComponent } from '../../../shared/skeleton/list-home/list-home.component';
+import { BookmarkService } from '../../../service/bookmark.service';
 
 @Component({
     selector: 'app-quran',
