@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { IconComponent } from '../../shared/icon/icon.component';
-import { module_icons, ModuleIcons } from './module.contant';
+import { module_icons } from './module.contant';
+import { HomeIcons } from '../../model/home.model';
 
 @Component({
   selector: 'app-home-module',
@@ -12,6 +13,6 @@ import { module_icons, ModuleIcons } from './module.contant';
 })
 export class ModuleComponent {
 
-  icons = signal<ModuleIcons[]>(module_icons); 
+  icons = signal<HomeIcons[]>(module_icons); 
 
 }

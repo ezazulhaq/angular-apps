@@ -1,12 +1,6 @@
-export interface ModuleIcons{
-    link: string;
-    viewBox: string;
-    path: string;
-    title: string;
-    isVisible?: boolean;
-}
+import { HomeIcons } from "../../model/home.model";
 
-export const module_icons: ModuleIcons[] = [
+export const module_icons: HomeIcons[] = [
     {
         link: "../prayer",
         viewBox: "0 0 448 512",
