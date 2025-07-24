@@ -1,10 +1,9 @@
-import { TitleCasePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { SalahAppService } from '../../../service/salah-app.service';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { TitleComponent } from '../../../shared/title/title.component';
 
 // Extended DeviceOrientationEvent interface to include webkitCompassHeading
 interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
@@ -14,7 +13,7 @@ interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
 @Component({
   selector: 'app-kaaba',
   imports: [
-    TitleCasePipe,
+    TitleComponent,
   ],
   templateUrl: './kaaba.component.html',
   styleUrl: './kaaba.component.css',
@@ -33,7 +32,6 @@ export class KaabaComponent implements OnInit, OnDestroy {
   private isIOS: boolean;
 
   constructor(
-    private readonly router: Router,
     private kaabaService: SalahAppService,
     private sanitizer: DomSanitizer) {
     this.heading$ = new BehaviorSubject<number>(0);
@@ -49,10 +47,6 @@ export class KaabaComponent implements OnInit, OnDestroy {
     if (this.compassSubscription) {
       this.compassSubscription.unsubscribe();
     }
-  }
-
-  redirectToHome() {
-    this.router.navigate(['/home']);
   }
 
   requestOrientationPermission() {
