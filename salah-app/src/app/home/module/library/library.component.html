@@ -1,4 +1,5 @@
-<button class="text-2xl font-semibold my-8" (click)="redirectToHome()">Islamic Library</button>
+<app-title [title]="'Islamic Library'" [routerLink]="'/home'"></app-title>
+
 <div class="flex flex-col space-y-6 w-full md:w-4/5 px-10 mx-auto pb-20">
     @for (category of getCategories(); track $index) {
     <details class="library-all">

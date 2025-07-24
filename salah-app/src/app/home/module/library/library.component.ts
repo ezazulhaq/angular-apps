@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { IslamicLibrary } from '../../../model/islamic-library.model';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
 import { ReplaceUnderlinePipe } from '../../../pipes/replace-underline.pipe';
 import { LibraryService } from '../../../service/library.service';
+import { TitleComponent } from '../../../shared/title/title.component';
 
 @Component({
   selector: 'app-library',
@@ -11,6 +12,7 @@ import { LibraryService } from '../../../service/library.service';
     TitleCasePipe,
     ReplaceUnderlinePipe,
     RouterLink,
+    TitleComponent,
   ],
   templateUrl: './library.component.html',
   styleUrl: './library.component.css',
@@ -23,7 +25,6 @@ export class LibraryComponent {
   islamic_library = signal<IslamicLibrary[]>([]);
 
   constructor(
-    private readonly router: Router,
     private readonly libraryService: LibraryService,
   ) { }
 
@@ -38,10 +39,6 @@ export class LibraryComponent {
         }
       }
     );
-  }
-
-  redirectToHome() {
-    this.router.navigate(['/home']);
   }
 
   getCategories() {
