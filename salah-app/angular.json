@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "salah-app": {
+    "taqwa-tracker": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@ngx-env/builder:application",
           "options": {
-            "outputPath": "dist/salah-app",
+            "outputPath": "dist/taqwa-tracker",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -69,10 +69,10 @@
           "builder": "@ngx-env/builder:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "salah-app:build:production"
+              "buildTarget": "taqwa-tracker:build:production"
             },
             "development": {
-              "buildTarget": "salah-app:build:development"
+              "buildTarget": "taqwa-tracker:build:development"
             }
           },
           "defaultConfiguration": "development"
