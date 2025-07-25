@@ -1,8 +1,8 @@
-# Salah App: Islamic Prayer and Hadith Companion
+# Taqwa Tracker: Islamic Prayer and Hadith Companion
 
-The Salah App is a comprehensive Islamic application that provides prayer times, Qibla direction, Quran translations, Hadith search, and more. This Angular-based Progressive Web App (PWA) offers a rich set of features for Muslims to enhance their daily religious practices.
+The Taqwa Tracker is a comprehensive Islamic application that provides prayer times, Qibla direction, Quran translations, Hadith search, and more. This Angular-based Progressive Web App (PWA) offers a rich set of features for Muslims to enhance their daily religious practices.
 
-The Salah App combines modern web technologies with traditional Islamic resources to create a user-friendly and informative platform. It utilizes geolocation for accurate prayer times, integrates with Supabase for data management, and implements a service worker for offline functionality.
+The Taqwa Tracker combines modern web technologies with traditional Islamic resources to create a user-friendly and informative platform. It utilizes geolocation for accurate prayer times, integrates with Supabase for data management, and implements a service worker for offline functionality.
 
 ## Repository Structure
 
@@ -129,7 +129,7 @@ For any persistent issues, please check the browser's developer console for deta
 
 ## Data Flow
 
-The Salah App follows a typical Angular application data flow, with services managing data retrieval and components handling the presentation. Here's a high-level overview of the data flow:
+The Taqwa Tracker follows a typical Angular application data flow, with services managing data retrieval and components handling the presentation. Here's a high-level overview of the data flow:
 
 1. User Interaction: The user interacts with a component in the UI.
 2. Component Request: The component calls a method in a relevant service.
@@ -175,7 +175,7 @@ Update the `src/environments/environment.prod.ts` file with production-specific 
 
 ## Infrastructure
 
-The Salah App utilizes the following key infrastructure components:
+The Taqwa Tracker utilizes the following key infrastructure components:
 
 1. Angular Service Worker (ngsw-worker.js):
    - Type: Service Worker
