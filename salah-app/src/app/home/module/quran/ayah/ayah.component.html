@@ -1,4 +1,5 @@
-<div class="text-2xl font-semibold my-8">{{surahName}}<br>({{surahName_ar}})</div>
+<app-title [title]="surahName" [subTitle]="surahName_ar" [routerLink]="'/quran'"></app-title>
+
 <div #stickyCheckbox class="w-full mb-6">
     <label class="inline-flex items-center">
         <input type="checkbox" [(ngModel)]="isTranslationVisible"

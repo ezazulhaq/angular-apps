@@ -5,11 +5,13 @@ import { Translation } from '../../../../model/translation.model';
 import { FormsModule } from '@angular/forms';
 import { BookmarkService } from '../../../../service/bookmark.service';
 import { BookMarkedSurah } from '../../../../model/surah.model';
+import { TitleComponent } from '../../../../shared/title/title.component';
 
 @Component({
   selector: 'app-ayah',
   imports: [
-    FormsModule
+    FormsModule,
+    TitleComponent
   ],
   templateUrl: './ayah.component.html',
   styleUrl: './ayah.component.css',
