@@ -1,5 +1,4 @@
-<button class="text-2xl font-semibold mt-8 mb-2" (click)="redirectToHome()">Hadith</button>
-<div class="text-lg font-thin mb-8">{{hadithSource()}}</div>
+<app-title [title]="'Hadith'" [subTitle]="hadithSource()" [routerLink]="'/home'"></app-title>
 
 @if(bookMarkDetails().length > 0){
 <div class="flex flex-wrap space-x-2 justify-start items-center text-sm w-full px-10 mb-4">
