@@ -8,11 +8,11 @@ import { shareReplay } from 'rxjs/internal/operators/shareReplay';
 import { PrayerTimeInfo } from './prayer-times.model';
 import { CalendarComponent } from "../../../shared/calendar/calendar.component";
 import { RakatComponent } from './rakat/rakat.component';
-import { Router } from '@angular/router';
+import { TitleComponent } from '../../../shared/title/title.component';
 
 @Component({
   selector: 'app-prayer-times',
-  imports: [CommonModule, DatePipe, CalendarComponent, RakatComponent],
+  imports: [CommonModule, DatePipe, CalendarComponent, RakatComponent, TitleComponent],
   templateUrl: './prayer-times.component.html',
   styleUrl: './prayer-times.component.css',
   host: {
@@ -61,7 +61,6 @@ export class PrayerTimesComponent implements OnInit {
   });
 
   constructor(
-    private readonly router: Router,
     private prayerService: SalahAppService
   ) { }
 
@@ -74,10 +73,6 @@ export class PrayerTimesComponent implements OnInit {
     });
 
     this.fetchAddress();
-  }
-
-  redirectToHome() {
-    this.router.navigate(['/home']);
   }
 
   fetchAddress() {
