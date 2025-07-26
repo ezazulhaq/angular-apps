@@ -5,13 +5,15 @@ import { Router, RouterLink } from '@angular/router';
 import { BookMarkedSurah, Surah } from '../../../model/surah.model';
 import { ListHomeComponent } from '../../../shared/skeleton/list-home/list-home.component';
 import { BookmarkService } from '../../../service/bookmark.service';
+import { TitleComponent } from '../../../shared/title/title.component';
 
 @Component({
     selector: 'app-quran',
     imports: [
         CommonModule,
         RouterLink,
-        ListHomeComponent
+        ListHomeComponent,
+        TitleComponent
     ],
     templateUrl: './quran.component.html',
     styleUrl: './quran.component.css',
@@ -93,7 +95,7 @@ export class QuranComponent implements OnInit {
         );
     }
 
-    removeBookmark(bookmark: BookMarkedSurah){
+    removeBookmark(bookmark: BookMarkedSurah) {
         this.bookmarkService.removeAyahBookmark(bookmark);
         this.setBookmarkDetails();
     }
