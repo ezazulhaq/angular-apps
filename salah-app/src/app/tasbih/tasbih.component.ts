@@ -5,12 +5,15 @@ import { TasbihService } from '../service/tasbih.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { TitleComponent } from '../shared/title/title.component';
 
 @Component({
   selector: 'app-tasbih',
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    TitleComponent,
   ],
   templateUrl: './tasbih.component.html',
   styleUrl: './tasbih.component.css',

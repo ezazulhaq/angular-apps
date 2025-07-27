@@ -1,7 +1,6 @@
 <div class="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
     <!-- Header -->
-    <button class="text-2xl font-semibold mt-8 mb-2" (click)="redirectToHome()">Tasbih Counter</button>
-    <div class="text-lg font-indopak">تسبيح</div>
+    <app-title [title]="'Tasbih Counter'" [subTitle]="'تسبيح'" [routerLink]="'/home'"></app-title>
 
     <!-- Main Content -->
     <main class="flex-1 p-4 flex flex-col">
