@@ -3,6 +3,8 @@ import { ModuleComponent } from './module/module.component';
 import { ChatbotComponent } from '../chatbot/chatbot.component';
 import { AuthService } from '../service/auth.service';
 import { TitleComponent } from '../shared/title/title.component';
+import { module_icons, tool_icons } from './module/module.contant';
+import { HomeIcons } from '../model/home.model';
 
 @Component({
   selector: 'app-home',
@@ -20,5 +22,8 @@ import { TitleComponent } from '../shared/title/title.component';
 export class HomeComponent {
 
   authService = inject(AuthService);
+
+  modules: HomeIcons[] = module_icons; 
+  tools: HomeIcons[] = tool_icons;
 
 }
