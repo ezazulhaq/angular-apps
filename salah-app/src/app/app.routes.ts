@@ -48,7 +48,7 @@ export const routes: Routes = [
     },
     {
         path: 'home',
-        title: 'Salah',
+        title: 'Home',
         component: HomeComponent
     },
     {
