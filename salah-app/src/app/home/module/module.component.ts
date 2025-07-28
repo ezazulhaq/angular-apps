@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { IconComponent } from '../../shared/icon/icon.component';
 import { module_icons } from './module.contant';
 import { HomeIcons } from '../../model/home.model';
@@ -13,6 +13,7 @@ import { HomeIcons } from '../../model/home.model';
 })
 export class ModuleComponent {
 
-  icons = signal<HomeIcons[]>(module_icons); 
+  label = input.required<string>();
+  icons = input.required<HomeIcons[]>();
 
 }
