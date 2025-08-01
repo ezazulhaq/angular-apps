@@ -1,5 +1,6 @@
 .module-outline {
-    @apply grid gap-4 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 p-5 mx-4 outline outline-1 rounded-md outline-slate-800 dark:outline-gray-400;
+    @apply grid gap-4 p-5 mx-4 outline outline-1 rounded-md outline-slate-800 dark:outline-gray-400;
+    grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
 }
 
 .modules {
