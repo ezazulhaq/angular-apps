@@ -1,21 +1,21 @@
 import { Routes } from '@angular/router';
-import { PrayerTimesComponent } from './home/module/prayer-times/prayer-times.component';
-import { KaabaComponent } from './home/module/kaaba/kaaba.component';
-import { LibraryComponent } from './home/module/library/library.component';
-import { ReaderComponent } from './home/module/library/reader/reader.component';
-import { QuranComponent } from './home/module/quran/quran.component';
-import { AyahComponent } from './home/module/quran/ayah/ayah.component';
-import { HadithComponent } from './home/module/hadith/hadith.component';
-import { ChapterComponent } from './home/module/hadith/chapter/chapter.component';
 import { HomeComponent } from './home/home.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { authGuard } from './guard/auth.gaurd';
 import { ProfileComponent } from './profile/profile.component';
-import { TasbihComponent } from './tasbih/tasbih.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { ChapterComponent } from './home/sacred/hadith/chapter/chapter.component';
+import { HadithComponent } from './home/sacred/hadith/hadith.component';
+import { LibraryComponent } from './home/sacred/library/library.component';
+import { ReaderComponent } from './home/sacred/library/reader/reader.component';
+import { AyahComponent } from './home/sacred/quran/ayah/ayah.component';
+import { QuranComponent } from './home/sacred/quran/quran.component';
+import { KaabaComponent } from './home/tool/kaaba/kaaba.component';
+import { PrayerTimesComponent } from './home/tool/prayer-times/prayer-times.component';
+import { TasbihComponent } from './home/tool/tasbih/tasbih.component';
 
 export const routes: Routes = [
     {

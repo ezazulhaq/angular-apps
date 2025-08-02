@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Tasbih } from '../model/tasbih.model';
-import { tasbihs } from '../tasbih/tasbih.contant';
+import { tasbihs } from '../home/tool/tasbih/tasbih.contant';
 
 @Injectable({
   providedIn: 'root'

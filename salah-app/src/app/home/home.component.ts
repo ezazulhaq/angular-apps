@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { ModuleComponent } from './module/module.component';
 import { ChatbotComponent } from '../chatbot/chatbot.component';
 import { AuthService } from '../service/auth.service';
 import { TitleComponent } from '../shared/title/title.component';
-import { module_icons, tool_icons } from './module/module.contant';
 import { HomeIcons } from '../model/home.model';
+import { ModuleComponent } from '../shared/module/module.component';
+import { module_icons, tool_icons } from '../shared/module/module.contant';
 
 @Component({
   selector: 'app-home',

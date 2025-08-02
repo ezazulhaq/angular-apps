@@ -1,4 +1,4 @@
-import { Tasbih } from "../model/tasbih.model";
+import { Tasbih } from "../../../model/tasbih.model";
 
 export const tasbihs: Tasbih[] = [
     {

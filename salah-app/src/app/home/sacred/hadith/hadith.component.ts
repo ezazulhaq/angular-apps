@@ -5,7 +5,6 @@ import { SupabaseService } from '../../../service/supabase.service';
 import { HadithChapters, HadithDetails } from './hadith.model';
 import { ListHomeComponent } from '../../../shared/skeleton/list-home/list-home.component';
 import { BookmarkService } from '../../../service/bookmark.service';
-import { computeMsgId } from '@angular/compiler';
 import { TitleComponent } from '../../../shared/title/title.component';
 
 @Component({

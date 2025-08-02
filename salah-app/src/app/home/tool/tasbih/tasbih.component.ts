@@ -1,12 +1,12 @@
 import { Component, computed, effect, inject, linkedSignal, OnInit, signal } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { Tasbih } from '../model/tasbih.model';
-import { TasbihService } from '../service/tasbih.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { TitleComponent } from '../shared/title/title.component';
+import { Tasbih } from '../../../model/tasbih.model';
+import { TasbihService } from '../../../service/tasbih.service';
+import { TitleComponent } from '../../../shared/title/title.component';
 
 @Component({
   selector: 'app-tasbih',
