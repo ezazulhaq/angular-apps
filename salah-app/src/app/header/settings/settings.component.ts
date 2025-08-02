@@ -45,7 +45,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.isThemeDark.set(this.themeSelector.currentTheme() === 'dark');
 
-    if (this.authService.isLoggedIn()) {
+    if (this.authService.isAuthenticated()) {
       this.loadQuranTranslators();
       this.loadHadithSources();
     }
@@ -61,7 +61,7 @@ export class SettingsComponent implements OnInit {
   }
 
   private loadSavedPreferences(): void {
-    if (!this.authService.isLoggedIn()) {
+    if (!this.authService.isAuthenticated()) {
       return;
     }
 

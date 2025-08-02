@@ -7,9 +7,8 @@ import { AuthService } from "../service/auth.service";
 export const authInterceptor = (authService: AuthService): HttpInterceptorFn => {
     return (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
         // Check if the user is authenticated
-        if (authService.isLoggedIn()) {
-            // Clone the request and add the auth token
-            const token = localStorage.getItem('sb-macznmfhfslwgrqjcabe-auth-token') ? JSON.parse(localStorage.getItem('sb-macznmfhfslwgrqjcabe-auth-token') || '').access_token : '';
+        if (authService.isAuthenticated()) {
+            const token = authService.getValidAccessToken();
 
             if (token) {
                 req = req.clone({

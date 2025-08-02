@@ -3,14 +3,20 @@ import { CanActivateFn, Router } from "@angular/router";
 import { AuthService } from "../service/auth.service";
 import { environment } from "../../environments/environment";
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = async (route, state) => {
     const authService = inject(AuthService);
     const router = inject(Router);
-    const sbProjectId = environment.supabase.projectId
 
-    const access_token = localStorage.getItem(`sb-${sbProjectId}-auth-token`);
-    if (access_token || authService.isLoggedIn()) {
-        return true;
+    // Only rely on service authentication state, not localStorage directly
+    if (authService.isAuthenticated()) {
+        // Validate session is still valid
+        try {
+            await authService.validateSession();
+            return true;
+        } catch {
+            // Session invalid, clear state and redirect
+            authService.clearAuthState();
+        }
     }
 
     // Redirect to login page with return URL

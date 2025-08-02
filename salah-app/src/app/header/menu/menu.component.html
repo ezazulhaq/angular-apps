@@ -25,7 +25,7 @@
         </svg>
     </button>
 
-    @if (authService.isLoggedIn()) {
+    @if (authService.isAuthenticated()) {
     <!-- Profile Item -->
     <button type="button" class="group app-menu-item" routerLink="profile" (click)="onMenuItemClick()">
         <div
@@ -53,7 +53,7 @@
         </svg>
     </button>
 
-    @if (!authService.isLoggedIn()) {
+    @if (!authService.isAuthenticated()) {
     <!-- LogIn Item -->
     <button type="button" class="group app-menu-item" routerLink="login" (click)="onMenuItemClick()">
         <div
