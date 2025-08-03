@@ -9,6 +9,8 @@ import { map } from 'rxjs/internal/operators/map';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { tap } from 'rxjs/internal/operators/tap';
+import { RateLimitService } from './rate-limit.service';
+import { SanitizationService } from './sanitization.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,8 @@ export class AuthService {
 
   private supabase: SupabaseClient;
   private router = inject(Router);
+  private rateLimitService = inject(RateLimitService);
+  private sanitizationService = inject(SanitizationService);
 
   // Use signals for reactive state management (Angular v14+)
   currentUser = signal<User | null>(null);
@@ -93,14 +97,30 @@ export class AuthService {
   }
 
   login(credentials: LoginCredentials): Observable<AuthSession> {
+    const email = this.sanitizationService.sanitizeEmail(credentials.email);
+
+    // Check rate limiting
+    if (!this.rateLimitService.canAttempt(email)) {
+      const remainingTime = Math.ceil(this.rateLimitService.getRemainingTime(email) / 1000 / 60);
+      return throwError(() => new Error(`Too many failed attempts. Try again in ${remainingTime} minutes.`));
+    }
+
+    // Validate inputs
+    if (!this.sanitizationService.validateEmail(email)) {
+      return throwError(() => new Error('Please enter a valid email address'));
+    }
+
     return from(this.supabase.auth.signInWithPassword({
-      email: credentials.email,
+      email,
       password: credentials.password,
     })).pipe(
       map(response => {
         if (response.error) {
+          this.rateLimitService.recordAttempt(email, false);
           throw new Error(response.error.message);
         }
+
+        this.rateLimitService.recordAttempt(email, true);
         return this.createAuthSession(response.data.session, response.data.user);
       }),
       catchError(error => this.handleAuthError(error))
@@ -108,12 +128,25 @@ export class AuthService {
   }
 
   register(credentials: RegisterCredentials): Observable<AuthSession> {
+    const email = this.sanitizationService.sanitizeEmail(credentials.email);
+    const username = credentials.username ? this.sanitizationService.sanitizeText(credentials.username) : undefined;
+
+    // Validate inputs
+    if (!this.sanitizationService.validateEmail(email)) {
+      return throwError(() => new Error('Please enter a valid email address'));
+    }
+
+    const passwordValidation = this.sanitizationService.validatePassword(credentials.password);
+    if (!passwordValidation.valid) {
+      return throwError(() => new Error(passwordValidation.errors[0]));
+    }
+
     return from(this.supabase.auth.signUp({
-      email: credentials.email,
+      email,
       password: credentials.password,
       options: {
         data: {
-          username: credentials.username
+          username
         },
       }
     })).pipe(
@@ -190,8 +223,7 @@ export class AuthService {
   logout(): Observable<void> {
     return from(this.supabase.auth.signOut()).pipe(
       tap(() => {
-        this.currentUser.set(null);
-        this.isAuthenticated.set(false);
+        this.clearAuthState();
         this.router.navigate(['/home']);
       }),
       map(() => void 0),
@@ -259,7 +291,7 @@ export class AuthService {
     if (!this.isAuthenticated()) {
       return null;
     }
-    
+
     try {
       // Get token from Supabase client instead of localStorage directly
       const session = this.supabase.auth.getSession();
