@@ -7,9 +7,8 @@ import { SECURITY_CONFIG } from '../config/security.config';
 export class SecurityHeadersService {
 
   initializeSecurityHeaders(): void {
-    // Set all security headers dynamically
+    // Set CSP header via meta tag (only security header that can be set this way)
     this.setCSPMetaTag();
-    this.setSecurityHeaders();
 
     // Disable right-click context menu in production
     if (this.isProduction()) {
@@ -31,14 +30,7 @@ export class SecurityHeadersService {
     document.head.appendChild(meta);
   }
 
-  private setSecurityHeaders(): void {
-    Object.entries(SECURITY_CONFIG.SECURITY_HEADERS).forEach(([key, value]) => {
-      const meta = document.createElement('meta');
-      meta.httpEquiv = key;
-      meta.content = value;
-      document.head.appendChild(meta);
-    });
-  }
+
 
   private buildCSPString(): string {
     const directives = SECURITY_CONFIG.CSP_DIRECTIVES;
