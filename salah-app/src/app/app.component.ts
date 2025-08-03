@@ -7,6 +7,7 @@ import { ScrollTopComponent } from './shared/scroll-top/scroll-top.component';
 import { SettingsComponent } from './header/settings/settings.component';
 import { HeaderComponent } from './header/header.component';
 import { HeaderService } from './header/header.service';
+import { SecurityHeadersService } from './service/security-headers.service';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
   constructor(
     private autoUpdateService: AutoUpdateService,
     protected themeSelector: ThemeSelectorService,
+    private securityHeadersService: SecurityHeadersService
   ) {
     const theme = localStorage.getItem('theme');
     if (theme) {
@@ -39,6 +41,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.autoUpdateService.checkForUpdate();
+    this.securityHeadersService.initializeSecurityHeaders();
   }
 
 }
