@@ -7,15 +7,15 @@ export const authGuard: CanActivateFn = async (route, state) => {
     const authService = inject(AuthService);
     const router = inject(Router);
 
-    // Only rely on service authentication state, not localStorage directly
+    // Wait for auth service to initialize
+    await authService.ensureInitialized();
+
+    // Check if user is authenticated after initialization
     if (authService.isAuthenticated()) {
         // Validate session is still valid
-        try {
-            await authService.validateSession();
+        const isValid = await authService.validateSession();
+        if (isValid) {
             return true;
-        } catch {
-            // Session invalid, clear state and redirect
-            authService.clearAuthState();
         }
     }
 

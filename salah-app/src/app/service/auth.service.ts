@@ -21,6 +21,7 @@ export class AuthService {
   private router = inject(Router);
   private rateLimitService = inject(RateLimitService);
   private sanitizationService = inject(SanitizationService);
+  private initializationPromise: Promise<void>;
 
   // Use signals for reactive state management (Angular v14+)
   currentUser = signal<User | null>(null);
@@ -32,8 +33,8 @@ export class AuthService {
       environment.supabase.anonKey
     );
 
-    // Check for existing session on init
-    this.loadUser();
+    // Initialize and wait for session load
+    this.initializationPromise = this.loadUser();
   }
 
   private async loadUser(): Promise<void> {
@@ -269,6 +270,9 @@ export class AuthService {
 
   // Security methods
   async validateSession(): Promise<boolean> {
+    // Ensure initialization is complete before validating
+    await this.initializationPromise;
+    
     try {
       const { data, error } = await this.supabase.auth.getSession();
       if (error || !data.session) {
@@ -280,6 +284,11 @@ export class AuthService {
       this.clearAuthState();
       return false;
     }
+  }
+
+  // Method to ensure auth service is initialized
+  async ensureInitialized(): Promise<void> {
+    await this.initializationPromise;
   }
 
   clearAuthState(): void {
