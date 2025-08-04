@@ -30,16 +30,12 @@ export class SecurityHeadersService {
     document.head.appendChild(meta);
   }
 
-
-
   private buildCSPString(): string {
     const directives = SECURITY_CONFIG.CSP_DIRECTIVES;
     return Object.entries(directives)
       .map(([key, values]) => `${key} ${values.join(' ')}`)
       .join('; ');
   }
-
-
 
   private disableContextMenu(): void {
     document.addEventListener('contextmenu', (e) => {
