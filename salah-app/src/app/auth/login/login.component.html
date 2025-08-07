@@ -75,8 +75,7 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </span>
-                    <span *ngIf="!loading">Sign in</span>
-                    <span *ngIf="loading">Signing in...</span>
+                    <span>{{!loading ? 'Sign in' : 'Signing in...'}}</span>
                 </button>
             </div>
         </form>

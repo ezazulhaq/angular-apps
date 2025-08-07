@@ -101,8 +101,7 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </span>
-                    <span *ngIf="!loading">Register</span>
-                    <span *ngIf="loading">Registering...</span>
+                    <span>{{ !loading ? 'Register' : 'Registering...' }}</span>
                 </button>
             </div>
         </form>
