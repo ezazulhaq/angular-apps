@@ -310,5 +310,15 @@ export class AuthService {
     }
   }
 
+  // Get authenticated Supabase client with access token
+  getAuthenticatedClient(): SupabaseClient {
+    return this.supabase;
+  }
+
+  // Get current access token asynchronously
+  async getAccessToken(): Promise<string | null> {
+    const { data } = await this.supabase.auth.getSession();
+    return data.session?.access_token || null;
+  }
 
 }

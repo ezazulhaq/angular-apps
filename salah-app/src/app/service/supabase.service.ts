@@ -1,31 +1,21 @@
-import { effect, Injectable, signal } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import { effect, Injectable, signal, inject } from '@angular/core';
+import { SupabaseClient } from '@supabase/supabase-js'
 import { Observable, from, map, tap } from 'rxjs';
 import { IslamicLibrary } from '../model/islamic-library.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SupabaseService {
 
-    private readonly supabaseUrl: string = environment.supabase.url;
-    private readonly supabaseKey: string = environment.supabase.anonKey;
-
-    private readonly supabase: SupabaseClient;
+    private authService = inject(AuthService);
 
     quranTranslator = signal<string>(localStorage.getItem('quranTranslator') || 'ahmedraza');
 
     hadithSource = signal<string>(localStorage.getItem('hadithSource') || 'Sahih Bukhari');
 
     constructor() {
-        // Verify that both environment variables are correctly loaded
-        if (!this.supabaseUrl || !this.supabaseKey) {
-            console.error('Supabase URL or Key is missing from environment configuration');
-        }
-
-        this.supabase = createClient(this.supabaseUrl, this.supabaseKey);
-
         effect(() => {
             localStorage.setItem('quranTranslator', this.quranTranslator());
             localStorage.setItem('hadithSource', this.hadithSource());
@@ -34,7 +24,7 @@ export class SupabaseService {
 
     getQuranTranslators(): Observable<any> {
         return from(
-            this.supabase
+            this.getClient()
                 .from('translators')
                 .select('name, full_name')
                 .eq('is_active', true)
@@ -51,7 +41,7 @@ export class SupabaseService {
         p_translator_name: string
     ): Observable<any> {
         return from(
-            this.supabase.rpc(
+            this.getClient().rpc(
                 'get_surah_translation',
                 {
                     p_language_code,
@@ -68,7 +58,7 @@ export class SupabaseService {
      */
     getSurahList(): Observable<any> {
         return from(
-            this.supabase
+            this.getClient()
                 .from('surahs')
                 .select('surah_id, name, name_transliteration, name_en, total_ayas')
                 .order('surah_id', { ascending: true })
@@ -101,7 +91,7 @@ export class SupabaseService {
         };
 
         return from(
-            this.supabase.functions
+            this.getClient().functions
                 .invoke(
                     'search_hadiths',
                     {
@@ -129,7 +119,7 @@ export class SupabaseService {
      */
     findActiveHadithSources(): Observable<any> {
         return from(
-            this.supabase
+            this.getClient()
                 .from('sources')
                 .select('name')
                 .eq('is_active', true)
@@ -142,7 +132,7 @@ export class SupabaseService {
      */
     getHadithChaptersFromSource(): Observable<any> {
         return from(
-            this.supabase.rpc(
+            this.getClient().rpc(
                 'get_chapter_info_by_source',
                 {
                     source_name: this.hadithSource()
@@ -158,7 +148,7 @@ export class SupabaseService {
         input_chapter_id: string
     ): Observable<any> {
         return from(
-            this.supabase.rpc(
+            this.getClient().rpc(
                 'get_hadiths_by_chapter_id',
                 {
                     input_chapter_id
@@ -174,12 +164,29 @@ export class SupabaseService {
         hadith_id: string[]
     ): Observable<any> {
         return from(
-            this.supabase.rpc(
+            this.getClient().rpc(
                 'get_hadith_details',
                 {
                     hadith_id
                 }
             )
         );
+    }
+
+    // Get client from AuthService
+    private getClient(): SupabaseClient {
+        return this.authService.getAuthenticatedClient();
+    }
+
+    // Call authenticated functions
+    invokeAuthFunction(functionName: string, body?: any): Observable<any> {
+        return from(
+            this.getClient().functions.invoke(functionName, { body })
+        );
+    }
+
+    // Query tables with authentication
+    fromAuth(table: string) {
+        return this.getClient().from(table);
     }
 }

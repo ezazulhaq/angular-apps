@@ -1,21 +1,20 @@
-import { Injectable } from "@angular/core";
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import { environment } from "../../environments/environment";
+import { Injectable, inject } from "@angular/core";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { Observable, from, map, tap } from "rxjs";
 import { IslamicLibrary } from "../model/islamic-library.model";
+import { AuthService } from "./auth.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class LibraryService {
 
-    private supabase: SupabaseClient;
+    private authService = inject(AuthService);
 
-    constructor() {
-        this.supabase = createClient(
-            environment.supabase.url,
-            environment.supabase.anonKey
-        );
+    constructor() {}
+
+    private getClient(): SupabaseClient {
+        return this.authService.getAuthenticatedClient();
     }
 
     /**
@@ -26,7 +25,7 @@ export class LibraryService {
      */
     getIslamicLibrary(): Observable<IslamicLibrary[]> {
         return from(
-            this.supabase
+            this.getClient()
                 .from('islamic_library')
                 .select('name, pdf_name, category, storage_key')
                 .eq('is_active', true)
