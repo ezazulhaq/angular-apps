@@ -86,14 +86,14 @@ export class SupabaseService {
      */
     searchHadith(query: string): Observable<any> {
         const body = {
-            query_text: query,
-            result_limit: 3
+            query: query,
+            topK: 3
         };
 
         return from(
             this.getClient().functions
                 .invoke(
-                    'search_hadiths',
+                    'islamic_chatbot',
                     {
                         body: JSON.stringify(body)
                     }

@@ -3,10 +3,10 @@
     @for (hadith of hadithLinks(); track $index) {
     <details class="hadith-links-all">
         <summary class="text-start font-semibold cursor-pointer">
-            <span>{{ $index + 1 }}. {{ hadith.source_name }} - {{ hadith.chapter_name }}</span>
+            <span>{{ $index + 1 }}. {{ hadith.metadata.book }} - {{ hadith.metadata.chapter }}</span>
         </summary>
         <div class="mt-2 pt-2 border-t">
-            <span>{{ hadith.hadith_no }}. {{ hadith.text_en }}</span>
+            <span>{{ hadith.metadata.hadith_number }}. {{ hadith.text }}</span>
         </div>
     </details>
     }
