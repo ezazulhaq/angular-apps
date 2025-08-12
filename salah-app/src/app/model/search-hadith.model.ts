@@ -5,10 +5,14 @@ export type SearchHadithResponse = {
 
 export interface HadithReference {
     id: string;
-    source_name: string;
-    chapter_name: string;
-    hadith_no: number;
-    text_ar: string;
-    text_en: string;
-    similarity: number;
+    text: string;
+    score: number;
+    metadata: MetaData;
+}
+
+interface MetaData {
+    book: string;
+    chapter: string;
+    hadith_number: number;
+    namespace: string;
 }
