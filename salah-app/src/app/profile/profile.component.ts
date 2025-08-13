@@ -3,12 +3,14 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angula
 import { AuthService } from '../service/auth.service';
 import { User } from '../model/auth.model';
 import { CommonModule } from '@angular/common';
+import { TitleComponent } from '../shared/title/title.component';
 
 @Component({
   selector: 'app-profile',
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TitleComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',

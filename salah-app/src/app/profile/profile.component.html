@@ -1,65 +1,54 @@
-<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-        <div>
-            <h2 class="mt-6 text-center text-3xl font-extrabold">
-                Profile Information
-            </h2>
-            <p class="mt-2 text-center text-sm">
-                Update your personal details
-            </p>
+<div class="px-4 md:px-6 lg:px-8">
+    <app-title [title]="'Profile Information'" [subTitle]="'Update your personal details'"
+        [routerLink]="'/home'"></app-title>
+
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="p-6">
+        @if (profileForm.get('username')?.invalid && profileForm.get('username')?.touched) {
+        <div class="text-red-500 text-xs mt-1">
+            <div *ngIf="profileForm.get('username')?.errors?.['required']">
+                Username is required
+            </div>
+            <div *ngIf="profileForm.get('username')?.errors?.['minlength']">
+                Username must be at least 3 characters
+            </div>
         </div>
+        }
+        @else if (updateSuccess){
+        <div class="text-green-600 text-sm">
+            Profile updated successfully!
+        </div>
+        }
+        @else if (updateError) {
+        <div class="text-red-600 text-sm">
+            {{ updateError }}
+        </div>
+        }
 
-        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="p-6">
-            @if (profileForm.get('username')?.invalid && profileForm.get('username')?.touched) {
-            <div class="text-red-500 text-xs mt-1">
-                <div *ngIf="profileForm.get('username')?.errors?.['required']">
-                    Username is required
-                </div>
-                <div *ngIf="profileForm.get('username')?.errors?.['minlength']">
-                    Username must be at least 3 characters
-                </div>
+
+        <div class="flex flex-col space-y-4">
+            <div>
+                <label class="block text-start text-slate-700 dark:text-gray-400 text-sm font-bold mb-2" for="email">
+                    Email
+                </label>
+                <input type="email" name="email" id="email" formControlName="email"
+                    class="text-slate-400 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100">
             </div>
-            }
-            @else if (updateSuccess){
-            <div class="text-green-600 text-sm">
-                Profile updated successfully!
+
+            <div>
+                <label class="block text-start text-slate-700 dark:text-gray-400 text-sm font-bold mb-2" for="username">
+                    Username
+                </label>
+                <input type="text" name="username" id="username" formControlName="username"
+                    class="text-slate-700 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
             </div>
-            }
-            @else if (updateError) {
-            <div class="text-red-600 text-sm">
-                {{ updateError }}
+
+            <div>
+                <button type="submit" [disabled]="profileForm.invalid || loading"
+                    class="w-full mt-2 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span>{{ !loading ? 'Update Profile' : 'Updating...' }}</span>
+                </button>
             </div>
-            }
-
-
-            <div class="flex flex-col space-y-4">
-                <div>
-                    <label class="block text-start text-slate-700 dark:text-gray-400 text-sm font-bold mb-2"
-                        for="email">
-                        Email
-                    </label>
-                    <input type="email" name="email" id="email" formControlName="email"
-                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100">
-                    <p class="mt-1 text-xs">Email cannot be changed</p>
-                </div>
-
-                <div>
-                    <label class="block text-start text-slate-700 dark:text-gray-400 text-sm font-bold mb-2"
-                        for="username">
-                        Username
-                    </label>
-                    <input type="text" name="username" id="username" formControlName="username"
-                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                </div>
-
-                <div>
-                    <button type="submit" [disabled]="profileForm.invalid || loading"
-                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
-                        <span *ngIf="!loading">Update Profile</span>
-                        <span *ngIf="loading">Updating...</span>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
