@@ -1,17 +1,17 @@
-import { TitleCasePipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { FeedbackService } from '../service/feedback.service';
 import { SuccessComponent } from './success/success.component';
 import { Router } from '@angular/router';
+import { TitleComponent } from '../shared/title/title.component';
 
 @Component({
   selector: 'app-feedback',
   imports: [
-    TitleCasePipe,
     ReactiveFormsModule,
     SuccessComponent,
+    TitleComponent,
   ],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.css',
