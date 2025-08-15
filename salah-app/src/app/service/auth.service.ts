@@ -175,7 +175,7 @@ export class AuthService {
     return from(this.supabase.auth.resetPasswordForEmail(
       email,
       {
-        redirectTo: `${window.location.origin}/reset-password`
+        redirectTo: `${window.location.origin}/auth/reset-password`
       }
     )).pipe(
       map(response => {
