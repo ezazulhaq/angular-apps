@@ -16,27 +16,34 @@ import { QuranComponent } from './home/sacred/quran/quran.component';
 import { KaabaComponent } from './home/tool/kaaba/kaaba.component';
 import { PrayerTimesComponent } from './home/tool/prayer-times/prayer-times.component';
 import { TasbihComponent } from './home/tool/tasbih/tasbih.component';
+import { AuthComponent } from './auth/auth.component';
 
 export const routes: Routes = [
     {
-        path: 'login',
-        title: 'Login',
-        component: LoginComponent
-    },
-    {
-        path: 'register',
-        title: 'Register',
-        component: RegisterComponent
-    },
-    {
-        path: 'forgot-password',
-        title: 'Forgot Password',
-        component: ForgotPasswordComponent
-    },
-    {
-        path: 'reset-password',
-        title: 'Reset Password',
-        component: ResetPasswordComponent
+        path: 'auth',
+        component: AuthComponent,
+        children: [
+            {
+                path: 'login',
+                title: 'Login',
+                component: LoginComponent
+            },
+            {
+                path: 'register',
+                title: 'Register',
+                component: RegisterComponent
+            },
+            {
+                path: 'forgot-password',
+                title: 'Forgot Password',
+                component: ForgotPasswordComponent
+            },
+            {
+                path: 'reset-password',
+                title: 'Reset Password',
+                component: ResetPasswordComponent
+            }
+        ]
     },
     {
         path: 'profile',
@@ -120,6 +127,6 @@ export const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'login'
+        redirectTo: 'auth/login'
     }
 ];
