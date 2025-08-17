@@ -18,17 +18,17 @@ export class FeedbackService {
     async submitFeedback(
         feedbackData: {
             content: string;
+            email: string;
             category?: string;
         }) {
         try {
             // Insert feedback into the database
-            // The email notification will be triggered automatically via the database trigger
             const { data, error } = await this.supabase
                 .from('feedback')
                 .insert({
                     content: feedbackData.content,
+                    email: feedbackData.email,
                     category: feedbackData.category,
-                    // If the user is authenticated, their ID will be included automatically
                 })
                 .select();
 
