@@ -61,6 +61,21 @@ export class FeedbackComponent {
       if (result.success) {
         this.submitSuccess.set(true);
         this.feedbackForm.reset({ category: 'General' });
+
+        this.feedbackService.sentNotification(JSON.parse(JSON.stringify(result.data))[0])
+          .subscribe(
+            {
+              next: data => {
+                console.log(`Notification sent successfully: ${data}`);
+              },
+              error: error => {
+                console.error(`Error sending notification: ${error}`);
+              },
+              complete: () => {
+                console.log('Notification sent successfully');
+              }
+            }
+          );
       } else {
         this.submitError = 'Failed to submit feedback. Please try again.';
       }
