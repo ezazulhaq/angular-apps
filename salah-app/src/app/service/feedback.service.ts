@@ -118,4 +118,18 @@ export class FeedbackService {
         `;
     }
 
+    updateFeedbackSentStatus(feedbackId: string): Observable<any> {
+        return from(
+            this.supabase
+                .from('feedback')
+                .update({ email_sent: true })
+                .eq('id', feedbackId)
+                .select()
+        ).pipe(
+            take(1),
+            map((response: any) => {
+                return response.data
+            })
+        );
+    }
 }

@@ -6,6 +6,7 @@ import { SuccessComponent } from './success/success.component';
 import { Router } from '@angular/router';
 import { TitleComponent } from '../shared/title/title.component';
 import { AuthService } from '../service/auth.service';
+import { FeedbackDataResponse } from '../model/feedback.model';
 
 @Component({
   selector: 'app-feedback',
@@ -62,7 +63,8 @@ export class FeedbackComponent {
         this.submitSuccess.set(true);
         this.feedbackForm.reset({ category: 'General' });
 
-        this.feedbackService.sentNotification(JSON.parse(JSON.stringify(result.data))[0])
+        const feedbackData: FeedbackDataResponse = JSON.parse(JSON.stringify(result.data))[0];
+        this.feedbackService.sentNotification(feedbackData)
           .subscribe(
             {
               next: data => {
@@ -76,6 +78,19 @@ export class FeedbackComponent {
               }
             }
           );
+
+        this.feedbackService.updateFeedbackSentStatus(feedbackData.id).subscribe({
+          next: data => {
+            console.log(`Feedback sent status updated successfully: ${data}`);
+          },
+          error: error => {
+            console.error(`Error updating feedback sent status: ${error}`);
+          },
+          complete: () => {
+            console.log('Feedback sent status updated successfully');
+          }
+        });
+
       } else {
         this.submitError = 'Failed to submit feedback. Please try again.';
       }
