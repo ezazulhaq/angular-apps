@@ -69,6 +69,7 @@ export class FeedbackComponent {
             {
               next: data => {
                 console.log(`Notification sent successfully: ${data}`);
+                this.feedbackService.updateFeedbackSentStatus(feedbackData.id).subscribe();
               },
               error: error => {
                 console.error(`Error sending notification: ${error}`);
@@ -78,18 +79,6 @@ export class FeedbackComponent {
               }
             }
           );
-
-        this.feedbackService.updateFeedbackSentStatus(feedbackData.id).subscribe({
-          next: data => {
-            console.log(`Feedback sent status updated successfully: ${data}`);
-          },
-          error: error => {
-            console.error(`Error updating feedback sent status: ${error}`);
-          },
-          complete: () => {
-            console.log('Feedback sent status updated successfully');
-          }
-        });
 
       } else {
         this.submitError = 'Failed to submit feedback. Please try again.';
