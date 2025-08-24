@@ -46,48 +46,30 @@ export class FeedbackComponent {
     this.router.navigate(['/home']);
   }
 
-  async onSubmit() {
+  onSubmit() {
     if (this.feedbackForm.invalid) return;
 
     this.isSubmitting.set(true);
     this.submitError = null;
 
-    try {
-      const result = await this.feedbackService.submitFeedback({
-        content: this.feedbackForm.value.content,
-        email: this.feedbackForm.value.email,
-        category: this.feedbackForm.value.category
-      });
-
-      if (result.success) {
-        this.submitSuccess.set(true);
-        this.feedbackForm.reset({ category: 'General' });
-
-        const feedbackData: FeedbackDataResponse = JSON.parse(JSON.stringify(result.data))[0];
-        this.feedbackService.sentNotification(feedbackData)
-          .subscribe(
-            {
-              next: data => {
-                console.log(`Notification sent successfully: ${data}`);
-                this.feedbackService.updateFeedbackSentStatus(feedbackData.id).subscribe();
-              },
-              error: error => {
-                console.error(`Error sending notification: ${error}`);
-              },
-              complete: () => {
-                console.log('Notification sent successfully');
-              }
-            }
-          );
-
-      } else {
-        this.submitError = 'Failed to submit feedback. Please try again.';
+    this.feedbackService.processFeedback({
+      content: this.feedbackForm.value.content,
+      email: this.feedbackForm.value.email,
+      category: this.feedbackForm.value.category
+    }).subscribe({
+      next: (result) => {
+        if (result.success) {
+          this.submitSuccess.set(true);
+          this.feedbackForm.reset({ category: 'General' });
+        } else {
+          this.submitError = 'Failed to submit feedback. Please try again.';
+        }
+        this.isSubmitting.set(false);
+      },
+      error: () => {
+        this.submitError = 'An unexpected error occurred.';
+        this.isSubmitting.set(false);
       }
-    } catch (error) {
-      this.submitError = 'An unexpected error occurred.';
-      console.error(error);
-    } finally {
-      this.isSubmitting.set(false);
-    }
+    });
   }
 }
