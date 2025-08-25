@@ -21,60 +21,54 @@ export class FeedbackService {
         );
     }
 
-    async submitFeedback(
+    processFeedback(
         feedbackData: {
             content: string;
             email: string;
             category?: string;
-        }) {
-        try {
-            // Insert feedback into the database
-            const { data, error } = await this.supabase
-                .from('feedback')
-                .insert({
-                    content: feedbackData.content,
-                    email: feedbackData.email,
-                    category: feedbackData.category,
-                })
-                .select();
-
-            if (error) throw error;
-            return { success: true, data };
-        } catch (error) {
-            console.error('Error submitting feedback:', error);
-            return { success: false, error };
-        }
-    }
-
-    sentNotification(feedbackResp: FeedbackDataResponse): Observable<any> {
-        if (feedbackResp.email_sent)
-            return from([{ success: true, message: 'Email already sent' }]);
-
-        const body = {
-            to: feedbackResp.email,
-            subject: feedbackResp.category,
-            html: this.generateFeedbackEmailTemplate({
-                content: feedbackResp.content,
-                email: feedbackResp.email,
-                category: feedbackResp.category
-            })
-        };
-
+        }): Observable<{ success: boolean; data?: any; error?: any }> {
         return from(
-            this.supabase.functions
-                .invoke(
-                    'email_notification',
-                    {
-                        body: JSON.stringify(body)
-                    }
-                )
-        ).pipe(
-            take(1),
-            map((response: any) => {
-                console.log(`Response: ${JSON.stringify(response)}`);
-                return response.data
-            })
-        );
+            (async () => {
+                try {
+                    // Insert feedback into the database
+                    const { data, error } = await this.supabase
+                        .from('feedback')
+                        .insert({
+                            content: feedbackData.content,
+                            email: feedbackData.email,
+                            category: feedbackData.category,
+                        })
+                        .select();
+
+                    if (error) throw error;
+
+                    const feedbackId = data[0].id;
+
+                    // Send notification email
+                    const emailBody = {
+                        to: feedbackData.email,
+                        subject: feedbackData.category,
+                        html: this.generateFeedbackEmailTemplate(feedbackData)
+                    };
+
+                    await this.supabase.functions
+                        .invoke('email_notification', {
+                            body: JSON.stringify(emailBody)
+                        });
+
+                    // Update email sent status
+                    await this.supabase
+                        .from('feedback')
+                        .update({ email_sent: true })
+                        .eq('id', feedbackId);
+
+                    return { success: true, data: data[0] };
+                } catch (error) {
+                    console.error('Error processing feedback:', error);
+                    return { success: false, error };
+                }
+            })()
+        ).pipe(take(1));
     }
 
     private generateFeedbackEmailTemplate(
@@ -118,18 +112,5 @@ export class FeedbackService {
         `;
     }
 
-    updateFeedbackSentStatus(feedbackId: string): Observable<any> {
-        return from(
-            this.supabase
-                .from('feedback')
-                .update({ email_sent: true })
-                .eq('id', feedbackId)
-                .select()
-        ).pipe(
-            take(1),
-            map((response: any) => {
-                return response.data
-            })
-        );
-    }
+
 }
