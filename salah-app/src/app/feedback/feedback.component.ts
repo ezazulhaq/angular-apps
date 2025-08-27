@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { TitleComponent } from '../shared/title/title.component';
 import { AuthService } from '../service/auth.service';
 import { FeedbackDataResponse } from '../model/feedback.model';
+import { CaptchaComponent } from '../shared/captcha/captcha.component';
 
 @Component({
   selector: 'app-feedback',
@@ -14,6 +15,7 @@ import { FeedbackDataResponse } from '../model/feedback.model';
     ReactiveFormsModule,
     SuccessComponent,
     TitleComponent,
+    CaptchaComponent,
   ],
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.css',
@@ -27,6 +29,9 @@ export class FeedbackComponent {
   submitSuccess = signal<boolean>(false);
   submitError: string | null = null;
   isAuthenticated = signal<boolean>(false);
+
+  captchaVerified = false;
+  showCaptcha = true; // Show CAPTCHA after first failed attempt or always
 
   constructor(
     private readonly router: Router,
@@ -46,8 +51,24 @@ export class FeedbackComponent {
     this.router.navigate(['/home']);
   }
 
+  onCaptchaVerified(isVerified: boolean): void {
+    this.captchaVerified = isVerified;
+    this.feedbackForm.patchValue({ captcha: isVerified });
+  }
+
   onSubmit() {
-    if (this.feedbackForm.invalid) return;
+    if (this.feedbackForm.invalid) {
+      // Mark all fields as touched to show validation errors
+      Object.keys(this.feedbackForm.controls).forEach(key => {
+        this.feedbackForm.get(key)?.markAsTouched();
+      });
+      return;
+    }
+
+    if (this.showCaptcha && !this.captchaVerified) {
+      this.submitError = 'Please complete the CAPTCHA verification';
+      return;
+    }
 
     this.isSubmitting.set(true);
     this.submitError = null;
@@ -69,7 +90,18 @@ export class FeedbackComponent {
       error: () => {
         this.submitError = 'An unexpected error occurred.';
         this.isSubmitting.set(false);
+
+        // Show CAPTCHA after failed login attempt
+        this.showCaptcha = true;
+        this.captchaVerified = false;
+        this.feedbackForm.patchValue({ captcha: false });
       }
     });
+  }
+
+  get isFormValid(): boolean {
+    const basicFormValid = this.feedbackForm.valid;
+    const captchaValid = !this.showCaptcha || this.captchaVerified;
+    return basicFormValid && captchaValid;
   }
 }

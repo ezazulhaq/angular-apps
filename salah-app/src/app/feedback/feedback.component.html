@@ -1,4 +1,4 @@
-<div class="px-4 md:px-6 lg:px-8">
+<div class="px-4 md:px-6 lg:px-8 py-8">
     <app-title [title]="'Feedback'" [routerLink]="'/home'"></app-title>
 
     @if(submitSuccess()){
@@ -55,12 +55,29 @@
                 }
             </section>
 
+            <!-- CAPTCHA Section -->
+            @if (showCaptcha) {
+            <div class="mt-6">
+                <app-captcha [showTypeSelector]="true" [challengeType]="'text'" (verified)="onCaptchaVerified($event)">
+                </app-captcha>
+            </div>
+            }
+
             <button type="submit" [disabled]="feedbackForm.invalid || isSubmitting()"
                 class="w-full mt-2 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
                 {{ isSubmitting() ? 'Submitting...' : 'Submit Feedback' }}
             </button>
 
         </div>
+
+        <!-- CAPTCHA Status Info -->
+        @if (showCaptcha && !captchaVerified) {
+        <div class="text-center">
+            <p class="text-xs text-gray-500 mt-2">
+                Please complete the CAPTCHA verification above to continue
+            </p>
+        </div>
+        }
     </form>
     }
 </div>
