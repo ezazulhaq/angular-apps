@@ -6,7 +6,6 @@ import { SuccessComponent } from './success/success.component';
 import { Router } from '@angular/router';
 import { TitleComponent } from '../shared/title/title.component';
 import { AuthService } from '../service/auth.service';
-import { FeedbackDataResponse } from '../model/feedback.model';
 import { CaptchaComponent } from '../shared/captcha/captcha.component';
 
 @Component({
