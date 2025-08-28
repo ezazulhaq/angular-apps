@@ -1,9 +1,10 @@
 import { Component, effect, HostListener, inject, OnInit } from '@angular/core';
 import { HeaderService } from './header.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -22,14 +23,14 @@ export class HeaderComponent implements OnInit {
   @HostListener('window:scroll')
   onScrollMenu() {
     const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
-    
+
     // Avoid negative values when bouncing scroll on mobile
     if (currentScrollTop < 0) {
       return;
     }
-    
+
     const scrollDifference = Math.abs(currentScrollTop - this.lastScrollTop);
-    
+
     // Only trigger if scroll distance is above threshold
     if (scrollDifference > this.scrollThreshold) {
       if (currentScrollTop > this.lastScrollTop) {
@@ -39,10 +40,10 @@ export class HeaderComponent implements OnInit {
         // Scrolling up - show header
         this.isHeaderVisible = true;
       }
-      
+
       this.lastScrollTop = currentScrollTop;
     }
-    
+
     // Always show header when at the top of the page
     if (currentScrollTop <= 0) {
       this.isHeaderVisible = true;
