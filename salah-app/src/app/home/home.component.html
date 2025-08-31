@@ -1,6 +1,56 @@
 <app-title [title]="'Taqwa Tracker'"></app-title>
 
-<div class="flex flex-col space-y-6">
+<!-- App Introduction -->
+@if (showIntro) {
+<div
+    class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-slate-700 dark:to-slate-600 p-6 rounded-lg shadow-sm dark:shadow-slate-600 mb-6 mx-3 relative">
+    <button (click)="closeIntro()"
+        class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl">
+        ×
+    </button>
+    <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3 pr-8">Welcome to Your Spiritual Journey</h2>
+    <p class="text-gray-600 dark:text-gray-300 mb-4">Taqwa Tracker is your comprehensive Islamic companion app designed
+        to strengthen your
+        faith and enhance your daily worship.</p>
+
+    <div class="flex flex-col justify-center items-start space-y-4 text-sm py-3">
+        <div class="flex items-start space-x-2">
+            <span class="text-green-600 dark:text-green-400">
+                📖
+            </span>
+            <span class="text-gray-700 dark:text-gray-300">
+                Access sacred Islamic texts including Quran and Hadith
+            </span>
+        </div>
+        <div class="flex items-start space-x-2">
+            <span class="text-blue-600 dark:text-blue-400">
+                🕌
+            </span>
+            <span class="text-gray-700 dark:text-gray-300">
+                Essential tools for Prayer times, Kaaba direction, and more
+            </span>
+        </div>
+        <div class="flex items-start space-x-2">
+            <span class="text-purple-600 dark:text-purple-400">
+                🤖
+            </span>
+            <span class="text-gray-700 dark:text-gray-300">
+                AI-powered Islamic guidance and answers to your questions
+            </span>
+        </div>
+        <div class="flex items-start space-x-2">
+            <span class="text-orange-600 dark:text-orange-400">
+                📱
+            </span>
+            <span class="text-gray-700 dark:text-gray-300">
+                Track your spiritual progress and build consistent habits
+            </span>
+        </div>
+    </div>
+</div>
+}
+
+<div class="flex flex-col space-y-6 mb-6">
     <!-- Modules Component -->
     <app-home-module [label]="'Sacred Text'" [icons]="modules"></app-home-module>
 

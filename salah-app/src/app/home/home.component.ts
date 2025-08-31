@@ -22,8 +22,13 @@ import { module_icons, tool_icons } from '../shared/module/module.contant';
 export class HomeComponent {
 
   authService = inject(AuthService);
+  showIntro = true;
 
   modules: HomeIcons[] = module_icons; 
   tools: HomeIcons[] = tool_icons;
+
+  closeIntro() {
+    this.showIntro = false;
+  }
 
 }
