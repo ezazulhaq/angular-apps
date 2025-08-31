@@ -1,22 +1,48 @@
 # Taqwa Tracker: Islamic Prayer and Hadith Companion
 
-The Taqwa Tracker is a comprehensive Islamic application that provides prayer times, Qibla direction, Quran translations, Hadith search, and more. This Angular-based Progressive Web App (PWA) offers a rich set of features for Muslims to enhance their daily religious practices.
+The Taqwa Tracker is a comprehensive Islamic application that provides prayer times, Qibla direction, Quran translations, Hadith search, Islamic chatbot, and more. This Angular 19-based Progressive Web App (PWA) offers a rich set of features for Muslims to enhance their daily religious practices.
 
-The Taqwa Tracker combines modern web technologies with traditional Islamic resources to create a user-friendly and informative platform. It utilizes geolocation for accurate prayer times, integrates with Supabase for data management, and implements a service worker for offline functionality.
+The Taqwa Tracker combines modern web technologies with traditional Islamic resources to create a user-friendly and informative platform. It utilizes geolocation for accurate prayer times, integrates with Supabase for data management, implements AI-powered Islamic chatbot, and provides offline functionality through service workers.
 
 ## Repository Structure
 
 ```
 salah-app/
+├── docs/
+│   └── edge_functions/
+│       └── islamic_chatbot.md
+├── public/
+│   ├── fonts/
+│   ├── icons/
+│   ├── favicon.ico
+│   └── manifest.webmanifest
 ├── src/
 │   ├── app/
+│   │   ├── auth/
+│   │   │   ├── login/
+│   │   │   ├── register/
+│   │   │   ├── forgot-password/
+│   │   │   └── reset-password/
 │   │   ├── chatbot/
-│   │   ├── hadith/
+│   │   │   └── hadith-links/
+│   │   ├── feedback/
+│   │   ├── guard/
+│   │   ├── header/
+│   │   │   ├── menu/
+│   │   │   └── settings/
 │   │   ├── home/
-│   │   ├── kaaba/
-│   │   ├── library/
-│   │   ├── prayer-times/
-│   │   ├── quran/
+│   │   │   ├── sacred/
+│   │   │   │   ├── hadith/
+│   │   │   │   ├── library/
+│   │   │   │   └── quran/
+│   │   │   └── tool/
+│   │   │       ├── kaaba/
+│   │   │       ├── prayer-times/
+│   │   │       └── tasbih/
+│   │   ├── interceptor/
+│   │   ├── model/
+│   │   ├── pipes/
+│   │   ├── profile/
 │   │   ├── service/
 │   │   └── shared/
 │   ├── environments/
@@ -31,33 +57,44 @@ salah-app/
 
 ### Key Files:
 - `src/main.ts`: Entry point of the application
-- `src/app/app.config.ts`: Application configuration
-- `src/environments/environment.ts`: Environment-specific configuration
-- `angular.json`: Angular CLI configuration
+- `src/app/app.config.ts`: Application configuration with providers
+- `src/app/app.routes.ts`: Application routing configuration
+- `src/environments/environment.ts`: Environment-specific configuration with ngx-env
+- `angular.json`: Angular CLI configuration (project name: taqwa-tracker)
 - `ngsw-config.json`: Service Worker configuration for PWA features
+- `public/manifest.webmanifest`: PWA manifest configuration
 
 ### Important Integration Points:
-- Supabase: Used for data storage and retrieval (`src/app/service/supabase.service.ts`)
-- OpenStreetMap API: Used for location services (`src/app/service/salah-app.service.ts`)
-- Adhan.js: Used for prayer time calculations (`src/app/service/salah-app.service.ts`)
+- **Supabase**: Authentication, data storage, and edge functions (`src/app/service/supabase.service.ts`, `src/app/service/auth.service.ts`)
+- **OpenStreetMap API**: Location services and address resolution (`src/app/service/salah-app.service.ts`)
+- **Adhan.js**: Prayer time calculations and Qibla direction (`src/app/service/salah-app.service.ts`)
+- **AI Chatbot**: Islamic chatbot using Supabase Edge Functions with Pinecone and Groq AI
+- **ngx-markdown**: Markdown rendering for chatbot responses
+- **ng2-pdf-viewer**: PDF viewing for Islamic library documents
 
 ## Usage Instructions
 
 ### Installation
 
 Prerequisites:
-- Node.js (v14 or later)
-- npm (v6 or later)
+- Node.js (v18 or later)
+- npm (v8 or later)
+- Angular CLI (v19 or later)
 
 Steps:
 1. Clone the repository:
-   ```
+   ```bash
    git clone <repository-url>
    cd salah-app
    ```
 2. Install dependencies:
-   ```
+   ```bash
    npm install
+   ```
+3. Set up environment variables:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
    ```
 
 ### Getting Started
@@ -72,27 +109,34 @@ This will start the development server, typically at `http://localhost:4200`.
 
 ### Configuration
 
-The application uses environment-specific configuration files located in `src/environments/`. To configure the application for production, update the `environment.prod.ts` file with the appropriate values:
+The application uses `@ngx-env/core` for environment variable management. Create a `.env` file in the root directory:
 
-```typescript
-export const environment = {
-  production: true,
-  s3Bucket: 'XXXXXXXXXXXXXXXXXXX',
-  openStreetUrl: 'https://nominatim.openstreetmap.org',
-  supabaseUrl: 'your-supabase-url',
-  supabaseAnonKey: 'your-supabase-anon-key'
-};
+```bash
+# Required Environment Variables
+NG_APP_S3_BUCKET=your-s3-bucket-name
+NG_APP_OPEN_STREET_URL=https://nominatim.openstreetmap.org
+SUPABASE_URL=your-supabase-project-url
+SUPABASE_ANON_KEY=your-supabase-anon-key
 ```
+
+Environment files structure:
+- `src/environments/environment.ts`: Development configuration
+- `src/environments/environment.prod.ts`: Production configuration
+
+Both files use `import.meta.env` to access environment variables at build time.
 
 ### Building for Production
 
 To build the application for production:
 
-```
+```bash
 npm run build
 ```
 
-This will generate a production-ready build in the `dist/salah-app` directory.
+This will generate a production-ready build in the `dist/taqwa-tracker` directory with:
+- Service Worker enabled for offline functionality
+- Optimized bundles with tree-shaking
+- Environment variables injected at build time
 
 ### Testing
 
@@ -104,52 +148,73 @@ npm test
 
 ### Troubleshooting
 
-1. Location Services Not Working
+1. **Location Services Not Working**
    - Problem: Prayer times or Qibla direction not displaying correctly
    - Solution: 
-     1. Check if location permissions are enabled in your browser
-     2. Ensure you're connected to the internet
-     3. If the issue persists, check the browser console for specific error messages
+     - Check if location permissions are enabled in your browser
+     - Ensure you're connected to the internet
+     - Check the browser console for specific error messages
 
-2. Offline Mode Issues
+2. **Authentication Issues**
+   - Problem: Unable to login or access protected features
+   - Solution:
+     - Verify Supabase configuration in environment variables
+     - Check if email confirmation is required
+     - Clear browser storage and try again
+
+3. **Chatbot Not Responding**
+   - Problem: Islamic chatbot not providing responses
+   - Solution:
+     - Ensure Supabase Edge Functions are deployed
+     - Check if required API keys (Pinecone, Google AI, Groq) are configured
+     - Verify network connectivity
+
+4. **Offline Mode Issues**
    - Problem: App not working properly when offline
    - Solution:
-     1. Ensure you've visited the app while online at least once to cache the necessary resources
-     2. Check if your browser supports Service Workers
-     3. Clear the app's cache and reload if you're experiencing stale data issues
+     - Visit the app while online first to cache resources
+     - Check if your browser supports Service Workers
+     - Clear app cache if experiencing stale data
 
-3. Supabase Connection Errors
-   - Problem: Unable to fetch Quran translations or Hadith data
+5. **Build Errors**
+   - Problem: Application fails to build
    - Solution:
-     1. Verify your internet connection
-     2. Check if the Supabase URL and anonymous key are correctly set in the environment configuration
-     3. Ensure your Supabase project is up and running
+     - Ensure all environment variables are set
+     - Check Angular and Node.js versions compatibility
+     - Clear node_modules and reinstall dependencies
 
-For any persistent issues, please check the browser's developer console for detailed error messages and report them to the project's issue tracker.
+For persistent issues, check the browser's developer console for detailed error messages.
 
-## Data Flow
+## Features
 
-The Taqwa Tracker follows a typical Angular application data flow, with services managing data retrieval and components handling the presentation. Here's a high-level overview of the data flow:
+### Core Features
+- **Prayer Times**: Accurate prayer times based on user location using Adhan.js
+- **Qibla Direction**: Real-time Kaaba direction with compass visualization
+- **Quran Reader**: Complete Quran with multiple translations and audio
+- **Hadith Search**: Searchable hadith database with chapter navigation
+- **Islamic Library**: PDF reader for Islamic books and resources
+- **Tasbih Counter**: Digital prayer counter with customizable dhikr
 
-1. User Interaction: The user interacts with a component in the UI.
-2. Component Request: The component calls a method in a relevant service.
-3. Service Processing: The service processes the request, often involving API calls to Supabase or other external services.
-4. Data Retrieval: Data is fetched from the API or local storage.
-5. Component Update: The service returns the data to the component, which updates its state.
-6. View Rendering: Angular's change detection updates the view with the new data.
+### Advanced Features
+- **AI Islamic Chatbot**: Intelligent chatbot powered by Supabase Edge Functions
+  - Vector-based hadith search using Pinecone
+  - AI-generated responses using Groq (Llama 3.1)
+  - Source attribution with hadith references
+- **User Authentication**: Complete auth system with Supabase
+  - Registration, login, password reset
+  - Protected routes with auth guards
+  - User profiles and preferences
+- **Progressive Web App**: Full PWA capabilities
+  - Offline functionality with service workers
+  - Install on mobile devices
+  - Push notifications support
 
-```
-[User] -> [Component] -> [Service] -> [API/Storage]
-                                   <- [Data]
-          [Component] <- [Service] 
-[User] <- [Updated View]
-```
-
-Key technical considerations:
-- Observables are used extensively for asynchronous operations.
-- The `SalahAppService` manages geolocation and prayer time calculations.
-- The `SupabaseService` handles all interactions with the Supabase backend.
-- The `ThemeSelectorService` manages the application's theme preferences.
+### Technical Features
+- **Responsive Design**: Tailwind CSS for mobile-first design
+- **Real-time Updates**: RxJS observables for reactive programming
+- **State Management**: Angular signals for efficient state updates
+- **Security**: HTTP interceptors, auth guards, and input sanitization
+- **Performance**: Lazy loading, code splitting, and optimized bundles
 
 ## Deployment
 
@@ -173,16 +238,31 @@ Update the `src/environments/environment.prod.ts` file with production-specific 
 - Use Angular's built-in error handling to log errors to a monitoring service.
 - Implement application performance monitoring (APM) tools to track user interactions and app performance.
 
-## Infrastructure
+## Architecture
 
-The Taqwa Tracker utilizes the following key infrastructure components:
+### Frontend Architecture
+- **Framework**: Angular 19 with standalone components
+- **Styling**: Tailwind CSS with custom themes
+- **State Management**: Angular signals and RxJS observables
+- **Routing**: Angular Router with lazy loading and guards
+- **PWA**: Angular Service Worker with custom caching strategies
 
-1. Angular Service Worker (ngsw-worker.js):
-   - Type: Service Worker
-   - Purpose: Enables offline functionality and caching for the PWA
+### Backend Services
+- **Database**: Supabase (PostgreSQL) for user data and Islamic content
+- **Authentication**: Supabase Auth with JWT tokens
+- **Edge Functions**: Supabase Edge Functions for AI chatbot
+- **Vector Database**: Pinecone for semantic hadith search
+- **AI Services**: Google Text Embedding API and Groq AI
 
-2. Application Configuration (app.config.ts):
-   - Type: Angular Application Configuration
-   - Purpose: Sets up core Angular providers and services
+### External APIs
+- **Location**: OpenStreetMap Nominatim API for address resolution
+- **Prayer Times**: Adhan.js library for Islamic prayer calculations
+- **Content Delivery**: GitHub raw content for PDF documents
 
-These infrastructure components are crucial for the app's PWA capabilities and overall configuration. The Service Worker manages caching strategies and offline access, while the application configuration sets up essential Angular services and routing.
+### Security Features
+- **Authentication**: JWT-based auth with Supabase
+- **Route Protection**: Auth guards for protected routes
+- **Input Sanitization**: Custom sanitization service
+- **HTTPS Redirect**: Automatic HTTPS enforcement
+- **Rate Limiting**: Client-side rate limiting for API calls
+- **CORS**: Proper CORS configuration for edge functions
