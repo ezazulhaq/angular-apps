@@ -33,10 +33,10 @@
       "urls": ["https://nominatim.openstreetmap.org/*"],
       "version": 1,
       "cacheConfig": {
-        "strategy": "freshness",
-        "maxSize": 10,
-        "maxAge": "1d",
-        "timeout": "0u"
+        "strategy": "performance",
+        "maxSize": 50,
+        "maxAge": "7d",
+        "timeout": "10s"
       }
     }
   ]
