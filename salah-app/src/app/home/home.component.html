@@ -46,6 +46,16 @@
                 Track your spiritual progress and build consistent habits
             </span>
         </div>
+        @if(!isAuthenticated()) {
+        <div class="flex items-start space-x-2">
+            <span class="text-orange-600 dark:text-orange-400">
+                ✨
+            </span>
+            <span class="text-gray-700 dark:text-gray-300">
+                Login to get full access to all features like Chatbot and more
+            </span>
+        </div>
+        }
     </div>
 </div>
 }
@@ -59,6 +69,6 @@
 </div>
 
 <!-- Islamic Chatbot -->
-@if (authService.isAuthenticated()) {
-<app-chatbot class="fixed bottom-0 right-0 m-5 z-50"></app-chatbot>
+@if (isAuthenticated()) {
+<app-chatbot class="fixed bottom-0 right-0 m-5 z-20"></app-chatbot>
 }
