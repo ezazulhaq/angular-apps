@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { SupabaseService } from '../../../service/supabase.service';
 import { HadithChapters, HadithDetails } from './hadith.model';
 import { ListHomeComponent } from '../../../shared/skeleton/list-home/list-home.component';
 import { BookmarkService } from '../../../service/bookmark.service';
 import { TitleComponent } from '../../../shared/title/title.component';
+import { AuthService } from '../../../service/auth.service';
 
 @Component({
   selector: 'app-hadith',
@@ -23,9 +24,13 @@ import { TitleComponent } from '../../../shared/title/title.component';
 })
 export class HadithComponent {
 
+  private readonly authService = inject(AuthService);
+
   chapterList = signal<HadithChapters[]>([]);
 
   hadithSource = computed(() => this.supabaseService.hadithSource());
+
+  isAuthenticated = computed(() => this.authService.isAuthenticated());
 
   bookMarkDetails = signal<HadithDetails[]>([]);
 

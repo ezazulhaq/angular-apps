@@ -4,7 +4,7 @@
 <div #hadithContainer class="flex flex-col space-y-6 justify-center items-center">
     @for (hadith of hadiths(); track $index) {
     <div class="relative flex flex-col space-y-6 w-full border-gray-600 border-b-2 pb-4 px-4">
-
+        @if(isAuthenticated()){
         <!-- Action buttons container -->
         <div class="absolute top-2 right-4 flex items-center space-x-4">
             <!-- Copy Button -->
@@ -35,6 +35,7 @@
                 }
             </button>
         </div>
+        }
 
         <div [id]="'hadith-' + hadith.hadith_no">
             <span class="hadith-numbers">{{hadith.hadith_no}}</span>
