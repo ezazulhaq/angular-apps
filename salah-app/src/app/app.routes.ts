@@ -71,34 +71,22 @@ export const routes: Routes = [
     {
         path: 'quran',
         title: 'Quran',
-        component: QuranComponent,
-        canActivate: [
-            authGuard
-        ]
+        component: QuranComponent
     },
     {
         path: 'quran/ayah',
         title: 'Ayah',
-        component: AyahComponent,
-        canActivate: [
-            authGuard
-        ]
+        component: AyahComponent
     },
     {
         path: 'hadith',
         title: 'Hadith',
-        component: HadithComponent,
-        canActivate: [
-            authGuard
-        ]
+        component: HadithComponent
     },
     {
         path: 'hadith/chapter',
         title: 'Chapter',
-        component: ChapterComponent,
-        canActivate: [
-            authGuard
-        ]
+        component: ChapterComponent
     },
     {
         path: 'library',

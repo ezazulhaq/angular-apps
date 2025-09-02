@@ -10,6 +10,7 @@
 <div #ayahContainer class="flex flex-col space-y-6 justify-center items-center pb-6">
     @for (ayah of ayahs(); track $index) {
     <div class="relative flex flex-col space-y-6 w-full border-gray-600 border-b-2 pb-4 px-4">
+        @if(isAuthenticated()){
         <!-- Action buttons container -->
         <div class="absolute top-2 right-4 flex items-center space-x-4">
             <!-- Copy Button -->
@@ -40,6 +41,7 @@
                 }
             </button>
         </div>
+        }
 
         <div [id]="'ayah-' + ayah.ayah_number" class="font-medium text-sm">
             <span class="ayah-numbers">{{ayah.ayah_number}}</span>

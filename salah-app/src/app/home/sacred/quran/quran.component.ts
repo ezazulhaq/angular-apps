@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { SupabaseService } from '../../../service/supabase.service';
 import { Router, RouterLink } from '@angular/router';
 import { BookMarkedSurah, Surah } from '../../../model/surah.model';
 import { ListHomeComponent } from '../../../shared/skeleton/list-home/list-home.component';
 import { BookmarkService } from '../../../service/bookmark.service';
 import { TitleComponent } from '../../../shared/title/title.component';
+import { AuthService } from '../../../service/auth.service';
 
 @Component({
     selector: 'app-quran',
@@ -23,11 +24,15 @@ import { TitleComponent } from '../../../shared/title/title.component';
 })
 export class QuranComponent implements OnInit {
 
+    private readonly authService = inject(AuthService);
+
     surahList = signal<Surah[]>([]);
 
     isAscending = signal<boolean>(true);
 
     bookMarkDetails = signal<{ bookmarked: BookMarkedSurah, surah: Surah }[]>([]);
+
+    isAuthenticated = computed(() => this.authService.isAuthenticated());
 
     constructor(
         private readonly router: Router,

@@ -1,4 +1,4 @@
-import { Component, computed, effect, ElementRef, HostListener, signal, ViewChild } from '@angular/core';
+import { Component, computed, effect, ElementRef, HostListener, inject, signal, ViewChild } from '@angular/core';
 import { SupabaseService } from '../../../../service/supabase.service';
 import { ActivatedRoute } from '@angular/router';
 import { Translation } from '../../../../model/translation.model';
@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { BookmarkService } from '../../../../service/bookmark.service';
 import { BookMarkedSurah } from '../../../../model/surah.model';
 import { TitleComponent } from '../../../../shared/title/title.component';
+import { AuthService } from '../../../../service/auth.service';
 
 @Component({
   selector: 'app-ayah',
@@ -20,6 +21,8 @@ import { TitleComponent } from '../../../../shared/title/title.component';
   }
 })
 export class AyahComponent {
+
+  private readonly authService = inject(AuthService);
 
   @ViewChild('stickyCheckbox') stickyCheckbox!: ElementRef;
   private originalOffset: number = 0;
@@ -38,6 +41,8 @@ export class AyahComponent {
   isTranslationVisible = signal<boolean>(true);
 
   translator = computed(() => this.supabaseService.quranTranslator());
+
+  isAuthenticated = computed(() => this.authService.isAuthenticated());
 
   constructor(
     private readonly supabaseService: SupabaseService,
