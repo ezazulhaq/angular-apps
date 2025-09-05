@@ -50,6 +50,7 @@
             Quran Translator
         </div>
 
+        @defer (when quranTranslators().length > 0) {
         <select (change)="onQuranTranslatorChange($event)"
             class="p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-slate-500 focus:border-slate-500 appearance-none bg-none">
             @for (translator of quranTranslators(); track $index) {
@@ -58,6 +59,10 @@
             </option>
             }
         </select>
+        }
+        @placeholder {
+        <div class="animate-pulse h-10 w-32 bg-gray-600 bark:bg-slate-200 rounded"></div>
+        }
     </div>
 
     <!-- Hadith Source Menu Item -->
@@ -67,6 +72,7 @@
             Hadith Source
         </div>
 
+        @defer (when quranTranslators().length > 0) {
         <select (change)="onHadithSourceChange($event)"
             class="p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-slate-500 focus:border-slate-500 appearance-none bg-none">
             @for (source of hadithSources(); track $index) {
@@ -75,6 +81,10 @@
             </option>
             }
         </select>
+        }
+        @placeholder {
+        <div class="animate-pulse h-10 w-32 bg-gray-600 bark:bg-slate-200 rounded"></div>
+        }
     </div>
     }
 
