@@ -1,11 +1,43 @@
 <app-title [title]="surahName" [subTitle]="surahName_ar" [routerLink]="'/quran'"></app-title>
 
-<div #stickyCheckbox class="w-full mb-6">
-    <label class="inline-flex items-center">
-        <input type="checkbox" [(ngModel)]="isTranslationVisible"
-            class="form-checkbox size-4 rounded border-slate-300 text-slate-600 focus:ring-slate-500 cursor-pointer hover:border-slate-500" />
-        <span class="ml-2">Translation</span>
-    </label>
+<div #stickyCheckbox class="w-full mb-6 px-4">
+    <div
+        class="flex flex-col justify-center items-center space-y-4 sm:flex-row-reverse sm:space-y-0 sm:space-x-4 sm:justify-evenly">
+        <!-- Translation Toggle -->
+        <label class="inline-flex items-center">
+            <input type="checkbox" [(ngModel)]="isTranslationVisible"
+                class="form-checkbox size-4 rounded border-slate-300 text-slate-600 focus:ring-slate-500 cursor-pointer hover:border-slate-500" />
+            <span class="ml-2">Translation</span>
+        </label>
+
+        <!-- Ayah Navigation Dropdown -->
+        <div class="flex flex-row space-x-2 justify-center items-center">
+            <label for="ayahSelect" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                Navigate to Ayah
+            </label>
+            <div class="relative">
+                <select id="ayahSelect" [(ngModel)]="selectedAyahNumber" (ngModelChange)="onAyahSelect($event)"
+                    class="ayahSelect">
+                    <option value="" class="py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100">
+                        🕌 Select
+                    </option>
+                    @for (ayah of ayahs(); track ayah.ayah_number) {
+                    <option [value]="ayah.ayah_number"
+                        class="py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100">
+                        📖 {{ ayah.ayah_number }}
+                    </option>
+                    }
+                </select>
+                <!-- Custom dropdown arrow -->
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg class="w-5 h-5 text-slate-400 dark:text-slate-500 transition-colors duration-200" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div #ayahContainer class="flex flex-col space-y-6 justify-center items-center pb-6">
     @for (ayah of ayahs(); track $index) {
