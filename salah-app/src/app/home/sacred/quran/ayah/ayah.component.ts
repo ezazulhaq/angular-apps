@@ -39,6 +39,7 @@ export class AyahComponent {
   ayahs = signal<Translation[]>([]);
 
   isTranslationVisible = signal<boolean>(true);
+  selectedAyahNumber = signal<string>(''); // For dropdown selection
 
   translator = computed(() => this.supabaseService.quranTranslator());
 
@@ -73,7 +74,9 @@ export class AyahComponent {
 
     if (this.ayahIdToScrollTo() !== null) {
       setTimeout(() => {
-        this.scrollToHadith(this.ayahIdToScrollTo());
+        this.scrollToAyah(this.ayahIdToScrollTo());
+        // Set the dropdown to the scrolled ayah
+        this.selectedAyahNumber.set(this.ayahIdToScrollTo()?.toString() || '');
       }, 1000);
     }
   }
@@ -85,6 +88,15 @@ export class AyahComponent {
       element.classList.add('checkbox-fixed');
     } else {
       element.classList.remove('checkbox-fixed');
+    }
+  }
+
+  /**
+   * Handle ayah selection from dropdown
+   */
+  onAyahSelect(ayahNumber: string): void {
+    if (ayahNumber && ayahNumber !== '') {
+      this.scrollToAyah(+ayahNumber);
     }
   }
 
@@ -176,11 +188,18 @@ export class AyahComponent {
     document.body.removeChild(textArea);
   }
 
-  private scrollToHadith(ayahNo: number | null): void {
+  /**
+   * Scroll to specific ayah by number
+   * Renamed from scrollToHadith to scrollToAyah for clarity
+   */
+  private scrollToAyah(ayahNo: number | null): void {
+    if (!ayahNo) return;
+
     // Find the Ayah by number
     const ayahElement = this.ayahContainer.nativeElement.querySelector(
       `#ayah-${ayahNo}`
     );
+
     if (ayahElement) {
       const elementPosition = ayahElement.getBoundingClientRect().top + window.pageYOffset;
 
