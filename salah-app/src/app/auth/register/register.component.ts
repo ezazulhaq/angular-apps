@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { RegisterCredentials } from '../../model/auth.model';
@@ -21,8 +21,8 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponent {
 
   registerForm: FormGroup;
-  error = '';
-  loading = false;
+  error = signal<string>('');
+  loading = signal<boolean>(false);
 
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
@@ -55,8 +55,8 @@ export class RegisterComponent {
       return;
     }
 
-    this.loading = true;
-    this.error = '';
+    this.loading.set(true);
+    this.error.set('');
 
     const credentials: RegisterCredentials = {
       username: this.registerForm.controls['username'].value,
@@ -70,7 +70,7 @@ export class RegisterComponent {
       },
       error: (err) => {
         this.error = err.message || 'Registration failed';
-        this.loading = false;
+        this.loading.set(false);
       }
     });
   }
