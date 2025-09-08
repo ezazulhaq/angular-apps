@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
 import { User } from '../model/auth.model';
@@ -21,7 +21,7 @@ import { TitleComponent } from '../shared/title/title.component';
 export class ProfileComponent {
 
   profileForm: FormGroup;
-  user: User | null = null;
+  user = signal<User | null>(null);
   updateSuccess = false;
   updateError = '';
   loading = false;
@@ -30,11 +30,11 @@ export class ProfileComponent {
   private authService = inject(AuthService);
 
   constructor() {
-    this.user = this.authService.currentUser();
+    this.user.set(this.authService.currentUser());
 
     this.profileForm = this.fb.group({
-      username: [this.user?.displayName || '', [Validators.required, Validators.minLength(3)]],
-      email: [{ value: this.user?.email || '', disabled: true }]
+      username: [this.user()?.displayName || '', [Validators.required, Validators.minLength(3)]],
+      email: [{ value: this.user()?.email || '', disabled: true }]
     });
   }
 
@@ -52,13 +52,15 @@ export class ProfileComponent {
     setTimeout(() => {
       // Implement actual profile update logic with Supabase here
       if (this.user) {
-        this.user = {
-          ...this.user,
-          displayName: this.profileForm.get('username')?.value
-        };
+        this.user.update(user => user
+          ? {
+            ...user,
+            displayName: this.profileForm.get('username')?.value
+          }
+          : null);
 
         // Update the current user in the auth service
-        this.authService.currentUser.set(this.user);
+        this.authService.currentUser.set(this.user());
 
         this.updateSuccess = true;
       } else {
