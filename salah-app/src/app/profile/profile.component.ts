@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
-import { User } from '../model/auth.model';
+import { UserMetaData, User } from '../model/auth.model';
 import { CommonModule } from '@angular/common';
 import { TitleComponent } from '../shared/title/title.component';
 
@@ -21,7 +21,7 @@ import { TitleComponent } from '../shared/title/title.component';
 export class ProfileComponent {
 
   profileForm: FormGroup;
-  user = signal<User | null>(null);
+  user = signal<UserMetaData | null>(null);
   updateSuccess = false;
   updateError = '';
   loading = false;
@@ -30,10 +30,10 @@ export class ProfileComponent {
   private authService = inject(AuthService);
 
   constructor() {
-    this.user.set(this.authService.currentUser());
+    this.user.set(this.authService.userMetaData());
 
     this.profileForm = this.fb.group({
-      username: [this.user()?.displayName || '', [Validators.required, Validators.minLength(3)]],
+      username: [this.user()?.username || '', [Validators.required, Validators.minLength(3)]],
       email: [{ value: this.user()?.email || '', disabled: true }]
     });
   }
@@ -60,7 +60,7 @@ export class ProfileComponent {
           : null);
 
         // Update the current user in the auth service
-        this.authService.currentUser.set(this.user());
+        //this.authService.currentUser.set(this.user());
 
         this.updateSuccess = true;
       } else {
