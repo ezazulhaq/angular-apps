@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment';
-import { AuthSession, LoginCredentials, RegisterCredentials, User } from '../model/auth.model';
+import { AuthSession, LoginCredentials, UserMetaData, RegisterCredentials, User } from '../model/auth.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs/internal/observable/from';
 import { map } from 'rxjs/internal/operators/map';
@@ -25,6 +25,7 @@ export class AuthService {
 
   // Use signals for reactive state management (Angular v14+)
   currentUser = signal<User | null>(null);
+  userMetaData = signal<UserMetaData | null>(null);
   isAuthenticated = signal<boolean>(false);
 
   constructor() {
@@ -61,6 +62,14 @@ export class AuthService {
       createdAt: user.created_at,
       lastSignInAt: user.last_sign_in_at
     });
+    this.userMetaData.set({
+      sub: user.user_metadata.sub,
+      email: user.user_metadata.email,
+      username: user.user_metadata.username,
+      full_name: user.user_metadata.full_name,
+      email_verified: user.user_metadata.email_verified,
+      phone_verified: user.user_metadata.phone_verified
+    });
     this.isAuthenticated.set(true);
   }
 
@@ -92,6 +101,7 @@ export class AuthService {
     }
     return {
       user: this.currentUser(),
+      metaData: this.userMetaData(),
       accessToken: session?.access_token || null,
       refreshToken: session?.refresh_token || null
     };
@@ -147,8 +157,9 @@ export class AuthService {
       password: credentials.password,
       options: {
         data: {
-          username
-        },
+          username,
+          full_name: username
+        }
       }
     })).pipe(
       map(response => {
@@ -160,6 +171,7 @@ export class AuthService {
           // Email confirmation required
           return {
             user: null,
+            metaData: null,
             accessToken: null,
             refreshToken: null
           };
@@ -255,6 +267,7 @@ export class AuthService {
 
         return {
           user: this.currentUser(),
+          metaData: this.userMetaData(),
           accessToken: session?.access_token || null,
           refreshToken: session?.refresh_token || null
         };
@@ -272,7 +285,7 @@ export class AuthService {
   async validateSession(): Promise<boolean> {
     // Ensure initialization is complete before validating
     await this.initializationPromise;
-    
+
     try {
       const { data, error } = await this.supabase.auth.getSession();
       if (error || !data.session) {
