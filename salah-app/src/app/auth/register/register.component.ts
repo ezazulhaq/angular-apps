@@ -69,7 +69,7 @@ export class RegisterComponent {
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        this.error = err.message || 'Registration failed';
+        this.error.set(err.message || 'Registration failed');
         this.loading.set(false);
       }
     });
