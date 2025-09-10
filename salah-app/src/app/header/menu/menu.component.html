@@ -13,6 +13,9 @@
             </svg>
         </button>
     </div>
+    <div class="items-center md:items-start italic font-light text-slate-700 dark:text-gray-400">
+        Assalamualaikum, {{ userName() | titlecase }}
+    </div>
     <button type="button" class="group app-menu-item" routerLink="home" (click)="onMenuItemClick()">
         <div
             class="text-slate-700 dark:text-gray-400 group-hover:text-slate-900 dark:group-hover:text-gray-200 text-lg font-semibold">
