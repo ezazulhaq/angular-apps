@@ -6,8 +6,18 @@ export interface User {
     lastSignInAt?: string;
 }
 
+export interface UserMetaData {
+    sub: string;
+    email?: string;
+    full_name?: string;
+    username?: string;
+    email_verified?: boolean;
+    phone_verified?: boolean;
+}
+
 export interface AuthSession {
     user: User | null;
+    metaData: UserMetaData | null;
     accessToken: string | null;
     refreshToken: string | null;
 }
