@@ -47,35 +47,25 @@ export class ProfileComponent {
     this.updateSuccess = false;
     this.updateError = '';
 
-    // Note: This is a simplified example. In a real app, you would implement profile updates through Supabase
-    // For now, we'll simulate a successful update
-    setTimeout(() => {
-      // Implement actual profile update logic with Supabase here
-      if (this.user) {
-        this.user.update(user => user
-          ? {
-            ...user,
-            displayName: this.profileForm.get('username')?.value
-          }
-          : null);
+    const newUsername = this.profileForm.get('username')?.value;
 
-        // Update the current user in the auth service
-        //this.authService.currentUser.set(this.user());
-
+    // Call the auth service to update profile
+    this.authService.updateProfile({ username: newUsername }).subscribe({
+      next: (updatedUser) => {
+        this.user.set(updatedUser);
         this.updateSuccess = true;
-      } else {
-        this.updateError = 'Failed to update profile';
-      }
+        this.loading = false;
 
-      this.loading = false;
-
-      // Reset success message after a few seconds
-      if (this.updateSuccess) {
+        // Reset success message after 3 seconds
         setTimeout(() => {
           this.updateSuccess = false;
         }, 3000);
+      },
+      error: (error) => {
+        this.updateError = error.message || 'Failed to update profile';
+        this.loading = false;
       }
-    }, 1000);
+    });
   }
 
 }
