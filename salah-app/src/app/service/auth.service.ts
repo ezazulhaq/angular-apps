@@ -233,6 +233,53 @@ export class AuthService {
     );
   }
 
+  updateProfile(updates: { username?: string; full_name?: string }): Observable<UserMetaData> {
+    // Sanitize inputs
+    const sanitizedUpdates = {
+      username: updates.username ? this.sanitizationService.sanitizeText(updates.username) : undefined,
+      full_name: updates.full_name ? this.sanitizationService.sanitizeText(updates.full_name) : undefined
+    };
+
+    return from(this.supabase.auth.updateUser({
+      data: {
+        username: sanitizedUpdates.username,
+        full_name: sanitizedUpdates.full_name || sanitizedUpdates.username, // Use username as full_name if not provided
+      }
+    })).pipe(
+      map(response => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+
+        // Update local state with new user metadata
+        if (response.data.user) {
+          const updatedMetadata: UserMetaData = {
+            sub: response.data.user.user_metadata['sub'],
+            email: response.data.user.user_metadata['email'],
+            username: response.data.user.user_metadata['username'],
+            full_name: response.data.user.user_metadata['full_name'],
+            email_verified: response.data.user.user_metadata['email_verified'],
+            phone_verified: response.data.user.user_metadata['phone_verified']
+          };
+
+          this.userMetaData.set(updatedMetadata);
+          return updatedMetadata;
+        }
+
+        throw new Error('Failed to update user metadata');
+      }),
+      catchError(error => {
+        if (error.message?.includes('Unauthorized')) {
+          return throwError(() => new Error('You must be logged in to update your profile'));
+        }
+        if (error.message?.includes('Invalid')) {
+          return throwError(() => new Error('Invalid profile data provided'));
+        }
+        return throwError(() => new Error(error.message || 'Failed to update profile'));
+      })
+    );
+  }
+
   logout(): Observable<void> {
     return from(this.supabase.auth.signOut()).pipe(
       tap(() => {
