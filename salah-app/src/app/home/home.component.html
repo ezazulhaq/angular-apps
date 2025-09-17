@@ -1,7 +1,7 @@
 <app-title [title]="'Taqwa Tracker'"></app-title>
 
 <!-- App Introduction -->
-@if (showIntro) {
+@if (showIntro()) {
 <div
     class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-slate-700 dark:to-slate-600 p-6 rounded-lg shadow-sm dark:shadow-slate-600 mb-6 mx-3 relative">
     <button (click)="closeIntro()"
