@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ChatbotComponent } from '../chatbot/chatbot.component';
 import { AuthService } from '../service/auth.service';
 import { TitleComponent } from '../shared/title/title.component';
@@ -23,7 +23,7 @@ export class HomeComponent {
 
   private readonly authService = inject(AuthService);
 
-  showIntro = true;
+  showIntro = signal<boolean>(true);
 
   modules: HomeIcons[] = module_icons; 
   tools: HomeIcons[] = tool_icons;
@@ -31,7 +31,7 @@ export class HomeComponent {
   isAuthenticated = computed(()=> this.authService.isAuthenticated());
 
   closeIntro() {
-    this.showIntro = false;
+    this.showIntro.set(false);
   }
 
 }

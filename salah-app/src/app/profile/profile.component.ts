@@ -22,9 +22,9 @@ export class ProfileComponent {
 
   profileForm: FormGroup;
   user = signal<UserMetaData | null>(null);
-  updateSuccess = false;
-  updateError = '';
-  loading = false;
+  updateSuccess = signal<boolean>(false);
+  updateError = signal<string>('');
+  loading = signal<boolean>(false);
 
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
@@ -43,9 +43,9 @@ export class ProfileComponent {
       return;
     }
 
-    this.loading = true;
-    this.updateSuccess = false;
-    this.updateError = '';
+    this.loading.set(true);
+    this.updateSuccess.set(false);
+    this.updateError.set('');
 
     const newUsername = this.profileForm.get('username')?.value;
 
@@ -53,17 +53,17 @@ export class ProfileComponent {
     this.authService.updateProfile({ username: newUsername }).subscribe({
       next: (updatedUser) => {
         this.user.set(updatedUser);
-        this.updateSuccess = true;
-        this.loading = false;
+        this.updateSuccess.set(true);
+        this.loading.set(false);
 
         // Reset success message after 3 seconds
         setTimeout(() => {
-          this.updateSuccess = false;
+          this.updateSuccess.set(false);
         }, 3000);
       },
       error: (error) => {
         this.updateError = error.message || 'Failed to update profile';
-        this.loading = false;
+        this.loading.set(false);
       }
     });
   }
