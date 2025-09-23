@@ -1,7 +1,7 @@
 @if(showIntro()) {
 <div class="fixed z-20 top-0 left-0 w-full h-full bg-gray-500/60 flex items-center justify-center">
     <div
-        class="relative max-w-md bg-gradient-to-r from-green-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 p-6 rounded-lg shadow-sm dark:shadow-slate-600 mb-6 mx-3">
+        class="relative space-y-4 max-w-md bg-gradient-to-r from-green-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 p-6 rounded-lg shadow-sm dark:shadow-slate-600 mb-6 mx-3">
         <button (click)="closeIntro()"
             class="absolute top-3 right-3 rounded-full bg-slate-600 hover:bg-slate-800 dark:bg-gray-400 hover:dark:bg-gray-200 p-1 text-gray-200 dark:text-slate-800">
             <svg class="size-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor">
@@ -61,6 +61,11 @@
             </div>
             }
         </div>
+
+        <button type="button" (click)="hideWelcome()"
+            class="rounded text-sm p-2 text-slate-700 dark:text-gray-300 hover:text-gray-300 dark:hover:text-slate-700 ring-4 ring-slate-700 dark:ring-gray-300 hover:bg-slate-700 dark:hover:bg-gray-300 transition-all duration-300">
+            Don't Show
+        </button>
     </div>
 </div>
 }

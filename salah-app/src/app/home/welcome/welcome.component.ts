@@ -15,8 +15,18 @@ export class WelcomeComponent {
 
   isAuthenticated = linkedSignal(() => this.authService.isAuthenticated());
 
+  constructor() {
+    const intro = localStorage.getItem('showIntro');
+    this.showIntro.set(intro !== 'false');
+  }
+
   closeIntro() {
     this.showIntro.set(false);
+  }
+
+  hideWelcome() {
+    this.showIntro.set(false);
+    localStorage.setItem('showIntro', 'false');
   }
 
 }
