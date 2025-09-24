@@ -34,6 +34,7 @@
                     Essential tools for Prayer times, Kaaba direction, and more
                 </span>
             </div>
+            @if(isAuthenticated()) {
             <div class="flex items-start space-x-2">
                 <span class="text-purple-600 dark:text-purple-400">
                     🤖
@@ -42,6 +43,7 @@
                     AI-powered Islamic guidance and answers to your questions
                 </span>
             </div>
+            }
             <div class="flex items-start space-x-2">
                 <span class="text-orange-600 dark:text-orange-400">
                     📱
@@ -56,7 +58,7 @@
                     ✨
                 </span>
                 <span class="text-gray-700 dark:text-gray-300">
-                    Login to get full access to all features like Chatbot and more
+                    Login to get full access to all features like AI-powered Islamic guidance and more
                 </span>
             </div>
             }
