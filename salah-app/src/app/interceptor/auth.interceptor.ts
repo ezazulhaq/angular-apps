@@ -1,24 +1,22 @@
-import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpEvent, HttpHandler } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { HttpInterceptorFn, HttpRequest, HttpHandlerFn } from "@angular/common/http";
+import { inject } from "@angular/core";
 import { AuthService } from "../service/auth.service";
 
-// Modern functional interceptor
-export const authInterceptor = (authService: AuthService): HttpInterceptorFn => {
-    return (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
-        // Check if the user is authenticated
-        if (authService.isAuthenticated()) {
-            const token = authService.getValidAccessToken();
+export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
+    const authService = inject(AuthService);
+    
+    // Check if the user is authenticated
+    if (authService.isAuthenticated()) {
+        const token = authService.getValidAccessToken();
 
-            if (token) {
-                req = req.clone({
-                    setHeaders: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-            }
+        if (token) {
+            req = req.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
         }
+    }
 
-        return next(req);
-    };
+    return next(req);
 };
