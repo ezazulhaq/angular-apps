@@ -5,6 +5,7 @@ import { TitleComponent } from '../shared/title/title.component';
 import { HomeIcons } from '../model/home.model';
 import { ModuleComponent } from '../shared/module/module.component';
 import { module_icons, tool_icons } from '../shared/module/module.contant';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,7 @@ import { module_icons, tool_icons } from '../shared/module/module.contant';
     ModuleComponent,
     ChatbotComponent,
     TitleComponent,
+    WelcomeComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -23,15 +25,9 @@ export class HomeComponent {
 
   private readonly authService = inject(AuthService);
 
-  showIntro = signal<boolean>(true);
-
-  modules: HomeIcons[] = module_icons; 
+  modules: HomeIcons[] = module_icons;
   tools: HomeIcons[] = tool_icons;
 
-  isAuthenticated = computed(()=> this.authService.isAuthenticated());
-
-  closeIntro() {
-    this.showIntro.set(false);
-  }
+  isAuthenticated = computed(() => this.authService.isAuthenticated());
 
 }
